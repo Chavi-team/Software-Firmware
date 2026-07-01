@@ -260,3 +260,40 @@ function processarAcao(tipoAcao) {
 
     }, 2000);
 }
+
+async function verificarAtualizacaoAutomatica() {
+  try {
+    // Importa o módulo do updater de dentro do ecossistema Tauri global
+    const { checkUpdate, installUpdate } = window.__TAURI__.updater;
+    const { relaunch } = window.__TAURI__.process;
+
+    console.log("Checando se existem novas atualizações...");
+    const update = await checkUpdate();
+
+    if (update.shouldUpdate) {
+      console.log(`Nova versão encontrada: ${update.manifest.version}`);
+      
+      // Opcional: Avisar o usuário com um alert ou modal customizado na tela
+      // Se quiser que seja 100% invisível, delete a linha do alert abaixo
+      alert(`Uma nova versão (${update.manifest.version}) está disponível! Vamos atualizar o sistema agora.`);
+
+      // Dispara o download e a instalação em segundo plano
+      await installUpdate();
+      
+      // Reinicia o aplicativo automaticamente já na versão nova
+      await relaunch();
+    } else {
+      console.log("O software já está na versão mais recente.");
+    }
+  } catch (error) {
+    console.error("Erro ao tentar buscar atualizações automaticamente:", error);
+  }
+}
+
+// 1. Roda a verificação assim que o aplicativo abre
+document.addEventListener("DOMContentLoaded", () => {
+  verificarAtualizacaoAutomatica();
+
+  // 2. Fica rodando em loop a cada 1 hora (3600000 milissegundos)
+  setInterval(verificarAtualizacaoAutomatica, 3600000); 
+});

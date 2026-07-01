@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "notes": "Versão inicial do software de bancada.",
   "platforms": {
     "darwin-aarch64": {

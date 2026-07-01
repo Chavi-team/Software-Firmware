@@ -1,20 +1,20 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "firmware-chavi",
-  "version": "0.0.1",
-  "identifier": "com.tauri.dev",
+  "version": "1.0.0",
+  "identifier": "com.chavi.softwarefirmware",
   "build": {
     "frontendDist": "../src",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "npm run build"
+    "beforeBuildCommand": ""
   },
   "plugins": {
     "updater": {
       "active": true,
       "endpoints": [
-        "https://raw.githubusercontent.com/GuilhermeMenChavi-teamdina/firmware-chavi/main/updater.json"
+        "https://raw.githubusercontent.com/Chavi-team/Software-Firmware/main/updater.json"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDhFMUJDOUVGQ0E1OERCQzgKUldUSTIxaks3OGtiamp5VWdrVEd3QnEzSTUzOWRPakZTd3BRODNJT2hrd2JRWlgyRU5SKzJicHkK="
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQzODRDQkFENTBEMDBFRkYKUldUL0R0QlFyY3VFMDhKUUJqRERYU0N4cGhyWGtKS2hwN1dDWVk2cGQzUTdnb21IY2t6cVhqL1cK"
     }
   },
   "app": {

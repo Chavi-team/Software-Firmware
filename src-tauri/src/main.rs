@@ -1,5 +1,5 @@
 // Previne a abertura de uma janela de terminal extra no Windows em modo release
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+#![cfg_attr(not(debug_assertions), target_os = "windows", windows_subsystem = "windows")]
 
 use std::process::Command;
 use tauri::Manager;            
@@ -13,11 +13,30 @@ fn gravar_firmware_bancada(
     mosfet_pin: String
 ) -> Result<String, String> {
 
-    let resource_path = app_handle
-        .path()
-        .resolve("resources/upload", BaseDirectory::Resource)
-        .map_err(|e| format!("Não foi possível encontrar o script 'upload' no diretório resources: {}", e))?;
+    // Identifica o Sistema Operacional Atual
+    let target_os = std::env::consts::OS;
 
+    // 1. Descobre onde está o avrdude de acordo com o OS do cliente dentro de resources
+    let avrdude_relative_path = if target_os == "windows" {
+        "resources/arduino_data/tools/avr-win/bin/avrdude.exe"
+    } else if target_os == "linux" {
+        "resources/arduino_data/tools/avr-linux/bin/avrdude"
+    } else {
+        "resources/arduino_data/tools/avr-mac/bin/avrdude" // Ajuste para a sua pasta do Mac se necessário
+    };
+
+    let avrdude_path = app_handle
+        .path()
+        .resolve(avrdude_relative_path, BaseDirectory::Resource)
+        .map_err(|e| format!("Não foi possível encontrar o avrdude em resources: {}", e))?;
+
+    // 2. Localiza o avrdude.conf essencial
+    let conf_path = app_handle
+        .path()
+        .resolve("resources/arduino_data/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf", BaseDirectory::Resource)
+        .map_err(|e| format!("Não foi possível encontrar o avrdude.conf: {}", e))?;
+
+    // --- Sua Lógica de Parsing de Hardware Inteligente mantida idêntica ---
     let canal = serial_number.chars().skip(2).take(3).collect::<String>();
     let firmware_id = serial_number.chars().skip(7).collect::<String>();
 
@@ -26,7 +45,7 @@ fn gravar_firmware_bancada(
     
     let hw_base = if hardware_version.contains("1_0") { "1_0" } else { "1_5" };
 
-    let device_id = format!("CH{:0>3}FI{:0>6}", 
+    let _device_id = format!("CH{:0>3}FI{:0>6}", 
         ch_arg.parse::<u32>().unwrap_or(0), 
         fi_arg.parse::<u32>().unwrap_or(0)
     );
@@ -37,42 +56,66 @@ fn gravar_firmware_bancada(
         format!("FI_{}", hw_base)
     };
 
-    let mosfet_arg = mosfet_pin;
+    // Alvo final do arquivo .hex dentro do seu pacote de firmwares
+    let hex_file_relative = format!("resources/bin/{}.ino.hex", firmware_name);
+    let hex_path = app_handle
+        .path()
+        .resolve(&hex_file_relative, BaseDirectory::Resource)
+        .map_err(|e| format!("Arquivo .hex não encontrado: {}", e))?;
 
-    // CORRIGIDO: Agora a string está declarada e finalizada perfeitamente
+    // Identifica se a placa da vez é o 328P ou o 328PB
+    let mcu = if hardware_version.contains("pb") || hardware_version.contains("PB") { "m328pb" } else { "m328p" };
+
+    // 3. MONTA O COMANDO DIRETO NO AVRDUDE (Eliminando dependência de scripts .sh externos)
+    let mut comando = Command::new(avrdude_path);
+    comando.arg("-C").arg(conf_path)
+           .arg("-v")
+           .arg("-p").arg(mcu)
+           .arg("-c").arg("usbasp")
+           .arg("-P").arg("usb") // Conexão USB nativa do USBasp (multiplataforma)
+           .arg("-U").arg(format!("flash:w:{}:i", hex_path.to_string_lossy()));
+
     let seed_secret_env = "CHAVI".to_string();
-
-    let mut comando = Command::new("sh");
-    comando.arg(&resource_path)
-           .arg(device_id)      
-           .arg(firmware_name)  
-           .arg(mosfet_arg);    
-
-    // INJEÇÃO DA VARIÁVEL DE AMBIENTE DENTRO DO SUBPROCESSO DO TAURI
     comando.env("SEED_SECRET", seed_secret_env);
 
-    if let Some(pasta_resources) = resource_path.parent() {
+    // Ajusta o diretório de execução para a pasta do avrdude
+    if let Some(pasta_resources) = hex_path.parent() {
         comando.current_dir(pasta_resources);
     }
 
-    let output = comando.output().map_err(|e| format!("Falha crítica ao disparar o script upload: {}", e))?;
+    // Executa a gravação do ATmega
+    let output = comando.output().map_err(|e| format!("Falha crítica ao disparar o avrdude: {}", e))?;
+
+    // O avrdude costuma despejar o progresso de gravação no stderr, tratamos ambos aqui
+    let stdout_str = String::from_utf8_lossy(&output.stdout).to_string();
+    let stderr_str = String::from_utf8_lossy(&output.stderr).to_string();
 
     if output.status.success() {
-        let resultado = String::from_utf8_lossy(&output.stdout).to_string();
-        Ok(resultado)
+        Ok(format!("Gravação efetuada com sucesso!\n{}", stderr_str))
     } else {
-        let erro = String::from_utf8_lossy(&output.stderr).to_string();
-        let saida_comum = String::from_utf8_lossy(&output.stdout).to_string();
-        
-        // Retorna tanto o erro quanto a saída normal para facilitar o diagnóstico na tela
-        Err(format!("Erro: {}\nSaída: {}", erro, saida_comum))
+        Err(format!("Erro na gravação:\nSaída: {}\nErro: {}", stdout_str, stderr_str))
     }
 }
 
 fn main() {
     tauri::Builder::default()
-        // Adicione esta linha para ativar o updater no executável:
         .plugin(tauri_plugin_updater::Builder::new().build())
+        // INSTALAÇÃO DO DRIVER EM BACKGROUND (Apenas se o app for aberto no Windows)
+        .setup(|app| {
+            #[cfg(target_os = "windows")]
+            {
+                if let Ok(resource_path) = app.path().resolve_directory("resources/driver-usbasp") {
+                    let installer_path = resource_path.join("installer_x64.exe");
+                    if installer_path.exists() {
+                        use std::os::windows::process::CommandExt;
+                        let _ = Command::new(installer_path)
+                            .creation_flags(0x08000000) // CREATE_NO_WINDOW (oculta janelas pretas)
+                            .spawn();
+                    }
+                }
+            }
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             gravar_firmware_bancada
         ])

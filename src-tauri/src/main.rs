@@ -2,8 +2,10 @@
 #![cfg_attr(not(debug_assertions), target_os = "windows", windows_subsystem = "windows")]
 
 use std::process::Command;
+use std::io::{BufRead, BufReader};
 use tauri::Manager;            
 use tauri::path::BaseDirectory; 
+use tauri::Emitter; // IMPORTANTE: No Tauri v2 usamos tauri::Emitter para disparar eventos para a tela
 
 #[tauri::command]
 fn gravar_firmware_bancada(
@@ -22,7 +24,7 @@ fn gravar_firmware_bancada(
     } else if target_os == "linux" {
         "resources/arduino_data/tools/avr-linux/bin/avrdude"
     } else {
-        "resources/arduino_data/tools/avr-mac/bin/avrdude" // Ajuste para a sua pasta do Mac se necessário
+        "resources/arduino_data/tools/avr-mac/bin/avrdude" 
     };
 
     let avrdude_path = app_handle
@@ -66,41 +68,63 @@ fn gravar_firmware_bancada(
     // Identifica se a placa da vez é o 328P ou o 328PB
     let mcu = if hardware_version.contains("pb") || hardware_version.contains("PB") { "m328pb" } else { "m328p" };
 
-    // 3. MONTA O COMANDO DIRETO NO AVRDUDE (Eliminando dependência de scripts .sh externos)
+    // Dispara um log inicial direto no painel da tela avisando que o motor ligou
+    let _ = app_handle.emit("log-terminal", format!("🚀 Preparando gravação do chip {} via USBasp...\n", mcu));
+
+    // 3. CONFIGURA O COMANDO REDIRECIONANDO A SAÍDA (O avrdude envia logs majoritariamente no stderr)
     let mut comando = Command::new(avrdude_path);
     comando.arg("-C").arg(conf_path)
            .arg("-v")
            .arg("-p").arg(mcu)
            .arg("-c").arg("usbasp")
-           .arg("-P").arg("usb") // Conexão USB nativa do USBasp (multiplataforma)
-           .arg("-U").arg(format!("flash:w:{}:i", hex_path.to_string_lossy()));
+           .arg("-P").arg("usb") 
+           .arg("-U").arg(format!("flash:w:{}:i", hex_path.to_string_lossy()))
+           .stdout(std::process::Stdio::piped())
+           .stderr(std::process::Stdio::piped()); // Transforma o canal de erro em um Pipe contínuo
 
     let seed_secret_env = "CHAVI".to_string();
     comando.env("SEED_SECRET", seed_secret_env);
 
-    // Ajusta o diretório de execução para a pasta do avrdude
     if let Some(pasta_resources) = hex_path.parent() {
         comando.current_dir(pasta_resources);
     }
 
-    // Executa a gravação do ATmega
-    let output = comando.output().map_err(|e| format!("Falha crítica ao disparar o avrdude: {}", e))?;
+    // Dá o Start no processo em background sem travar a thread principal do Rust
+    let mut child = comando.spawn().map_err(|e| format!("Falha crítica ao disparar o avrdude: {}", e))?;
 
-    // O avrdude costuma despejar o progresso de gravação no stderr, tratamos ambos aqui
-    let stdout_str = String::from_utf8_lossy(&output.stdout).to_string();
-    let stderr_str = String::from_utf8_lossy(&output.stderr).to_string();
+    // Captura o fluxo gerado no pipe do Stderr
+    let stderr = child.stderr.take().ok_or("Falha ao abrir canal de captura (stderr)")?;
+    let reader = BufReader::new(stderr);
+    
+    // Clonamos o app_handle para conseguir usar os eventos dentro da thread paralela
+    let handle_clone = app_handle.clone();
 
-    if output.status.success() {
-        Ok(format!("Gravação efetuada com sucesso!\n{}", stderr_str))
+    // 4. THREAD PARALELA: Escuta o buffer linha por linha e joga instantaneamente para a tela
+    std::thread::spawn(move || {
+        for line in reader.lines() {
+            if let Ok(log_line) = line {
+                // Dispara o evento que o JavaScript vai ouvir na hora
+                let _ = handle_clone.emit("log-terminal", format!("{}\n", log_line));
+            }
+        }
+    });
+
+    // Espera o avrdude de fato terminar o ciclo dele para dar o veredito
+    let status = child.wait().map_err(|e| format!("Falha ao aguardar a conclusão do processo: {}", e))?;
+
+    if status.success() {
+        let _ = app_handle.emit("log-terminal", "✅ [SUCESSO]: Firmware gravado e verificado com sucesso!\n".to_string());
+        Ok("Gravação concluída com sucesso!".to_string())
     } else {
-        Err(format!("Erro na gravação:\nSaída: {}\nErro: {}", stdout_str, stderr_str))
+        let _ = app_handle.emit("log-terminal", "❌ [ERRO]: Falha crítica reportada pelo avrdude.\n".to_string());
+        Err("O processo falhou. Verifique os logs gerados no console acima.".to_string())
     }
 }
 
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
-        // INSTALAÇÃO DO DRIVER EM BACKGROUND (Apenas se o app for aberto no Windows)
+        // INSTALAÇÃO DO DRIVER EM BACKGROUND (Mantido igual)
         .setup(|app| {
             #[cfg(target_os = "windows")]
             {
@@ -109,7 +133,7 @@ fn main() {
                     if installer_path.exists() {
                         use std::os::windows::process::CommandExt;
                         let _ = Command::new(installer_path)
-                            .creation_flags(0x08000000) // CREATE_NO_WINDOW (oculta janelas pretas)
+                            .creation_flags(0x08000000) // CREATE_NO_WINDOW
                             .spawn();
                     }
                 }

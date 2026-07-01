@@ -1,5 +1,6 @@
-// IMPORTANTE: No Tauri v2, importamos o invoke assim quando usamos módulos comuns,
-// ou usamos diretamente o padrão injetado na window: window.__TAURI__.core.invoke
+import { listen } from '@tauri-apps/api/event';
+import { check } from '@tauri-apps/plugin-updater';
+import { relaunch } from '@tauri-apps/plugin-process';
 
 // ===== ESTADO GLOBAL DO PRODUTO =====
 const estado = {
@@ -290,10 +291,33 @@ async function verificarAtualizacaoAutomatica() {
   }
 }
 
-// 1. Roda a verificação assim que o aplicativo abre
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  
+  // ==================== 1. FLUXO DE ATUALIZAÇÃO AUTOMÁTICA ====================
+  // Executa a primeira checagem assim que o app abre
   verificarAtualizacaoAutomatica();
 
-  // 2. Fica rodando em loop a cada 1 hora (3600000 milissegundos)
+  // Fica rodando a verificação em loop em background a cada 1 hora
   setInterval(verificarAtualizacaoAutomatica, 3600000); 
+
+  // ==================== 2. FLUXO DO TERMINAL DE LOGS DO AVRDUDE ====================
+  const minhaCaixaDeLog = document.getElementById("seu-elemento-de-terminal");
+
+  if (minhaCaixaDeLog) {
+    // Começa a escutar o canal contínuo de logs enviado pela Thread do Rust
+    await listen('log-terminal', (event) => {
+      // Se um novo processo começar, limpa a tela para a nova gravação
+      if (event.payload.includes("🚀 Preparando")) {
+        minhaCaixaDeLog.innerText = "";
+      }
+
+      // Acrescenta a linha enviada pelo avrdude/sistema na sua interface gráfica
+      minhaCaixaDeLog.innerText += event.payload;
+      
+      // Auto-scroll: joga a barra de rolagem sempre para baixo para acompanhar o progresso em tempo real
+      minhaCaixaDeLog.scrollTop = minhaCaixaDeLog.scrollHeight;
+    });
+  } else {
+    console.error("Erro: O elemento HTML do terminal não foi encontrado na página.");
+  }
 });

@@ -124,17 +124,15 @@ fn gravar_firmware_bancada(
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
-        // INSTALAÇÃO DO DRIVER EM BACKGROUND (Mantido igual)
+        // INSTALAÇÃO DO DRIVER EM BACKGROUND COM SUPORTE MULTIPLATAFORMA CORRIGIDO
         .setup(|app| {
             #[cfg(target_os = "windows")]
             {
                 if let Ok(resource_path) = app.path().resolve_directory("resources/driver-usbasp") {
                     let installer_path = resource_path.join("installer_x64.exe");
                     if installer_path.exists() {
-                        use std::os::windows::process::CommandExt;
-                        let _ = Command::new(installer_path)
-                            .creation_flags(0x08000000) // CREATE_NO_WINDOW
-                            .spawn();
+                        // Chama a função isolada para evitar erros de compilação cruzada no macOS
+                        executar_instalador_windows(installer_path);
                     }
                 }
             }
@@ -145,4 +143,13 @@ fn main() {
         ])
         .run(tauri::generate_context!())
         .expect("erro ao rodar a aplicação Tauri");
+}
+
+// Esta função só existe quando o compilador estiver gerando o código do Windows
+#[cfg(target_os = "windows")]
+fn executar_instalador_windows(path: std::path::PathBuf) {
+    use std::os::windows::process::CommandExt;
+    let _ = Command::new(path)
+        .creation_flags(0x08000000) // CREATE_NO_WINDOW (oculta janelas pretas)
+        .spawn();
 }

@@ -12,8 +12,14 @@ function abrirTelaComandosAT() {
     mudarModoBle('manual'); 
     limparTerminalAT();
     
-    // Reseta o estado da lista manual ao entrar na tela
     dispositivoBleSelecionadoId = "";
+    
+    // CORREÇÃO: Garante que a área secreta comece 100% oculta usando prioridade máxima
+    const areaComandos = document.getElementById('area-comandos-at-secreta');
+    if (areaComandos) {
+        areaComandos.style.setProperty('display', 'none', 'important');
+    }
+
     const containerLista = document.getElementById('lista-dispositivos-ble-log');
     if (containerLista) {
         containerLista.innerHTML = '<div style="color: #64748b; padding: 10px; font-family: monospace; font-size: 0.85rem;">Nenhum scan executado ainda. Clique em Escanear...</div>';
@@ -84,42 +90,50 @@ async function iniciarScanManual() {
         if (containerLista) containerLista.innerHTML = '';
         
         if (!lista || lista.length === 0) {
-            console.log("⚠️ [SCANNER] O rádio Bluetooth não detectou nenhuma placa ativa.");
+            console.log("⚠️ [SCANNER] O rádio Bluetooth não detectou nenhuma placa activa.");
             if (containerLista) {
                 containerLista.innerHTML = '<div style="color: #ef4444; padding: 10px; font-family: monospace; font-size: 0.85rem;">⚠️ Nenhuma placa encontrada por perto.</div>';
             }
             return;
         }
 
-        // Renderiza cada placa encontrada como uma linha de log clicável
+        // Renderiza cada dispositivo como se fosse uma linha de log organizada
         lista.forEach(dev => {
-            const idMostrar = dev.id.includes(":") ? dev.id : `UUID: ...${dev.id.slice(-8)}`;
-            const nomeStr = dev.name || "Sem Nome";
+            const idExibicao = dev.id.includes(":") ? dev.id : `UUID: ...${dev.id.slice(-8)}`;
+            const nomeLimpo = dev.name || "Desconhecido";
             
             const logRow = document.createElement('div');
+            logRow.style.display = "grid";
+            logRow.style.gridTemplateColumns = "20px 1fr 1fr";
+            logRow.style.gap = "10px";
+            logRow.style.alignItems = "center";
             logRow.style.padding = "8px 12px";
             logRow.style.borderBottom = "1px solid #1e293b";
-            logRow.style.fontFamily = "monospace";
-            logRow.style.fontSize = "0.85rem";
-            logRow.style.color = "#38bdf8";
+            logRow.style.color = "#a5f3fc"; 
             logRow.style.cursor = "pointer";
-            logRow.style.transition = "background 0.2s";
+            logRow.style.transition = "background 0.15s, color 0.15s";
             logRow.className = "ble-log-item";
             
-            logRow.innerHTML = `[📟 DISPOSITIVO] <span style="color: #fff; font-weight: bold;">${nomeStr}</span> — <span style="color: #94a3b8;">${idMostrar}</span>`;
+            logRow.innerHTML = `
+                <span style="color: #94a3b8;">📟</span>
+                <span style="color: #fff; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nomeLimpo}</span>
+                <span style="color: #67e8f9;">${idExibicao}</span>
+            `;
             
-            // Evento ao clicar na linha do log para selecionar a placa
             logRow.onclick = function() {
                 document.querySelectorAll('.ble-log-item').forEach(el => {
                     el.style.background = "none";
-                    el.style.color = "#38bdf8";
+                    el.querySelector('span:nth-child(2)').style.color = "#fff";
+                    el.querySelector('span:nth-child(3)').style.color = "#67e8f9";
                 });
                 
-                logRow.style.background = "#1e3a8a"; 
-                logRow.style.color = "#34d399";
+                logRow.style.background = "#1e40af"; 
+                logRow.style.borderRadius = "4px";
+                logRow.querySelector('span:nth-child(2)').style.color = "#fff";
+                logRow.querySelector('span:nth-child(3)').style.color = "#fff"; 
                 
                 dispositivoBleSelecionadoId = dev.id;
-                document.getElementById('placa-selecionada-label').innerText = `${nomeStr} (${idMostrar})`;
+                document.getElementById('placa-selecionada-label').innerText = `${nomeLimpo} (${idExibicao})`;
                 console.log(`📌 [SELECIONADO] Pronto para conexão: ${dev.id}`);
             };
 
@@ -187,12 +201,10 @@ function alternarRadarAuto() {
         
         logNoConsoleDoApp("Radar de varredura ativa acionado.", "info");
 
-        // Loop contínuo a cada 2.5 segundos buscando novas placas no barramento
         radarIntervalId = setInterval(async () => {
             try {
                 let atual = [];
                 if (window.__TAURI__) {
-                    // CORREÇÃO TAURI V2: Mudado de window.__TAURI__.invoke para o core handler
                     const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
                     atual = await invoke("scan_ble_devices");
                 }
@@ -237,6 +249,9 @@ function pararRadarAuto() {
 
 // ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
 async function realizarConexaoFisica(idPlaca) {
+    const btnConectar = document.getElementById('btn-conectar-ble');
+    if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
+
     logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
     appendTerminalAT(`\nConectando a [${idPlaca}]...\n`, "comando");
 
@@ -244,12 +259,32 @@ async function realizarConexaoFisica(idPlaca) {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
             await invoke("connect_ble_device", { id: idPlaca });
+        } else {
+            // Simulador local web (espera 1 segundo para simular o rádio)
+            await new Promise(r => setTimeout(r, 1000));
         }
+
         logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
         appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
+
+        // CORREÇÃO: Revela a área aplicando block prioritário e faz o scroll macio
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'block', 'important');
+            areaComandos.scrollIntoView({ behavior: 'smooth' });
+        }
+
     } catch (e) {
         logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
         appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
+        
+        // CORREÇÃO: Garante que continua oculto caso ocorra algum erro de barramento/conexão
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'none', 'important');
+        }
+    } finally {
+        if (btnConectar) { btnConectar.innerText = "⚡ Conectar ao Selecionado"; btnConectar.style.background = "#3b82f6"; }
     }
 }
 

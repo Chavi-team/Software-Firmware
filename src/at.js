@@ -4,13 +4,22 @@ let modoBleAtual = 'manual'; // 'manual' ou 'auto'
 let dispositivosNaMemoria = new Set();
 let radarIntervalId = null;
 
+// Variável global para armazenar qual dispositivo do log o usuário clicou no Modo 1
+let dispositivoBleSelecionadoId = "";
+
 function abrirTelaComandosAT() {
     ocultarTodasAsTelas();
     mudarModoBle('manual'); 
     limparTerminalAT();
     
-    const select = document.getElementById('select-dispositivos-ble');
-    if (select) select.innerHTML = '<option value="">Selecione um dispositivo da lista...</option>';
+    // Reseta o estado da lista manual ao entrar na tela
+    dispositivoBleSelecionadoId = "";
+    const containerLista = document.getElementById('lista-dispositivos-ble-log');
+    if (containerLista) {
+        containerLista.innerHTML = '<div style="color: #64748b; padding: 10px; font-family: monospace; font-size: 0.85rem;">Nenhum scan executado ainda. Clique em Escanear...</div>';
+    }
+    const labelPlaca = document.getElementById('placa-selecionada-label');
+    if (labelPlaca) labelPlaca.innerText = "Nenhuma";
 
     const tela = document.getElementById('tela-comandos-at');
     if (tela) tela.style.display = 'block';
@@ -43,70 +52,121 @@ function mudarModoBle(modo) {
     }
 }
 
-// ================= MODO 1: MANUAL (SCAN & ESCOLA) =================
+// ================= MODO 1: MANUAL (SCAN & ESCOLHA ESTILO LOG) =================
 async function iniciarScanManual() {
+    console.log("🚀 [SCANNER] Botão clicado. Iniciando rotina...");
     const btn = document.getElementById('btn-scan-ble');
-    const select = document.getElementById('select-dispositivos-ble');
+    const containerLista = document.getElementById('lista-dispositivos-ble-log');
+    
     if (btn) btn.innerText = "⏳ Escaneando...";
-    if (select) select.innerHTML = '<option value="">Buscando placas...</option>';
-
-    logNoConsoleDoApp("Iniciando varredura BLE manual...", "info");
+    if (containerLista) {
+        containerLista.innerHTML = '<div style="color: #fbbf24; padding: 10px; font-family: monospace; font-size: 0.85rem;">⏳ Buscando placas no barramento BLE...</div>';
+    }
 
     try {
         let lista = [];
         if (window.__TAURI__) {
-            // Ajuste para chamar sua função real em Rust/Tauri se houver backend compilado
-            lista = await window.__TAURI__.invoke("scan_ble_devices");
+            console.log("🛰️ [SCANNER] Ambiente Tauri detectado. Invocando ponte com o Rust...");
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            lista = await invoke("scan_ble_devices");
+            console.log("📥 [SCANNER] Resposta bruta recebida do Rust:");
+            console.table(lista);
         } else {
-            // Mock/Simulador caso rode em Web pura
-            await new Promise(r => setTimeout(r, 1500));
+            console.warn("🌐 [SCANNER] Executando em ambiente Web Puro. Usando simulador.");
+            await new Promise(r => setTimeout(r, 1200));
             lista = [
                 { id: "00:1A:7D:DA:71:11", name: "Chavi_Fechadura_003" },
-                { id: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F", name: "Chavi_Acionador_MacOS_Fake" }
+                { id: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F", name: "Chavi_Acionador_MOCK" },
+                { id: "34b384ae-1d52-33ee-6f7a-b47f91447762", name: "Bass BH1 Lite" }
             ];
         }
 
-        if (select) select.innerHTML = '<option value="">Selecione um dispositivo da lista...</option>';
+        if (containerLista) containerLista.innerHTML = '';
         
+        if (!lista || lista.length === 0) {
+            console.log("⚠️ [SCANNER] O rádio Bluetooth não detectou nenhuma placa ativa.");
+            if (containerLista) {
+                containerLista.innerHTML = '<div style="color: #ef4444; padding: 10px; font-family: monospace; font-size: 0.85rem;">⚠️ Nenhuma placa encontrada por perto.</div>';
+            }
+            return;
+        }
+
+        // Renderiza cada placa encontrada como uma linha de log clicável
         lista.forEach(dev => {
-            const idMostrar = dev.id.includes(":") ? dev.id : `UUID Mac: ...${dev.id.slice(-6)}`;
-            const nomeStr = dev.name || "Sem Nome/Desconhecido";
-            const opt = document.createElement('option');
-            opt.value = dev.id;
-            opt.innerText = `${nomeStr} (${idMostrar})`;
-            select.appendChild(opt);
+            const idMostrar = dev.id.includes(":") ? dev.id : `UUID: ...${dev.id.slice(-8)}`;
+            const nomeStr = dev.name || "Sem Nome";
+            
+            const logRow = document.createElement('div');
+            logRow.style.padding = "8px 12px";
+            logRow.style.borderBottom = "1px solid #1e293b";
+            logRow.style.fontFamily = "monospace";
+            logRow.style.fontSize = "0.85rem";
+            logRow.style.color = "#38bdf8";
+            logRow.style.cursor = "pointer";
+            logRow.style.transition = "background 0.2s";
+            logRow.className = "ble-log-item";
+            
+            logRow.innerHTML = `[📟 DISPOSITIVO] <span style="color: #fff; font-weight: bold;">${nomeStr}</span> — <span style="color: #94a3b8;">${idMostrar}</span>`;
+            
+            // Evento ao clicar na linha do log para selecionar a placa
+            logRow.onclick = function() {
+                document.querySelectorAll('.ble-log-item').forEach(el => {
+                    el.style.background = "none";
+                    el.style.color = "#38bdf8";
+                });
+                
+                logRow.style.background = "#1e3a8a"; 
+                logRow.style.color = "#34d399";
+                
+                dispositivoBleSelecionadoId = dev.id;
+                document.getElementById('placa-selecionada-label').innerText = `${nomeStr} (${idMostrar})`;
+                console.log(`📌 [SELECIONADO] Pronto para conexão: ${dev.id}`);
+            };
+
+            logRow.onmouseenter = () => { if(dispositivoBleSelecionadoId !== dev.id) logRow.style.background = "#0f172a"; };
+            logRow.onmouseleave = () => { if(dispositivoBleSelecionadoId !== dev.id) logRow.style.background = "none"; };
+
+            containerLista.appendChild(logRow);
         });
 
-        logNoConsoleDoApp(`Scan manual completo. ${lista.length} dispositivos listados.`, "sucesso");
+        console.log(`✅ [SCANNER] Interface populada com sucesso com ${lista.length} dispositivos.`);
+
     } catch (e) {
-        logNoConsoleDoApp(`Erro no scanner manual: ${e.message}`, "erro");
-        if (select) select.innerHTML = '<option value="">Erro ao buscar dispositivos.</option>';
+        console.error("🔴 [SCANNER] Erro crítico capturado na execução:", e);
+        if (containerLista) {
+            containerLista.innerHTML = `<div style="color: #ef4444; padding: 10px; font-family: monospace; font-size: 0.85rem;">🔴 Erro no Scanner: ${e}</div>`;
+        }
     } finally {
         if (btn) btn.innerText = "🔍 Escanear";
     }
 }
 
 async function conectarBleSelecionado() {
-    const select = document.getElementById('select-dispositivos-ble');
-    if (!select || !select.value) {
-        alert("Selecione uma placa para conectar!");
+    if (!dispositivoBleSelecionadoId) {
+        alert("Por favor, clique em um dispositivo da lista antes de conectar!");
         return;
     }
-    await realizarConexaoFisica(select.value);
+    await realizarConexaoFisica(dispositivoBleSelecionadoId);
 }
 
 // ================= MODO 2: RADAR AUTO-DETECÇÃO =================
 async function tirarFotoDoAmbienteBle() {
+    console.log("📡 [RADAR] Tirando foto do ambiente para mapeamento...");
     try {
-        let ambiente = [];
+        let lista = [];
         if (window.__TAURI__) {
-            ambiente = await window.__TAURI__.invoke("scan_ble_devices");
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            lista = await invoke("scan_ble_devices");
+        } else {
+            lista = []; 
         }
+
         dispositivosNaMemoria.clear();
-        ambiente.forEach(d => dispositivosNaMemoria.add(d.id));
-        logNoConsoleDoApp(`Radar: Guardou ${dispositivosNaMemoria.size} dispositivos iniciais na memória estática.`, "info");
+        lista.forEach(d => dispositivosNaMemoria.add(d.id));
+        console.log(`✅ [RADAR] Foto tirada. ${lista.length} dispositivos mapeados em background.`);
+
     } catch (e) {
-        console.error("Falha ao registrar ambiente inicial", e);
+        console.error("🔴 [RADAR] Erro ao tirar foto do ambiente:", e);
     }
 }
 
@@ -127,17 +187,18 @@ function alternarRadarAuto() {
         
         logNoConsoleDoApp("Radar de varredura ativa acionado.", "info");
 
-        // Loop contínuo a cada 2.5 segundos buscando o intruso (placa recém-alimentada)
+        // Loop contínuo a cada 2.5 segundos buscando novas placas no barramento
         radarIntervalId = setInterval(async () => {
             try {
                 let atual = [];
                 if (window.__TAURI__) {
-                    atual = await window.__TAURI__.invoke("scan_ble_devices");
+                    // CORREÇÃO TAURI V2: Mudado de window.__TAURI__.invoke para o core handler
+                    const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+                    atual = await invoke("scan_ble_devices");
                 }
                 
                 for (let dev of atual) {
                     if (!dispositivosNaMemoria.has(dev.id)) {
-                        // INTRUSO DETECTADO! (Nova placa ligada)
                         pararRadarAuto(); 
                         
                         const idExibicao = dev.id.includes(":") ? dev.id : `UUID Mac: ...${dev.id.slice(-6)}`;
@@ -146,15 +207,14 @@ function alternarRadarAuto() {
                         if (querConectar) {
                             await realizarConexaoFisica(dev.id);
                         } else {
-                            // Se rejeitado, adiciona à memória para não perturbar de novo
                             dispositivosNaMemoria.add(dev.id);
-                            alternarRadarAuto(); // religa o radar
+                            alternarRadarAuto(); 
                         }
                         break;
                     }
                 }
             } catch (e) {
-                console.error("Erro em loop de radar", e);
+                console.error("❌ Erro tratado em loop de radar:", e);
             }
         }, 2500);
     }
@@ -182,13 +242,14 @@ async function realizarConexaoFisica(idPlaca) {
 
     try {
         if (window.__TAURI__) {
-            await window.__TAURI__.invoke("connect_ble_device", { id: idPlaca });
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            await invoke("connect_ble_device", { id: idPlaca });
         }
         logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
         appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
     } catch (e) {
-        logNoConsoleDoApp(`Falha na conexão: ${e.message}`, "erro");
-        appendTerminalAT(`Falha crítica de conexão: ${e.message}\n`, "erro");
+        logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
+        appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
     }
 }
 
@@ -198,17 +259,17 @@ async function transmitirComandoAT(comandoString) {
 
     try {
         if (window.__TAURI__) {
-            const resposta = await window.__TAURI__.invoke("send_at_command", { comando: comandoString });
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            const resposta = await invoke("send_at_command", { comando: comandoString });
             appendTerminalAT(`${resposta}\n`, "resposta");
         } else {
-            // Simulador local web
             setTimeout(() => {
                 appendTerminalAT(`OK\n`, "resposta");
             }, 300);
         }
     } catch (erro) {
-        logNoConsoleDoApp(`Erro no comando: ${erro.message}`, "erro");
-        appendTerminalAT(`ERROR: ${erro.message}\n`, "erro");
+        logNoConsoleDoApp(`Erro no comando: ${erro.message || erro}`, "erro");
+        appendTerminalAT(`ERROR: ${erro.message || erro}\n`, "erro");
     }
 }
 
@@ -235,7 +296,7 @@ function limparTerminalAT() {
     if (terminal) terminal.innerText = "Terminal pronto. Envie strings AT...";
 }
 
-// Exportações explícitas
+// Exportações explícitas para escopo global do app
 window.abrirTelaComandosAT = abrirTelaComandosAT;
 window.mudarModoBle = mudarModoBle;
 window.iniciarScanManual = iniciarScanManual;

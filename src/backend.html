@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firmware Chavi</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="container">
@@ -15,7 +17,7 @@
             <div class="header-actions">
                 <button class="icon-btn btn-home" onclick="voltarParaInicio()" title="Voltar ao início">🏠</button>
                 <button id="btn-atualizar-software" class="icon-btn btn-refresh" title="Verificar Atualizações">🔄</button>
-                <button class="icon-btn btn-exit" onclick="fecharAplicativo()" title="Sair do App">❌</button>
+                <button id="btn-sair-app" class="icon-btn btn-exit" title="Sair do App">❌</button>
             </div>
         </div>
 
@@ -29,6 +31,10 @@
                 </button>
                 <button class="product-button" onclick="selecionarProduto('Acionador Inteligente')">
                     <span>Acionador Inteligente</span>
+                    <span class="icon">➔</span>
+                </button>
+                <button class="product-button btn-cadastro-direto" onclick="abrirTelaCadastroManual()">
+                    <span>Cadastro de equipamento</span>
                     <span class="icon">➔</span>
                 </button>
             </div>
@@ -62,14 +68,15 @@
             <div class="input-group">
                 <input type="number" id="input-pino-custom" placeholder="Outro pino (Ex: 8)" min="3" max="14">
             </div>
-            <button class="product-button" onclick="salvarPinoCustomizado()" style="margin-top: 1rem;">Avançar ➔</button>
+            <button class="product-button" onclick="salvarPinoCustomizado()"
+                style="margin-top: 1rem; text-align: center; justify-content: center;">Avançar ➔</button>
             <button class="voltar" onclick="voltarPara('tela-mosfet')">← Voltar</button>
         </div>
 
         <div id="tela-dados-dispositivo" class="tela" style="display:none">
             <h1>Dados de Configuração</h1>
             <p>Insira os parâmetros iniciais:</p>
-            
+
             <div class="input-form">
                 <div class="input-group">
                     <label>Canal (-ch):</label>
@@ -81,14 +88,15 @@
                 </div>
             </div>
 
-            <button class="product-button" onclick="validarEDecidirResumo()">Avançar para o Resumo ➔</button>
+            <button class="product-button" onclick="validarEDecidirResumo()"
+                style="text-align: center; justify-content: center;">Avançar para o Resumo ➔</button>
             <button class="voltar" id="voltar-de-dados">← Voltar</button>
         </div>
 
         <div id="tela-resumo" class="tela" style="display:none">
             <h1>Painel de Execução</h1>
             <p>Selecione a ação desejada para o dispositivo <strong id="resumo-serial-title"></strong>:</p>
-            
+
             <div class="comando-preview">
                 <strong>Comando que será executado:</strong>
                 <code id="comando-string"></code>
@@ -96,7 +104,8 @@
 
             <pre id="resumo-conteudo"></pre>
 
-            <div id="status-execucao" style="display: none; background: #020617; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #fbbf24; text-align: left;">
+            <div id="status-execucao"
+                style="display: none; background: #020617; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #fbbf24; text-align: left;">
                 <span id="texto-status" style="color: #fbbf24; font-weight: 500;">Iniciando processo...</span>
             </div>
 
@@ -120,7 +129,74 @@
             <button class="voltar" id="btn-voltar-resumo" onclick="voltarPara('tela-dados-dispositivo')">← Voltar</button>
         </div>
 
-    </div> <div class="terminal-container">
+        <div id="tela-cadastro-equipamento" class="tela" style="display:none">
+            <h1>Cadastro de Equipamento no Painel</h1>
+            <p>Insira os parâmetros para salvar o equipamento:</p>
+
+            <div class="input-form">
+                <div id="campos-fixos-cadastro">
+                    <div class="input-group">
+                        <label for="select-equipamento">Equipamento:</label>
+                        <select id="select-equipamento">
+                            <option value="FI">Fechadura Inteligente (FI)</option>
+                            <option value="EI">Acionador Inteligente (EI + CI)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="select-painel">Qual painel deseja cadastrar?</label>
+                        <select id="select-painel">
+                            <option value="imovel">Painel Imovel</option>
+                            <option value="novo">Painel Novo</option>
+                            <option value="antigo">Painel Antigo</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="select-cad-hardware">Versão do Hardware:</label>
+                        <select id="select-cad-hardware">
+                            <option value="1_0">v1.0</option>
+                            <option value="1_5">v1.5</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="select-cad-mosfet">Possui Mosfet?</label>
+                        <select id="select-cad-mosfet">
+                            <option value="nao">Não possui</option>
+                            <option value="sim">Sim, possui mosfet</option>
+                        </select>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #334155; margin: 1.5rem 0;">
+                </div>
+
+                <div class="input-form-row" style="display: flex; gap: 10px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-cad-canal">Canal / Lote (Ex: 3):</label>
+                        <input type="number" id="input-cad-canal" placeholder="Ex: 3" min="1">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-cad-firmware">ID do Firmware:</label>
+                        <input type="number" id="input-cad-firmware" placeholder="Ex: 2406" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <button class="product-button" onclick="executarCadastroManual(event)"
+
+                style="background: #10b981; text-align: center; justify-content: center; margin-top: 15px;">
+
+                <span>Cadastrar ➔</span>
+
+            </button>
+
+            <button class="voltar" onclick="voltarPara('tela-produto')">← Voltar</button>
+        </div>
+
+    </div>
+
+    <div class="terminal-container">
         <div class="terminal-bar">
             <h3>Console de Saída (Logs Globais)</h3>
             <div class="terminal-scroll-btns">
@@ -131,6 +207,12 @@
         <div id="terminal-log">Aguardando início de processo...</div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="state.js"></script>
+    <script src="navigation.js"></script>
+    <script src="bank_dados.js"></script>
+    <script src="api_cadastro.js"></script>
+    <script src="tauri_services.js"></script>
+    <script src="backend.js"></script>
 </body>
+
 </html>

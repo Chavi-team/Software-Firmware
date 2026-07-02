@@ -1,11 +1,15 @@
 // Previne a abertura de uma janela de terminal extra no Windows em modo release
-#![cfg_attr(not(debug_assertions), target_os = "windows", windows_subsystem = "windows")]
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::process::Command;
 use std::io::{BufRead, BufReader};
 use tauri::Manager;            
 use tauri::path::BaseDirectory; 
-use tauri::Emitter; // IMPORTANTE: No Tauri v2 usamos tauri::Emitter para disparar eventos para a tela
+use tauri::Emitter; 
+
+// Importa o PathResolver apenas no Windows para evitar warnings no macOS/Linux
+#[cfg(target_os = "windows")]
+use tauri::path::PathResolver;
 
 #[tauri::command]
 fn gravar_firmware_bancada(
@@ -38,7 +42,7 @@ fn gravar_firmware_bancada(
         .resolve("resources/arduino_data/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf", BaseDirectory::Resource)
         .map_err(|e| format!("Não foi possível encontrar o avrdude.conf: {}", e))?;
 
-    // --- Sua Lógica de Parsing de Hardware Inteligente mantida idêntica ---
+    // --- Lógica de Parsing de Hardware ---
     let canal = serial_number.chars().skip(2).take(3).collect::<String>();
     let firmware_id = serial_number.chars().skip(7).collect::<String>();
 
@@ -58,7 +62,7 @@ fn gravar_firmware_bancada(
         format!("FI_{}", hw_base)
     };
 
-    // Alvo final do arquivo .hex dentro do seu pacote de firmwares
+    // Alvo final do arquivo .hex dentro do pacote de firmwares
     let hex_file_relative = format!("resources/bin/{}.ino.hex", firmware_name);
     let hex_path = app_handle
         .path()
@@ -71,7 +75,7 @@ fn gravar_firmware_bancada(
     // Dispara um log inicial direto no painel da tela avisando que o motor ligou
     let _ = app_handle.emit("log-terminal", format!("🚀 Preparando gravação do chip {} via USBasp...\n", mcu));
 
-    // 3. CONFIGURA O COMANDO REDIRECIONANDO A SAÍDA (O avrdude envia logs majoritariamente no stderr)
+    // 3. CONFIGURA O COMANDO REDIRECIONANDO A SAÍDA
     let mut comando = Command::new(avrdude_path);
     comando.arg("-C").arg(conf_path)
            .arg("-v")
@@ -80,7 +84,7 @@ fn gravar_firmware_bancada(
            .arg("-P").arg("usb") 
            .arg("-U").arg(format!("flash:w:{}:i", hex_path.to_string_lossy()))
            .stdout(std::process::Stdio::piped())
-           .stderr(std::process::Stdio::piped()); // Transforma o canal de erro em um Pipe contínuo
+           .stderr(std::process::Stdio::piped()); 
 
     let seed_secret_env = "CHAVI".to_string();
     comando.env("SEED_SECRET", seed_secret_env);
@@ -103,7 +107,6 @@ fn gravar_firmware_bancada(
     std::thread::spawn(move || {
         for line in reader.lines() {
             if let Ok(log_line) = line {
-                // Dispara o evento que o JavaScript vai ouvir na hora
                 let _ = handle_clone.emit("log-terminal", format!("{}\n", log_line));
             }
         }
@@ -123,15 +126,16 @@ fn gravar_firmware_bancada(
 
 fn main() {
     tauri::Builder::default()
+        // ATIVADO: Agora que o plugin foi adicionado com 'cargo add', ele pode ser inicializado com segurança!
         .plugin(tauri_plugin_updater::Builder::new().build())
-        // INSTALAÇÃO DO DRIVER EM BACKGROUND COM SUPORTE MULTIPLATAFORMA CORRIGIDO
-        .setup(|app| {
+        
+        .setup(|_app| {
+            // Bloco do Windows para instalar o driver USBasp
             #[cfg(target_os = "windows")]
             {
-                if let Ok(resource_path) = app.path().resolve_directory("resources/driver-usbasp") {
+                if let Ok(resource_path) = _app.path().resolve_directory("resources/driver-usbasp", BaseDirectory::Resource) {
                     let installer_path = resource_path.join("installer_x64.exe");
                     if installer_path.exists() {
-                        // Chama a função isolada para evitar erros de compilação cruzada no macOS
                         executar_instalador_windows(installer_path);
                     }
                 }
@@ -145,11 +149,8 @@ fn main() {
         .expect("erro ao rodar a aplicação Tauri");
 }
 
-// Esta função só existe quando o compilador estiver gerando o código do Windows
+// Esta função e seus imports internos só existem quando o compilador gerar o código para Windows
 #[cfg(target_os = "windows")]
 fn executar_instalador_windows(path: std::path::PathBuf) {
-    use std::os::windows::process::CommandExt;
-    let _ = Command::new(path)
-        .creation_flags(0x08000000) // CREATE_NO_WINDOW (oculta janelas pretas)
-        .spawn();
+    let _ = Command::new(path).spawn();
 }

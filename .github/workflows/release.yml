@@ -1,14 +1,12 @@
 name: 'Publish Release'
 
-on:
-  push:
-    tags:
-      - 'v*'
+# Configurado para rodar em QUALQUER commit enviado para o GitHub, independente da branch
+on: [push]
 
 jobs:
   publish-tauri:
     permissions:
-      contents: write
+      contents: write # Permissão obrigatória para criar a Release e fazer upload dos instaladores
     strategy:
       fail-fast: false
       matrix:
@@ -17,7 +15,7 @@ jobs:
             args: '--target aarch64-apple-darwin'
           - platform: 'macos-latest'
             args: '--target x86_64-apple-darwin'
-          - platform: 'ubuntu-22.04'
+          - platform: 'ubuntu-22.04' # Este é o seu build para Linux (Ubuntu)
             args: ''
           - platform: 'windows-latest'
             args: ''
@@ -34,7 +32,8 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          # Instala o target correto do Rust dinamicamente dependendo da arquitetura do macOS
+          targets: ${{ matrix.platform == 'macos-latest' && matrix.args != '' && format('{0}', matrix.args == '--target aarch64-apple-darwin' && 'aarch64-apple-darwin' || 'x86_64-apple-darwin') || '' }}
 
       - name: install dependencies (Linux only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -52,10 +51,9 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_PASSWORD }}
         with:
-          projectPath: '.'
-          tagName: app-v__VERSION__
+          tagName: 'v__VERSION__' # O Tauri vai ler a versão automaticamente do seu tauri.conf.json
           releaseName: 'v__VERSION__'
           releaseBody: 'Executáveis de teste gerados automaticamente.'
-          releaseDraft: true
+          releaseDraft: true # Cria como rascunho para você revisar antes de publicar
           prerelease: false
           args: ${{ matrix.args }}

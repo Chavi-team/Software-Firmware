@@ -1,0 +1,67 @@
+<div id="tela-comandos-at" class="tela" style="display:none">
+    <h1>Console de Comandos AT</h1>
+    <p>Selecione um comando rápido ou envie uma string customizada para a placa:</p>
+
+    <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; background: #1e293b; padding: 10px; border-radius: 8px;">
+        <button id="btn-modo-manual" class="product-button" onclick="mudarModoBle('manual')" style="background: #3b82f6; margin: 0; padding: 8px 12px; font-size: 0.85rem; width: auto;">
+            🔍 Modo 1: Scan & Escolha
+        </button>
+        <button id="btn-modo-auto" class="product-button" onclick="mudarModoBle('auto')" style="background: #475569; margin: 0; padding: 8px 12px; font-size: 0.85rem; width: auto;">
+            存放 Modo 2: Auto-Detecção
+        </button>
+    </div>
+
+    <div id="container-ble-manual" style="background: #0f172a; border: 1px solid #1e293b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <strong style="color: #cbd5e1;">Dispositivos Encontrados:</strong>
+            <button class="product-button" id="btn-scan-ble" onclick="iniciarScanManual()" style="background: #10b981; margin:0; width: auto; padding: 6px 15px; font-size: 0.85rem;">🔍 Escanear</button>
+        </div>
+        <select id="select-dispositivos-ble" style="width: 100%; padding: 10px; background: #1e293b; color: white; border: 1px solid #334155; border-radius: 6px; margin-bottom: 10px;">
+            <option value="">Selecione um dispositivo da lista...</option>
+        </select>
+        <button class="product-button" onclick="conectarBleSelecionado()" style="background: #3b82f6; text-align: center; justify-content: center; margin: 0;">⚡ Conectar ao Selecionado</button>
+    </div>
+
+    <div id="container-ble-auto" style="background: #0f172a; border: 1px solid #1e293b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: none;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem;">
+            <div class="spinner" id="status-radar-ble" style="width: 12px; height: 12px; border: 2px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; display: none;"></div>
+            <strong id="label-status-auto" style="color: #fbbf24;">Radar parado. Ligue para mapear o ambiente...</strong>
+        </div>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin: 0 0 10px 0;">O radar salva os dispositivos já ligados. Quando você plugar uma nova placa, ela será detectada na hora.</p>
+        <div style="display: flex; gap: 10px;">
+            <button class="product-button" id="btn-radar-toggle" onclick="alternarRadarAuto()" style="background: #eab308; margin:0; width: auto; font-size: 0.85rem;">📡 Ligar Radar</button>
+            <button class="product-button" onclick="resetarMemoriaRadar()" style="background: #475569; margin:0; width: auto; font-size: 0.85rem;">🧹 Resetar Ambiente</button>
+        </div>
+    </div>
+
+    <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem;">
+        <button class="product-button" onclick="enviarAtRapido('AT')" style="background: #3b82f6; font-size: 0.9rem; padding: 10px;">🧪 Testar (AT)</button>
+        <button class="product-button" onclick="enviarAtRapido('AT+RST')" style="background: #ef4444; font-size: 0.9rem; padding: 10px;">🔄 Reiniciar</button>
+        <button class="product-button" onclick="enviarAtRapido('AT+GMR')" style="background: #10b981; font-size: 0.9rem; padding: 10px;">ℹ️ Versão FW</button>
+        <button class="product-button" onclick="enviarAtRapido('AT+CWMODE?')" style="background: #f59e0b; font-size: 0.9rem; padding: 10px;">🌐 Modo Wi-Fi</button>
+    </div>
+
+    <div class="input-form">
+        <div class="input-group">
+            <label for="input-comando-at-custom">Comando AT Customizado:</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="input-comando-at-custom" placeholder="Ex: AT+CWLAP" style="flex: 1;">
+                <button class="product-button" onclick="enviarAtCustomizado()" style="background: #10b981; width: auto; padding: 0 20px; margin: 0;">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 1.5rem; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 5px;">
+            <span style="color: #94a3b8; font-size: 0.85rem; font-weight: bold;">Retorno da Placa:</span>
+            <button onclick="limparTerminalAT()" style="background: none; border: none; color: #f43f5e; cursor: pointer; font-size: 0.8rem;">🧹 Limpar</button>
+        </div>
+        <pre id="terminal-resposta-at" style="margin: 0; white-space: pre-wrap; word-wrap: break-word; color: #38bdf8; font-family: monospace; max-height: 200px; overflow-y: auto; text-align: left;">Aguardando conexão BLE...</pre>
+    </div>
+
+    <button class="voltar" onclick="voltarPara('tela-produto')" style="margin-top: 1.5rem;">← Voltar</button>
+</div>
+
+<style>
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>

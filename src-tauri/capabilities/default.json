@@ -7,6 +7,9 @@
   ],
   "permissions": [
     "core:default",
-    "core:window:allow-close"
+    "core:window:allow-close",
+    "updater:allow-check",
+    "updater:default"
+
   ]
 }

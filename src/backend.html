@@ -25,14 +25,26 @@
             <h1>Firmware Chavi</h1>
             <p>Selecione o produto que deseja configurar:</p>
             <div class="product-grid">
-                <button class="product-button" onclick="selecionarProduto('Fechadura Digital')">
-                    <span>Fechadura Digital</span>
+                <button class="product-button" onclick="selecionarProduto('Gravar Firmware  ')">
+                    <span>Gravar Firmware</span>
                     <span class="icon">➔</span>
                 </button>
-                <button class="product-button" onclick="selecionarProduto('Acionador Inteligente')">
-                    <span>Acionador Inteligente</span>
+
+                    <button class="product-button" onclick="abrirTelaComandosAT()">
+                    <span>Comandos AT</span>
                     <span class="icon">➔</span>
                 </button>
+                
+                <button class="product-button" onclick="selecionarProduto('Gravar + AT  ')">
+                    <span>Gravar + AT</span>
+                    <span class="icon">➔</span>
+                </button>
+
+                <button class="product-button" onclick="selecionarProduto('Test de Hardware  ')">
+                    <span>Test de Hardware</span>
+                    <span class="icon">➔</span>
+                </button>
+
                 <button class="product-button btn-cadastro-direto" onclick="abrirTelaCadastroManual()">
                     <span>Cadastro de equipamento</span>
                     <span class="icon">➔</span>
@@ -207,12 +219,16 @@
         <div id="terminal-log">Aguardando início de processo...</div>
     </div>
 
-    <script src="state.js"></script>
-    <script src="navigation.js"></script>
+    <script src="state.js"></script> 
     <script src="bank_dados.js"></script>
+
+    <script src="navigation.js"></script>
     <script src="api_cadastro.js"></script>
+    <script src="at.js"></script>
     <script src="tauri_services.js"></script>
+    
     <script src="backend.js"></script>
+    
 </body>
 
 </html>

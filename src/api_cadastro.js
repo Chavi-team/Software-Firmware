@@ -303,7 +303,7 @@ function logNoConsoleDoApp(mensagem, tipo = "info") {
 })();
 
 window.ApiCadastroEquipamento = ApiCadastroEquipamento;
-window.executarCadastroManual = ejecutarCadastroManual;
+window.executarCadastroManual = executarCadastroManual;
 window.abrirTelaCadastroManual = abrirTelaCadastroManual;
 window.voltarPara = voltarPara;
 window.logNoConsoleDoApp = logNoConsoleDoApp;

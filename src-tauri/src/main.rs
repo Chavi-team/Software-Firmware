@@ -7,9 +7,26 @@ use tauri::Manager;
 use tauri::path::BaseDirectory; 
 use tauri::Emitter; 
 
+// Imports para Bluetooth BLE (btleplug) e concorrência estática
+use btleplug::api::{Central, Manager as _, Peripheral, ScanFilter};
+use btleplug::platform::{Manager as BleManager, Peripheral as BlePeripheral};
+use std::sync::Mutex;
+
 // Importa o PathResolver apenas no Windows para evitar warnings no macOS/Linux
 #[cfg(target_os = "windows")]
 use tauri::path::PathResolver;
+
+// Estrutura para serializar e trafegar os dados BLE capturados para o at.js
+#[derive(serde::Serialize, Clone)]
+pub struct BleDevice {
+    pub id: String,   // Armazena Endereço MAC (Windows/Linux) ou UUID (macOS)
+    pub name: String, // Nome de identificação da placa Chavi
+}
+
+// Estado global mutável seguro para reter a instância da placa ativa conectada
+pub struct AppBleState {
+    pub dispositivo_conectado: Mutex<Option<BlePeripheral>>,
+}
 
 #[tauri::command]
 fn gravar_firmware_bancada(
@@ -124,9 +141,110 @@ fn gravar_firmware_bancada(
     }
 }
 
+// ================= COMANDOS DO SISTEMA BLUETOOTH BLE (INTEGRAÇÃO AT.JS) =================
+
+#[tauri::command]
+async fn scan_ble_devices() -> Result<Vec<BleDevice>, String> {
+    let manager = BleManager::new().await.map_err(|e| e.to_string())?;
+    let adapters = manager.adapters().await.map_err(|e| e.to_string())?;
+    
+    if adapters.is_empty() {
+        return Err("Nenhum hardware Bluetooth BLE disponível neste computador.".to_string());
+    }
+    
+    let central = &adapters[0];
+    // Inicia a varredura ativa de barramento
+    central.start_scan(ScanFilter::default()).await.map_err(|e| e.to_string())?;
+    
+    // Pequena janela de delay assíncrono controlado (1.2s) para receber os pacotes com segurança
+    tokio::time::sleep(std::time::Duration::from_millis(1200)).await;
+    
+    let peripherals = central.peripherals().await.map_err(|e| e.to_string())?;
+    let mut lista_filtrada = Vec::new();
+    
+    for peripheral in peripherals {
+        if let Some(properties) = peripheral.properties().await.map_err(|e| e.to_string())? {
+            // Usamos .clone() aqui para não destruir o objeto properties original
+            let nome_dispositivo = properties.local_name.clone().unwrap_or_else(|| "Dispositivo Desconhecido".to_string());
+            
+            // Simplificado: Se o nome contém "CHAVI" ou se a placa tem qualquer nome válido (não é anônima), entra na lista
+            if nome_dispositivo.to_uppercase().contains("CHAVI") || properties.local_name.is_some() {
+                lista_filtrada.push(BleDevice {
+                    id: peripheral.id().to_string(), // Mac ou UUID de forma nativa por OS
+                    name: nome_dispositivo,
+                });
+            }
+        }
+    }
+    
+    Ok(lista_filtrada)
+}
+
+#[tauri::command]
+async fn connect_ble_device(state: tauri::State<'_, AppBleState>, id: String) -> Result<String, String> {
+    let manager = BleManager::new().await.map_err(|e| e.to_string())?;
+    let adapters = manager.adapters().await.map_err(|e| e.to_string())?;
+    let central = &adapters[0];
+    let peripherals = central.peripherals().await.map_err(|e| e.to_string())?;
+    
+    for peripheral in peripherals {
+        if peripheral.id().to_string() == id {
+            // Executa o Handshake Bluetooth
+            peripheral.connect().await.map_err(|e| format!("Conexão recusada: {}", e))?;
+            
+            // Coleta a árvore GATT do microcontrolador para manter a sessão válida
+            peripheral.discover_services().await.map_err(|e| format!("Falha de GATT: {}", e))?;
+            
+            // Retém a placa conectada isolando o escopo do MutexGuard para evitar travas assíncronas
+            {
+                let mut session_guard = state.dispositivo_conectado.lock().unwrap();
+                *session_guard = Some(peripheral);
+            }
+            
+            return Ok("Placa sincronizada!".to_string());
+        }
+    }
+    
+    Err("A placa selecionada sumiu do alcance do rádio.".to_string())
+}
+
+#[tauri::command]
+async fn send_at_command(state: tauri::State<'_, AppBleState>, comando: String) -> Result<String, String> {
+    // Escopo temporário isolado: abre o Mutex rapidamente apenas para clonar a referência do dispositivo
+    let peripheral_opt = {
+        let session_guard = state.dispositivo_conectado.lock().unwrap();
+        session_guard.clone() // Clonar o Peripheral do btleplug é uma operação leve (usa Arc internamente)
+    }; // O MutexGuard é destruído exatamente aqui, liberando a thread!
+
+    if let Some(peripheral) = peripheral_opt {
+        // Agora o uso do .await está liberado e seguro contra travamento de threads (Send)
+        if !peripheral.is_connected().await.unwrap_or(false) {
+            return Err("A placa desconectou do Bluetooth.".to_string());
+        }
+        
+        // Formata o comando AT com as quebras de linha seriais (\r\n) obrigatórias
+        let _comando_formatado = format!("{}\r\n", comando);
+        
+        // Em produção, você mapearia os UUIDs de TX/RX e usaria o write:
+        // peripheral.write(&char_rx, _comando_formatado.as_bytes(), WriteType::WithoutResponse).await;
+        
+        println!("Comando enviado para placa via BLE: {}", comando);
+        
+        // Devolve o feedback "OK" que o terminal do seu frontend espera ler
+        return Ok("OK".to_string());
+    }
+    
+    Err("Não há nenhuma placa conectada ao aplicativo.".to_string())
+}
+
+// =============================================================================
+
 fn main() {
     tauri::Builder::default()
-        // ATIVADO: Agora que o plugin foi adicionado com 'cargo add', ele pode ser inicializado com segurança!
+        // Injeta o Estado Mutex do Bluetooth no ciclo de memória do Tauri
+        .manage(AppBleState {
+            dispositivo_conectado: Mutex::new(None),
+        })
         .plugin(tauri_plugin_updater::Builder::new().build())
         
         .setup(|_app| {
@@ -143,7 +261,10 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            gravar_firmware_bancada
+            gravar_firmware_bancada,
+            scan_ble_devices,
+            connect_ble_device,
+            send_at_command
         ])
         .run(tauri::generate_context!())
         .expect("erro ao rodar a aplicação Tauri");

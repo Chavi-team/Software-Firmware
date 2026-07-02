@@ -10,6 +10,15 @@
 
     <div class="container">
 
+        <div class="header-container">
+            <h2>Chavi</h2>
+            <div class="header-actions">
+                <button class="icon-btn btn-home" onclick="voltarParaInicio()" title="Voltar ao início">🏠</button>
+                <button id="btn-atualizar-software" class="icon-btn btn-refresh" title="Verificar Atualizações">🔄</button>
+                <button class="icon-btn btn-exit" onclick="fecharAplicativo()" title="Sair do App">❌</button>
+            </div>
+        </div>
+
         <div id="tela-produto" class="tela">
             <h1>Firmware Chavi</h1>
             <p>Selecione o produto que deseja configurar:</p>
@@ -28,8 +37,7 @@
         <div id="tela-hardware" class="tela" style="display:none">
             <h1>Versão do Hardware</h1>
             <p>Selecione a versão do hardware da <span id="produto-label-hw"></span>:</p>
-            <div class="product-grid" id="lista-hardware">
-                </div>
+            <div class="product-grid" id="lista-hardware"></div>
             <button class="voltar" onclick="voltarPara('tela-produto')">← Voltar</button>
         </div>
 
@@ -50,8 +58,7 @@
         <div id="tela-pino-mosfet" class="tela" style="display:none">
             <h1>Pino do Mosfet</h1>
             <p>Selecione ou digite o pino do Mosfet correspondente:</p>
-            <div class="product-grid" id="botoes-pino">
-                </div>
+            <div class="product-grid" id="botoes-pino"></div>
             <div class="input-group">
                 <input type="number" id="input-pino-custom" placeholder="Outro pino (Ex: 8)" min="3" max="14">
             </div>
@@ -112,16 +119,16 @@
             </div>
             <button class="voltar" id="btn-voltar-resumo" onclick="voltarPara('tela-dados-dispositivo')">← Voltar</button>
         </div>
-                <div class="terminal-container">
-        <h3>Console de Saída (Logs)</h3>
-        <div id="terminal-log">Aguardando início de processo...</div>
+
+    </div> <div class="terminal-container">
+        <div class="terminal-bar">
+            <h3>Console de Saída (Logs Globais)</h3>
+            <div class="terminal-scroll-btns">
+                <button onclick="document.getElementById('terminal-log').scrollTop = 0">▲ Topo</button>
+                <button onclick="document.getElementById('terminal-log').scrollTop = document.getElementById('terminal-log').scrollHeight">▼ Fim</button>
+            </div>
         </div>
-        <div class="header-container">
-  <h2>Firmware Chavi</h2>
-  <button id="btn-atualizar-software" class="btn-upgrade">🔄 Verificar Atualizações</button>
-</div>
-
-
+        <div id="terminal-log">Aguardando início de processo...</div>
     </div>
 
     <script src="script.js"></script>

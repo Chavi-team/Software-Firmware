@@ -1,7 +1,3 @@
-import { listen } from '@tauri-apps/api/event';
-import { check } from '@tauri-apps/plugin-updater';
-import { relaunch } from '@tauri-apps/plugin-process';
-
 // ===== ESTADO GLOBAL DO PRODUTO =====
 const estado = {
     produto: null,
@@ -31,6 +27,31 @@ function mostrarTela(idTela) {
 
 function voltarPara(idTela) {
     mostrarTela(idTela);
+}
+
+function voltarParaInicio() {
+    estado.produto = null;
+    estado.hardwareBase = null;
+    estado.mosfet = null;
+    estado.pinoMosfet = "";
+    estado.canal = "";
+    estado.firmwareId = "";
+    estado.macAddress = "";
+    estado.serialNumber = "";
+    estado.hardwareVersionStr = "";
+
+    const inputCanal = document.getElementById('input-canal');
+    const inputFirmware = document.getElementById('input-firmware-id');
+    const inputPinoCustom = document.getElementById('input-pino-custom');
+
+    if (inputCanal) inputCanal.value = '';
+    if (inputFirmware) inputFirmware.value = '';
+    if (inputPinoCustom) inputPinoCustom.value = '';
+
+    const painelStatus = document.getElementById('status-execucao');
+    if (painelStatus) painelStatus.style.display = 'none';
+
+    mostrarTela('tela-produto');
 }
 
 // ===== SELEÇÃO DE PRODUTO & HARDWARE =====
@@ -77,14 +98,15 @@ function montarOpcoesPino() {
     container.innerHTML = '';
     document.getElementById('input-pino-custom').value = '';
 
+    let pinosSugeridos = [];
     if (estado.hardwareBase === "1_0") {
         document.getElementById('input-pino-custom').disabled = true;
         document.getElementById('input-pino-custom').placeholder = "Hardware 1.0 exige pinos 7, 8 ou 9";
-        var pinosSugeridos = [7, 8, 9];
+        pinosSugeridos = [7, 8, 9];
     } else {
         document.getElementById('input-pino-custom').disabled = false;
         document.getElementById('input-pino-custom').placeholder = "Outro pino (3 a 14)";
-        var pinosSugeridos = [3, 5, 6, 8, 12]; 
+        pinosSugeridos = [3, 5, 6, 8, 12]; 
     }
 
     pinosSugeridos.forEach(pino => {
@@ -118,7 +140,9 @@ function salvarPinoCustomizado() {
 
 function configurarBotaoVoltarDados(comMosfet) {
     const botaoVoltar = document.getElementById('voltar-de-dados');
-    botaoVoltar.onclick = () => mostrarTela(comMosfet ? 'tela-pino-mosfet' : 'tela-mosfet');
+    if (botaoVoltar) {
+        botaoVoltar.onclick = () => mostrarTela(comMosfet ? 'tela-pino-mosfet' : 'tela-mosfet');
+    }
 }
 
 // ===== TRATAMENTO DE DADOS INICIAIS =====
@@ -151,11 +175,10 @@ function mostrarResumo() {
 
     document.getElementById('resumo-conteudo').textContent = JSON.stringify(estadoExibicao, null, 2);
     
-    let comandoPreview = `./upload2.sh -ch ${parseInt(estado.canal)} -fi ${parseInt(estado.firmwareId)} -hw ${estado.hardwareBase}`;
-    if (estado.mosfet) {
-        comandoPreview += ` -mosfet ${estado.pinoMosfet}`;
+    let comandoPreview = `./upload ${estado.serialNumber} ${estado.hardwareVersionStr}`;
+    if (estado.pinoMosfet) {
+        comandoPreview += ` ${estado.pinoMosfet}`;
     }
-    comandoPreview += ` -mac "AGUARDANDO_SCAN"`;
 
     document.getElementById('comando-string').textContent = comandoPreview;
     mostrarTela('tela-resumo');
@@ -168,25 +191,20 @@ function processarAcao(tipoAcao) {
     const gridBotoes = document.getElementById('grid-acoes');
     const btnVoltar = document.getElementById('btn-voltar-resumo');
 
-    // Bloqueia a interface para evitar duplo clique acidental do operador
     gridBotoes.style.pointerEvents = 'none';
     gridBotoes.style.opacity = '0.5';
     btnVoltar.style.display = 'none';
     painelStatus.style.display = 'block';
 
-// ==========================================
-    // FLUXO ISOLADO: APENAS FIRMWARE (Via Rust)
-    // ==========================================
-    if (tipoAcao === 'apenas_firmware') {
+    const invokeTauri = window.__TAURI__?.core?.invoke;
+
+    if (tipoAcao === 'apenas_firmware' || tipoAcao === 'completo_com_cadastro' || tipoAcao === 'completo_sem_cadastro') {
         textoStatus.style.color = "#fbbf24";
         painelStatus.style.borderLeftColor = "#fbbf24";
-        textoStatus.innerText = `📦 [COMPILAÇÃO ISOLADA] Iniciando motor portátil Chavi para hardware ${estado.hardwareVersionStr}...`;
-
-        // Garante compatibilidade total pegando o invoke injetado no v2
-        const invokeTauri = window.__TAURI__?.core?.invoke;
+        textoStatus.innerText = `📦 [GRAVAÇÃO FÍSICA] Executando ./upload para hardware ${estado.hardwareVersionStr}...`;
 
         if (!invokeTauri) {
-            textoStatus.innerText = `❌ Erro de Sistema: Objeto global do Tauri não encontrado. Reinicie o app pelo terminal.`;
+            textoStatus.innerText = `❌ Erro de Sistema: Objeto global do Tauri não encontrado.`;
             textoStatus.style.color = "#ef4444";
             painelStatus.style.borderLeftColor = "#ef4444";
             gridBotoes.style.pointerEvents = 'all';
@@ -201,9 +219,15 @@ function processarAcao(tipoAcao) {
             mosfetPin: estado.pinoMosfet
         })
         .then((mensagemSucesso) => {
-            textoStatus.innerText = `✅ Sucesso: ${mensagemSucesso}`;
+            textoStatus.innerText = `✅ Sucesso Hardware: ${mensagemSucesso}`;
             textoStatus.style.color = "#10b981";
             painelStatus.style.borderLeftColor = "#10b981";
+            
+            if (tipoAcao !== 'apenas_firmware') {
+                setTimeout(() => {
+                    textoStatus.innerText = `📟 Firmware gravado! Inicie o script AT.py no terminal para configurar via rádio.`;
+                }, 2000);
+            }
         })
         .catch((erroBackend) => {
             textoStatus.innerText = `❌ Falha no Processo:\n${erroBackend}`;
@@ -219,105 +243,105 @@ function processarAcao(tipoAcao) {
         return; 
     }
 
-    // ==========================================
-    // FLUXOS RESTANTES (Simulados ou futuras rotinas Python)
-    // ==========================================
+    if (tipoAcao === 'apenas_at') {
+        textoStatus.style.color = "#38bdf8";
+        painelStatus.style.borderLeftColor = "#38bdf8";
+        textoStatus.innerText = `📟 Modo de Configuração de Rádio: Use o arquivo AT.py no terminal do macOS para ler o MAC real via AT+ADDR? e salvar o nome ${estado.serialNumber.substring(2)}.`;
+        
+        gridBotoes.style.pointerEvents = 'all';
+        gridBotoes.style.opacity = '1';
+        btnVoltar.style.display = 'inline-block';
+        return;
+    }
+
     textoStatus.style.color = "#fbbf24";
     painelStatus.style.borderLeftColor = "#fbbf24";
-    textoStatus.innerText = "🔍 [FASE 1] Bluetooth Ativo: Escaneando MAC Address do dispositivo...";
+    textoStatus.innerText = "🧪 [TESTE] Rodando rotina de validação de periféricos...";
 
     setTimeout(() => {
-        estado.macAddress = "00:11:22:33:44:55"; 
-        
-        let comandoReal = `./upload2.sh -ch ${parseInt(estado.canal)} -fi ${parseInt(estado.firmwareId)} -hw ${estado.hardwareBase}`;
-        if (estado.mosfet) {
-            comandoReal += ` -mosfet ${estado.pinoMosfet}`;
-        }
-        comandoReal += ` -mac "${estado.macAddress}"`;
-        document.getElementById('comando-string').textContent = comandoReal;
-
-        textoStatus.style.color = "#34d399";
-        painelStatus.style.borderLeftColor = "#34d399";
-        
-        if (tipoAcao === 'completo_com_cadastro') {
-            textoStatus.innerText = `⚡ [FASE 2] MAC: ${estado.macAddress} -> Gravando firmware (${estado.hardwareVersionStr}) e cadastrando equipamento...`;
-        } else if (tipoAcao === 'completo_sem_cadastro') {
-            textoStatus.innerText = `⚙️ [FASE 2] MAC: ${estado.macAddress} -> Executando gravação via upload2.sh...`;
-        } else if (tipoAcao === 'apenas_at') {
-            textoStatus.innerText = `📟 [FASE 2] MAC: ${estado.macAddress} -> Injetando comandos AT via ble.py...`;
-        } else if (tipoAcao === 'apenas_teste') {
-            textoStatus.innerText = `🧪 [FASE 2] MAC: ${estado.macAddress} -> Rodando rotina de testes de hardware...`;
-        }
-
-        setTimeout(() => {
-            textoStatus.innerText = "✅ Processo concluído com sucesso na bancada!";
-            textoStatus.style.color = "#10b981";
-            painelStatus.style.borderLeftColor = "#10b981";
-
-            gridBotoes.style.pointerEvents = 'all';
-            gridBotoes.style.opacity = '1';
-            btnVoltar.style.display = 'inline-block';
-        }, 3000);
-
+        textoStatus.innerText = "✅ Teste concluído com sucesso na bancada!";
+        textoStatus.style.color = "#10b981";
+        painelStatus.style.borderLeftColor = "#10b981";
+        gridBotoes.style.pointerEvents = 'all';
+        gridBotoes.style.opacity = '1';
+        btnVoltar.style.display = 'inline-block';
     }, 2000);
 }
 
-async function verificarAtualizacaoAutomatica() {
+// ===== ATUALIZAÇÃO DO TAURI V2 =====
+async function verificarAtualizacaoAutomatica(manual = false) {
   try {
-    // Importa o módulo do updater de dentro do ecossistema Tauri global
-    const { checkUpdate, installUpdate } = window.__TAURI__.updater;
-    const { relaunch } = window.__TAURI__.process;
-
+    if (!window.__TAURI__?.updater) return;
+    
+    const { check } = window.__TAURI__.updater;
     console.log("Checando se existem novas atualizações...");
-    const update = await checkUpdate();
+    const update = await check();
 
-    if (update.shouldUpdate) {
-      console.log(`Nova versão encontrada: ${update.manifest.version}`);
-      
-      // Opcional: Avisar o usuário com um alert ou modal customizado na tela
-      // Se quiser que seja 100% invisível, delete a linha do alert abaixo
-      alert(`Uma nova versão (${update.manifest.version}) está disponível! Vamos atualizar o sistema agora.`);
-
-      // Dispara o download e a instalação em segundo plano
-      await installUpdate();
-      
-      // Reinicia o aplicativo automaticamente já na versão nova
-      await relaunch();
+    if (update) {
+      alert(`Uma nova versão (${update.version}) está disponível! Atualizando agora...`);
+      await update.downloadAndInstall();
+      if (window.__TAURI__?.process?.relaunch) {
+          await window.__TAURI__.process.relaunch();
+      }
     } else {
       console.log("O software já está na versão mais recente.");
+      if (manual) alert("O software já está na versão mais recente!");
     }
   } catch (error) {
-    console.error("Erro ao tentar buscar atualizações automaticamente:", error);
+    console.error("Erro ao carregar o updater:", error);
+    if (manual) alert("Falha na checagem de atualizações.");
   }
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
-  
-  // ==================== 1. FLUXO DE ATUALIZAÇÃO AUTOMÁTICA ====================
-  // Executa a primeira checagem assim que o app abre
+// ===== FUNÇÃO DO BOTÃO "SAIR" (FECHAMENTO NATIVO DO TAURI) =====
+function fecharAplicativo() {
+    if (confirm("Deseja realmente fechar o Gerenciador de Firmware?")) {
+        if (window.__TAURI__?.process?.exit) {
+            window.__TAURI__.process.exit(0);
+        } else if (window.__TAURI__?.window?.getCurrentWindow) {
+            window.__TAURI__.window.getCurrentWindow().close();
+        } else {
+            window.close();
+        }
+    }
+}
+
+// ===== INICIALIZAÇÃO SEGURA DO DOM =====
+window.addEventListener('DOMContentLoaded', () => {
   verificarAtualizacaoAutomatica();
+  setInterval(() => verificarAtualizacaoAutomatica(), 3600000); 
 
-  // Fica rodando a verificação em loop em background a cada 1 hora
-  setInterval(verificarAtualizacaoAutomatica, 3600000); 
+  // Mapeia o clique manual de atualização
+  const btnManual = document.getElementById('btn-atualizar-software');
+  if (btnManual) {
+      btnManual.onclick = () => verificarAtualizacaoAutomatica(true);
+  }
 
-  // ==================== 2. FLUXO DO TERMINAL DE LOGS DO AVRDUDE ====================
-  const minhaCaixaDeLog = document.getElementById("seu-elemento-de-terminal");
+  // Mapeia o clique do botão de fechar via ID (se aplicável)
+  const botaoSair = document.getElementById('btn-sair-app');
+  if (botaoSair) {
+      botaoSair.addEventListener('click', fecharAplicativo);
+  }
 
-  if (minhaCaixaDeLog) {
-    // Começa a escutar o canal contínuo de logs enviado pela Thread do Rust
-    await listen('log-terminal', (event) => {
-      // Se um novo processo começar, limpa a tela para a nova gravação
-      if (event.payload.includes("🚀 Preparando")) {
+  // Escuta ativa do console de logs do Tauri
+  const minhaCaixaDeLog = document.getElementById("terminal-log");
+  if (minhaCaixaDeLog && window.__TAURI__?.event?.listen) {
+    window.__TAURI__.event.listen('log-terminal', (event) => {
+      if (event.payload.includes("🚀 Iniciando")) {
         minhaCaixaDeLog.innerText = "";
       }
-
-      // Acrescenta a linha enviada pelo avrdude/sistema na sua interface gráfica
       minhaCaixaDeLog.innerText += event.payload;
-      
-      // Auto-scroll: joga a barra de rolagem sempre para baixo para acompanhar o progresso em tempo real
       minhaCaixaDeLog.scrollTop = minhaCaixaDeLog.scrollHeight;
     });
-  } else {
-    console.error("Erro: O elemento HTML do terminal não foi encontrado na página.");
   }
 });
+
+// ===== MAPEAMENTO DO ESCOPO GLOBAL PARA CLIQUES NO HTML =====
+window.selecionarProduto = selecionarProduto;
+window.voltarPara = voltarPara;
+window.voltarParaInicio = voltarParaInicio;
+window.selecionarMosfet = selecionarMosfet;
+window.salvarPinoCustomizado = salvarPinoCustomizado;
+window.validarEDecidirResumo = validarEDecidirResumo;
+window.processarAcao = processarAcao;
+window.fecharAplicativo = fecharAplicativo;

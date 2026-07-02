@@ -181,31 +181,46 @@ async fn scan_ble_devices() -> Result<Vec<BleDevice>, String> {
 }
 
 #[tauri::command]
-async fn connect_ble_device(state: tauri::State<'_, AppBleState>, id: String) -> Result<String, String> {
+async fn connect_ble_device(id: String) -> Result<(), String> {
     let manager = BleManager::new().await.map_err(|e| e.to_string())?;
     let adapters = manager.adapters().await.map_err(|e| e.to_string())?;
-    let central = &adapters[0];
-    let peripherals = central.peripherals().await.map_err(|e| e.to_string())?;
-    
-    for peripheral in peripherals {
-        if peripheral.id().to_string() == id {
-            // Executa o Handshake Bluetooth
-            peripheral.connect().await.map_err(|e| format!("Conexão recusada: {}", e))?;
-            
-            // Coleta a árvore GATT do microcontrolador para manter a sessão válida
-            peripheral.discover_services().await.map_err(|e| format!("Falha de GATT: {}", e))?;
-            
-            // Retém a placa conectada isolando o escopo do MutexGuard para evitar travas assíncronas
-            {
-                let mut session_guard = state.dispositivo_conectado.lock().unwrap();
-                *session_guard = Some(peripheral);
+    let adapter = adapters.into_iter().next().ok_or("Nenhum adaptador Bluetooth encontrado.")?;
+
+    let mut tentativas = 0;
+    let max_tentativas = 3;
+
+    while tentativas < max_tentativas {
+        println!("🔄 [CONEXÃO] Tentativa {} de obter a placa no cache...", tentativas + 1);
+        
+        // 1. Força o início do scan para obrigar o CoreBluetooth do macOS a achar o dispositivo
+        let _ = adapter.start_scan(ScanFilter::default()).await;
+        tokio::time::sleep(std::time::Duration::from_millis(800)).await;
+        let _ = adapter.stop_scan().await;
+
+        // 2. Vasculha a lista atualizada de periféricos
+        let peripherals = adapter.peripherals().await.map_err(|e| e.to_string())?;
+        for peripheral in peripherals {
+            if peripheral.id().to_string().contains(&id) {
+                println!("🎯 Placa encontrada no cache! Tentando handshake físico...");
+                
+                // 3. Tenta conectar. Se falhar, damos um pequeno tempo e tentamos o loop de novo
+                match peripheral.connect().await {
+                    Ok(_) => {
+                        println!("✅ Conectado com sucesso ao barramento da placa!");
+                        return Ok(());
+                    }
+                    Err(e) => {
+                        println!("⚠️ Falha no handshake desta tentativa: {}", e);
+                    }
+                }
             }
-            
-            return Ok("Placa sincronizada!".to_string());
         }
+
+        tentativas += 1;
+        tokio::time::sleep(std::time::Duration::from_millis(500)).await;
     }
-    
-    Err("A placa selecionada sumiu do alcance do rádio.".to_string())
+
+    Err("A placa selecionada sumiu do alcance do rádio após várias tentativas. Desligue e ligue o Bluetooth do Mac se o problema persistir.".to_string())
 }
 
 #[tauri::command]

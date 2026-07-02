@@ -155,12 +155,118 @@ async function iniciarScanManual() {
     }
 }
 
+// ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
+
+// ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
+
 async function conectarBleSelecionado() {
     if (!dispositivoBleSelecionadoId) {
         alert("Por favor, clique em um dispositivo da lista antes de conectar!");
         return;
     }
+    
+    const btnConectar = document.getElementById('btn-conectar-ble');
+    if (btnConectar) { 
+        btnConectar.innerText = "⏳ Sincronizando Rádio..."; 
+        btnConectar.style.background = "#eab308"; 
+    }
+    
+    appendTerminalAT(`\nAcordando barramento Bluetooth para o identificador selecionado...\n`, "info");
+    
+    // Força um mini delay para limpar buffers pendentes do sistema operacional
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
     await realizarConexaoFisica(dispositivoBleSelecionadoId);
+}
+
+async function realizarConexaoFisica(idPlaca) {
+    const btnConectar = document.getElementById('btn-conectar-ble');
+    if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
+
+    logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
+    appendTerminalAT(`Conectando a [${idPlaca}]...\n`, "comando");
+
+    try {
+        if (window.__TAURI__) {
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            
+            // 1. DICA DE OURO: Executa um scan rápido em background para atualizar o cache do macOS
+            // Isso evita o erro de "placa sumiu do alcance do rádio"
+            try {
+                await invoke("scan_ble_devices"); 
+            } catch(e) {
+                console.log("Aviso de pré-scan ignorado", e);
+            }
+
+            // 2. Tenta a conexão física real no Rust
+            await invoke("connect_ble_device", { id: idPlaca });
+        } else {
+            // Simulador local web
+            await new Promise(r => setTimeout(r, 1000));
+        }
+
+        logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
+        appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
+
+        // REVELAÇÃO DA ÁREA DE COMANDOS
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'block', 'important');
+            areaComandos.scrollIntoView({ behavior: 'smooth' });
+        }
+
+    } catch (e) {
+        logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
+        appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
+        
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'none', 'important');
+        }
+    } finally {
+        if (btnConectar) { btnConectar.innerText = "⚡ Conectar ao Selecionado"; btnConectar.style.background = "#3b82f6"; }
+    }
+}
+
+async function realizarConexaoFisica(idPlaca) {
+    const btnConectar = document.getElementById('btn-conectar-ble');
+    if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
+
+    logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
+    appendTerminalAT(`Conectando a [${idPlaca}]...\n`, "comando");
+
+    try {
+        if (window.__TAURI__) {
+            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
+            
+            // Invoca o Rust passando o parâmetro correto
+            await invoke("connect_ble_device", { id: idPlaca });
+        } else {
+            // Simulador local web
+            await new Promise(r => setTimeout(r, 1000));
+        }
+
+        logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
+        appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
+
+        // REVELAÇÃO DA ÁREA DE COMANDOS
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'block', 'important');
+            areaComandos.scrollIntoView({ behavior: 'smooth' });
+        }
+
+    } catch (e) {
+        logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
+        appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
+        
+        const areaComandos = document.getElementById('area-comandos-at-secreta');
+        if (areaComandos) {
+            areaComandos.style.setProperty('display', 'none', 'important');
+        }
+    } finally {
+        if (btnConectar) { btnConectar.innerText = "⚡ Conectar ao Selecionado"; btnConectar.style.background = "#3b82f6"; }
+    }
 }
 
 // ================= MODO 2: RADAR AUTO-DETECÇÃO =================

@@ -8,9 +8,13 @@ use tauri::path::BaseDirectory;
 use tauri::Emitter; 
 
 // Imports para Bluetooth BLE (btleplug) e concorrência estática
-use btleplug::api::{Central, Manager as _, Peripheral, ScanFilter};
+use btleplug::api::{Central, WriteType, Manager as _, Peripheral, ScanFilter};
 use btleplug::platform::{Manager as BleManager, Peripheral as BlePeripheral};
 use std::sync::Mutex;
+use uuid::Uuid;
+
+// CORREÇÃO: Usando a trait de stream que o btleplug/futures-util traz nativamente para o escopo
+use futures_util::stream::StreamExt;
 
 // Importa o PathResolver apenas no Windows para evitar warnings no macOS/Linux
 #[cfg(target_os = "windows")]
@@ -153,10 +157,8 @@ async fn scan_ble_devices() -> Result<Vec<BleDevice>, String> {
     }
     
     let central = &adapters[0];
-    // Inicia a varredura ativa de barramento
     central.start_scan(ScanFilter::default()).await.map_err(|e| e.to_string())?;
     
-    // Pequena janela de delay assíncrono controlado (1.2s) para receber os pacotes com segurança
     tokio::time::sleep(std::time::Duration::from_millis(1200)).await;
     
     let peripherals = central.peripherals().await.map_err(|e| e.to_string())?;
@@ -164,13 +166,11 @@ async fn scan_ble_devices() -> Result<Vec<BleDevice>, String> {
     
     for peripheral in peripherals {
         if let Some(properties) = peripheral.properties().await.map_err(|e| e.to_string())? {
-            // Usamos .clone() aqui para não destruir o objeto properties original
             let nome_dispositivo = properties.local_name.clone().unwrap_or_else(|| "Dispositivo Desconhecido".to_string());
             
-            // Simplificado: Se o nome contém "CHAVI" ou se a placa tem qualquer nome válido (não é anônima), entra na lista
             if nome_dispositivo.to_uppercase().contains("CHAVI") || properties.local_name.is_some() {
                 lista_filtrada.push(BleDevice {
-                    id: peripheral.id().to_string(), // Mac ou UUID de forma nativa por OS
+                    id: peripheral.id().to_string(),
                     name: nome_dispositivo,
                 });
             }
@@ -181,7 +181,10 @@ async fn scan_ble_devices() -> Result<Vec<BleDevice>, String> {
 }
 
 #[tauri::command]
-async fn connect_ble_device(id: String) -> Result<(), String> {
+async fn connect_ble_device(
+    state: tauri::State<'_, AppBleState>, 
+    id: String
+) -> Result<(), String> {
     let manager = BleManager::new().await.map_err(|e| e.to_string())?;
     let adapters = manager.adapters().await.map_err(|e| e.to_string())?;
     let adapter = adapters.into_iter().next().ok_or("Nenhum adaptador Bluetooth encontrado.")?;
@@ -189,24 +192,26 @@ async fn connect_ble_device(id: String) -> Result<(), String> {
     let mut tentativas = 0;
     let max_tentativas = 3;
 
+    // CORREÇÃO: Variável ajustada de 'tentatives' para 'tentativas' para coincidir com a definição acima
     while tentativas < max_tentativas {
         println!("🔄 [CONEXÃO] Tentativa {} de obter a placa no cache...", tentativas + 1);
         
-        // 1. Força o início do scan para obrigar o CoreBluetooth do macOS a achar o dispositivo
         let _ = adapter.start_scan(ScanFilter::default()).await;
         tokio::time::sleep(std::time::Duration::from_millis(800)).await;
         let _ = adapter.stop_scan().await;
 
-        // 2. Vasculha a lista atualizada de periféricos
         let peripherals = adapter.peripherals().await.map_err(|e| e.to_string())?;
         for peripheral in peripherals {
             if peripheral.id().to_string().contains(&id) {
                 println!("🎯 Placa encontrada no cache! Tentando handshake físico...");
                 
-                // 3. Tenta conectar. Se falhar, damos um pequeno tempo e tentamos o loop de novo
                 match peripheral.connect().await {
                     Ok(_) => {
                         println!("✅ Conectado com sucesso ao barramento da placa!");
+                        
+                        let mut session_guard = state.dispositivo_conectado.lock().unwrap();
+                        *session_guard = Some(peripheral);
+                        
                         return Ok(());
                     }
                     Err(e) => {
@@ -220,33 +225,72 @@ async fn connect_ble_device(id: String) -> Result<(), String> {
         tokio::time::sleep(std::time::Duration::from_millis(500)).await;
     }
 
-    Err("A placa selecionada sumiu do alcance do rádio após várias tentativas. Desligue e ligue o Bluetooth do Mac se o problema persistir.".to_string())
+    Err("A placa selecionada sumiu do alcance do rádio após várias tentativas.".to_string())
 }
 
 #[tauri::command]
 async fn send_at_command(state: tauri::State<'_, AppBleState>, comando: String) -> Result<String, String> {
-    // Escopo temporário isolado: abre o Mutex rapidamente apenas para clonar a referência do dispositivo
     let peripheral_opt = {
         let session_guard = state.dispositivo_conectado.lock().unwrap();
-        session_guard.clone() // Clonar o Peripheral do btleplug é uma operação leve (usa Arc internamente)
-    }; // O MutexGuard é destruído exatamente aqui, liberando a thread!
+        session_guard.clone() 
+    }; 
 
     if let Some(peripheral) = peripheral_opt {
-        // Agora o uso do .await está liberado e seguro contra travamento de threads (Send)
         if !peripheral.is_connected().await.unwrap_or(false) {
             return Err("A placa desconectou do Bluetooth.".to_string());
         }
         
-        // Formata o comando AT com as quebras de linha seriais (\r\n) obrigatórias
-        let _comando_formatado = format!("{}\r\n", comando);
+        let comando_formatado = format!("{}\r\n", comando);
         
-        // Em produção, você mapearia os UUIDs de TX/RX e usaria o write:
-        // peripheral.write(&char_rx, _comando_formatado.as_bytes(), WriteType::WithoutResponse).await;
+        peripheral.discover_services().await.map_err(|e| format!("Erro ao descobrir serviços: {}", e))?;
         
-        println!("Comando enviado para placa via BLE: {}", comando);
-        
-        // Devolve o feedback "OK" que o terminal do seu frontend espera ler
-        return Ok("OK".to_string());
+        let target_characteristic_uuid = Uuid::parse_str("0000FFE1-0000-1000-8000-00805F9B34FB")
+            .map_err(|e| e.to_string())?;
+
+        let characteristics = peripheral.characteristics();
+        let characteristic_alvo = characteristics
+            .iter()
+            .find(|c| c.uuid == target_characteristic_uuid)
+            .ok_or("Característica serial (FFE1) não encontrada nesta placa.")?;
+
+        // 1. Assina as notificações (sub) do canal BLE
+        peripheral.subscribe(characteristic_alvo).await
+            .map_err(|e| format!("Falha ao assinar notificações: {}", e))?;
+
+        // 2. Abre o fluxo de buffer
+        let mut notification_stream = peripheral.notifications().await
+            .map_err(|e| format!("Falha ao abrir stream de dados: {}", e))?;
+
+        println!("📤 Transmitindo para placa via BLE: {}", comando_formatado.trim());
+
+        // 3. Escreve o comando AT no barramento
+        peripheral
+            .write(characteristic_alvo, comando_formatado.as_bytes(), WriteType::WithoutResponse)
+            .await
+            .map_err(|e| format!("Falha ao escrever no barramento: {}", e))?;
+
+        // 4. Aguarda e extrai a notificação com limite máximo de 800ms
+        let resultado_resposta = tokio::time::timeout(
+            std::time::Duration::from_millis(800),
+            notification_stream.next()
+        ).await;
+
+        // 5. Limpa a assinatura para deixar o canal pronto para o próximo comando
+        let _ = peripheral.unsubscribe(characteristic_alvo).await;
+
+        // 6. Decodifica o retorno real obtido no ar
+        match resultado_resposta {
+            Ok(Some(notification)) => {
+                let resposta_texto = String::from_utf8_lossy(&notification.value).trim().to_string();
+                if resposta_texto.is_empty() {
+                    return Ok("OK (Vazio)".to_string());
+                }
+                return Ok(resposta_texto);
+            }
+            _ => {
+                return Ok("OK".to_string());
+            }
+        }
     }
     
     Err("Não há nenhuma placa conectada ao aplicativo.".to_string())
@@ -256,14 +300,12 @@ async fn send_at_command(state: tauri::State<'_, AppBleState>, comando: String) 
 
 fn main() {
     tauri::Builder::default()
-        // Injeta o Estado Mutex do Bluetooth no ciclo de memória do Tauri
         .manage(AppBleState {
             dispositivo_conectado: Mutex::new(None),
         })
         .plugin(tauri_plugin_updater::Builder::new().build())
         
         .setup(|_app| {
-            // Bloco do Windows para instalar o driver USBasp
             #[cfg(target_os = "windows")]
             {
                 if let Ok(resource_path) = _app.path().resolve_directory("resources/driver-usbasp", BaseDirectory::Resource) {
@@ -285,7 +327,6 @@ fn main() {
         .expect("erro ao rodar a aplicação Tauri");
 }
 
-// Esta função e seus imports internos só existem quando o compilador gerar o código para Windows
 #[cfg(target_os = "windows")]
 fn executar_instalador_windows(path: std::path::PathBuf) {
     let _ = Command::new(path).spawn();

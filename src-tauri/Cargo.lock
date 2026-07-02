@@ -80,6 +80,7 @@ name = "app"
 version = "0.1.0"
 dependencies = [
  "btleplug",
+ "futures-util",
  "log",
  "serde",
  "serde_json",
@@ -88,6 +89,7 @@ dependencies = [
  "tauri-plugin-log",
  "tauri-plugin-updater",
  "tokio",
+ "uuid",
 ]
 
 [[package]]

@@ -157,8 +157,6 @@ async function iniciarScanManual() {
 
 // ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
 
-// ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
-
 async function conectarBleSelecionado() {
     if (!dispositivoBleSelecionadoId) {
         alert("Por favor, clique em um dispositivo da lista antes de conectar!");
@@ -184,62 +182,20 @@ async function realizarConexaoFisica(idPlaca) {
     if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
 
     logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
-    appendTerminalAT(`Conectando a [${idPlaca}]...\n`, "comando");
+    appendTerminalAT(`\nConectando a [${idPlaca}]...\n`, "comando");
 
     try {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
             
-            // 1. DICA DE OURO: Executa um scan rápido em background para atualizar o cache do macOS
-            // Isso evita o erro de "placa sumiu do alcance do rádio"
+            // DICA DE OURO: Executa um scan rápido em background para atualizar o cache do rádio
             try {
                 await invoke("scan_ble_devices"); 
             } catch(e) {
                 console.log("Aviso de pré-scan ignorado", e);
             }
 
-            // 2. Tenta a conexão física real no Rust
-            await invoke("connect_ble_device", { id: idPlaca });
-        } else {
-            // Simulador local web
-            await new Promise(r => setTimeout(r, 1000));
-        }
-
-        logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
-        appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
-
-        // REVELAÇÃO DA ÁREA DE COMANDOS
-        const areaComandos = document.getElementById('area-comandos-at-secreta');
-        if (areaComandos) {
-            areaComandos.style.setProperty('display', 'block', 'important');
-            areaComandos.scrollIntoView({ behavior: 'smooth' });
-        }
-
-    } catch (e) {
-        logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
-        appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
-        
-        const areaComandos = document.getElementById('area-comandos-at-secreta');
-        if (areaComandos) {
-            areaComandos.style.setProperty('display', 'none', 'important');
-        }
-    } finally {
-        if (btnConectar) { btnConectar.innerText = "⚡ Conectar ao Selecionado"; btnConectar.style.background = "#3b82f6"; }
-    }
-}
-
-async function realizarConexaoFisica(idPlaca) {
-    const btnConectar = document.getElementById('btn-conectar-ble');
-    if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
-
-    logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
-    appendTerminalAT(`Conectando a [${idPlaca}]...\n`, "comando");
-
-    try {
-        if (window.__TAURI__) {
-            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
-            
-            // Invoca o Rust passando o parâmetro correto
+            // Tenta a conexão física real no Rust
             await invoke("connect_ble_device", { id: idPlaca });
         } else {
             // Simulador local web
@@ -353,55 +309,19 @@ function pararRadarAuto() {
     if (label) { label.innerText = "Radar em espera. Ligue uma nova placa..."; label.style.color = "#fbbf24"; }
 }
 
-// ================= EFETIVAÇÃO DE CONEXÃO E COMANDOS AT =================
-async function realizarConexaoFisica(idPlaca) {
-    const btnConectar = document.getElementById('btn-conectar-ble');
-    if (btnConectar) { btnConectar.innerText = "⚡ Conectando..."; btnConectar.style.background = "#eab308"; }
-
-    logNoConsoleDoApp(`Tentando conectar ao BLE: ${idPlaca}`, "info");
-    appendTerminalAT(`\nConectando a [${idPlaca}]...\n`, "comando");
-
-    try {
-        if (window.__TAURI__) {
-            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
-            await invoke("connect_ble_device", { id: idPlaca });
-        } else {
-            // Simulador local web (espera 1 segundo para simular o rádio)
-            await new Promise(r => setTimeout(r, 1000));
-        }
-
-        logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
-        appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
-
-        // CORREÇÃO: Revela a área aplicando block prioritário e faz o scroll macio
-        const areaComandos = document.getElementById('area-comandos-at-secreta');
-        if (areaComandos) {
-            areaComandos.style.setProperty('display', 'block', 'important');
-            areaComandos.scrollIntoView({ behavior: 'smooth' });
-        }
-
-    } catch (e) {
-        logNoConsoleDoApp(`Falha na conexão: ${e.message || e}`, "erro");
-        appendTerminalAT(`Falha crítica de conexão: ${e.message || e}\n`, "erro");
-        
-        // CORREÇÃO: Garante que continua oculto caso ocorra algum erro de barramento/conexão
-        const areaComandos = document.getElementById('area-comandos-at-secreta');
-        if (areaComandos) {
-            areaComandos.style.setProperty('display', 'none', 'important');
-        }
-    } finally {
-        if (btnConectar) { btnConectar.innerText = "⚡ Conectar ao Selecionado"; btnConectar.style.background = "#3b82f6"; }
-    }
-}
+// ================= TRANSMISSÃO DE COMANDOS AT COM SANITIZAÇÃO =================
 
 async function transmitirComandoAT(comandoString) {
-    logNoConsoleDoApp(`Enviando: ${comandoString}`, "envio");
-    appendTerminalAT(`> ${comandoString}\n`, "comando");
+    // Sanatização inteligente: Remove strings textuais contendo quebras de linha digitadas incorretamente (/n ou \n)
+    let comandoTratado = comandoString.replace(/\/n/g, '').replace(/\\n/g, '').trim();
+
+    logNoConsoleDoApp(`Enviando: ${comandoTratado}`, "envio");
+    appendTerminalAT(`> ${comandoTratado}\n`, "comando");
 
     try {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
-            const resposta = await invoke("send_at_command", { comando: comandoString });
+            const resposta = await invoke("send_at_command", { comando: comandoTratado });
             appendTerminalAT(`${resposta}\n`, "resposta");
         } else {
             setTimeout(() => {

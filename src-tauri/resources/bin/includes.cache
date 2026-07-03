@@ -19,8 +19,8 @@
   },
   {
     "compile": {
-      "source_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+      "source_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -54,12 +54,12 @@
         "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
         "-o",
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
       ]
     }
   },
@@ -71,8 +71,8 @@
   },
   {
     "compile": {
-      "source_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+      "source_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -107,12 +107,12 @@
         "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
         "-o",
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
       ]
     }
   },
@@ -124,8 +124,8 @@
   },
   {
     "compile": {
-      "source_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+      "source_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -161,12 +161,12 @@
         "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
         "-o",
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
       ]
     }
   },
@@ -178,8 +178,8 @@
   },
   {
     "compile": {
-      "source_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+      "source_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -216,12 +216,12 @@
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
         "-o",
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
       ]
     }
   },
@@ -233,8 +233,8 @@
   },
   {
     "compile": {
-      "source_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+      "source_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -272,12 +272,12 @@
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
         "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged",
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged",
         "-o",
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged.libsdetect.d"
       ]
     }
   },
@@ -287,7 +287,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/Wire.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/Wire.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/Wire.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -330,7 +330,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/Wire.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/Wire.cpp.libsdetect.d"
       ]
     }
   },
@@ -340,7 +340,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/utility/twi.c",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/utility/twi.c.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/utility/twi.c.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -383,7 +383,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/utility/twi.c.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/utility/twi.c.libsdetect.d"
       ]
     }
   },
@@ -393,7 +393,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src/SPI.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SPI/SPI.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SPI/SPI.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -436,7 +436,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SPI/SPI.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SPI/SPI.cpp.libsdetect.d"
       ]
     }
   },
@@ -446,7 +446,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src/SoftwareSerial.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -489,7 +489,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.libsdetect.d"
       ]
     }
   },
@@ -499,7 +499,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219/Adafruit_INA219.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -542,7 +542,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.libsdetect.d"
       ]
     }
   },
@@ -552,7 +552,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_BusIO_Register.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -595,7 +595,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.libsdetect.d"
       ]
     }
   },
@@ -605,7 +605,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_I2CDevice.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -648,7 +648,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.libsdetect.d"
       ]
     }
   },
@@ -658,7 +658,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_SPIDevice.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -701,7 +701,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.libsdetect.d"
       ]
     }
   },
@@ -711,7 +711,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/FastLED.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/FastLED.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/FastLED.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -754,7 +754,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/FastLED.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/FastLED.cpp.libsdetect.d"
       ]
     }
   },
@@ -764,7 +764,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/bitswap.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/bitswap.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/bitswap.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -807,7 +807,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/bitswap.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/bitswap.cpp.libsdetect.d"
       ]
     }
   },
@@ -817,7 +817,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorpalettes.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorpalettes.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorpalettes.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -860,7 +860,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorpalettes.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorpalettes.cpp.libsdetect.d"
       ]
     }
   },
@@ -870,7 +870,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorutils.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorutils.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorutils.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -913,7 +913,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorutils.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorutils.cpp.libsdetect.d"
       ]
     }
   },
@@ -923,7 +923,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/hsv2rgb.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/hsv2rgb.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/hsv2rgb.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -966,7 +966,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/hsv2rgb.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/hsv2rgb.cpp.libsdetect.d"
       ]
     }
   },
@@ -976,7 +976,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/lib8tion.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/lib8tion.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/lib8tion.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1019,7 +1019,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/lib8tion.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/lib8tion.cpp.libsdetect.d"
       ]
     }
   },
@@ -1029,7 +1029,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/noise.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/noise.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/noise.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1072,7 +1072,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/noise.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/noise.cpp.libsdetect.d"
       ]
     }
   },
@@ -1082,7 +1082,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms/esp/32/clockless_rmt_esp32.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1125,7 +1125,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.libsdetect.d"
       ]
     }
   },
@@ -1135,7 +1135,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1178,7 +1178,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms.cpp.libsdetect.d"
       ]
     }
   },
@@ -1188,7 +1188,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/power_mgt.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/power_mgt.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/power_mgt.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1231,7 +1231,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/power_mgt.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/power_mgt.cpp.libsdetect.d"
       ]
     }
   },
@@ -1241,7 +1241,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/wiring.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/wiring.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/wiring.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1284,7 +1284,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/wiring.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/wiring.cpp.libsdetect.d"
       ]
     }
   },
@@ -1294,7 +1294,7 @@
   {
     "compile": {
       "source_path": "/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab/LowPower.cpp",
-      "depfile_path": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.libsdetect.d"
+      "depfile_path": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.libsdetect.d"
     },
     "compile_task": {
       "args": [
@@ -1337,7 +1337,7 @@
         "/dev/null",
         "-MMD",
         "-MF",
-        "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.libsdetect.d"
+        "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.libsdetect.d"
       ]
     }
   },

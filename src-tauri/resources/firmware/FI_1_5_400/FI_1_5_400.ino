@@ -455,18 +455,21 @@ char CheckVersBLE(void) {
     return Aux;  // SOFT - FI = 360 - Retorna Aux
 }
 
-//*****************************************************************************************************************
-// Initial settings
+/*****************************************************************************************************************
+// Initial settings - VERSÃO ULTRA OTIMIZADA E ACELERADA (SEM TRAVAR O APP)
 //*****************************************************************************************************************
 long startTime;
 void setup() {
     startTime = millis();
     // Inicializações necessárias
     Serial.begin(9600);
-    // Outras inicializações, se houver
-    Serial.println("Iniciando...");
     setupSerials();
     setupPins();
+
+    // 💡 PASSO 1: Pequena folga física de 300ms para estabilizar as portas seriais e a energia
+    // do rádio antes de qualquer comando. Evita o travamento do buffer no app Tauri/Rust.
+    delay(300); 
+    Serial.println("Iniciando...");
 
     if (EEPROM.read(setupSeedOk) != 0x01) {  // entra aqui se não está configurado
         setupEEPROM();
@@ -500,7 +503,12 @@ void setup() {
         setupEEPROM();
 
         CheckVersBLE();                     // SOFT - FI = 360 - Confere a versao do BLE antes de executar comandos e enviar dados
-            interfaceFI(ON_SOUND_TONEDEFAULT);  // 0x03
+        interfaceFI(ON_SOUND_TONEDEFAULT);  // 0x03
+
+        // 💡 PASSO 2: Chamada limpa do Setup BLE. 
+        // Passamos 'false' para NÃO cortar a energia do rádio via MOSFET de forma bruta, 
+        // mantendo a conexão estável com o aplicativo de automação enquanto as configurações rodam.
+        setupBLE01(false); 
 
         flagSelectInterrupt = 0x01;  // Habilita função de reset do botão
         setupInterrupts();

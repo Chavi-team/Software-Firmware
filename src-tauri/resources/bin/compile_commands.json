@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -33,14 +33,14 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.o"
   ],
-  "file": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp"
+  "file": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
    "-c",
@@ -72,12 +72,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/utility/twi.c",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/utility/twi.c.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/utility/twi.c.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/utility/twi.c"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -112,12 +112,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/Wire.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Wire/Wire.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Wire/Wire.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src/Wire.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -152,12 +152,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src/SPI.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SPI/SPI.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SPI/SPI.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src/SPI.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -192,12 +192,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src/SoftwareSerial.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/SoftwareSerial/SoftwareSerial.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src/SoftwareSerial.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -232,12 +232,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219/Adafruit_INA219.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit INA219/Adafruit_INA219.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219/Adafruit_INA219.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -272,12 +272,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_BusIO_Register.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_BusIO_Register.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_BusIO_Register.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -312,12 +312,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_SPIDevice.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_SPIDevice.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_SPIDevice.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -352,12 +352,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_I2CDevice.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/Adafruit BusIO/Adafruit_I2CDevice.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO/Adafruit_I2CDevice.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -392,12 +392,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorutils.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorutils.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorutils.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorutils.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -432,172 +432,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/FastLED.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/FastLED.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/FastLED.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/FastLED.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms/esp/32/clockless_rmt_esp32.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms/esp/32/clockless_rmt_esp32.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/bitswap.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/bitswap.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/bitswap.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/noise.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/noise.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/noise.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
-   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorpalettes.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/colorpalettes.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorpalettes.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -632,12 +472,172 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/hsv2rgb.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/hsv2rgb.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/hsv2rgb.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/hsv2rgb.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
+   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/bitswap.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/bitswap.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/bitswap.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
+   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorpalettes.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/colorpalettes.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/colorpalettes.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
+   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/noise.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/noise.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/noise.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit BusIO",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit INA219",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/Wire/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SPI/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/EEPROM/src",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
+   "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms/esp/32/clockless_rmt_esp32.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms/esp/32/clockless_rmt_esp32.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms/esp/32/clockless_rmt_esp32.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -672,12 +672,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/lib8tion.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/lib8tion.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/lib8tion.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/lib8tion.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -712,12 +712,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/platforms.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/platforms.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/platforms.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -752,12 +752,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/power_mgt.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/power_mgt.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/power_mgt.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/power_mgt.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -792,12 +792,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/wiring.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/FastLED/wiring.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/FastLED/wiring.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/FastLED_3.6.0_3a2a4d45a2713b30/FastLED/src/wiring.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -832,204 +832,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/libraries/SoftwareSerial/src",
    "/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab/LowPower.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/libraries/LowPower_LowPowerLab/LowPower.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/LowPower_LowPowerLab_2.2_4c118b63a837dff6/LowPower_LowPowerLab/LowPower.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/CDC.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/CDC.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/CDC.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial1.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/HardwareSerial1.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial1.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/PluggableUSB.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/PluggableUSB.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/PluggableUSB.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/HardwareSerial.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial2.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/HardwareSerial2.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial2.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial0.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/HardwareSerial0.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial0.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1056,12 +864,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/IPAddress.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/IPAddress.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/IPAddress.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/IPAddress.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1088,12 +896,204 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial3.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/HardwareSerial3.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/HardwareSerial3.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial3.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial1.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/HardwareSerial1.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial1.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/PluggableUSB.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/PluggableUSB.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/PluggableUSB.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/HardwareSerial.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial2.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/HardwareSerial2.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial2.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial0.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/HardwareSerial0.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/HardwareSerial0.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/CDC.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/CDC.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/CDC.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1120,12 +1120,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Print.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/Print.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/Print.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Print.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1152,105 +1152,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Stream.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/Stream.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/Stream.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Stream.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu11",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WInterrupts.c",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/WInterrupts.c.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WInterrupts.c"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WMath.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/WMath.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WMath.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WString.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/WString.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WString.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1277,44 +1184,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Tone.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/Tone.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/Tone.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Tone.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu++17",
-   "-fpermissive",
-   "-fno-exceptions",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-fno-threadsafe-statics",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/abi.cpp",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/abi.cpp.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/abi.cpp"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1341,12 +1216,137 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/USBCore.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/USBCore.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/USBCore.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/USBCore.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu11",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WInterrupts.c",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/WInterrupts.c.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WInterrupts.c"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WMath.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/WMath.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WMath.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WString.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/WString.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WString.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu++17",
+   "-fpermissive",
+   "-fno-exceptions",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-fno-threadsafe-statics",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/abi.cpp",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/abi.cpp.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/abi.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
    "-c",
@@ -1370,12 +1370,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/hooks.c",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/hooks.c.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/hooks.c.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/hooks.c"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1402,12 +1402,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/main.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/main.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/main.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/main.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1434,63 +1434,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/new.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/new.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/new.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/new.cpp"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu11",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_digital.c",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_digital.c.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_digital.c"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
-   "-c",
-   "-g",
-   "-x",
-   "assembler-with-cpp",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.S",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_pulse.S.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.S"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
    "-c",
@@ -1514,12 +1463,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring.c",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring.c.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring.c.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring.c"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
    "-c",
@@ -1543,12 +1492,12 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_analog.c",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_analog.c.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_analog.c.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_analog.c"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
    "-c",
@@ -1570,43 +1519,14 @@
    "-Ifirmware/include",
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.c",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_digital.c",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_pulse.c.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_digital.c.o"
   ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.c"
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_digital.c"
  },
  {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
-  "arguments": [
-   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
-   "-c",
-   "-g",
-   "-Os",
-   "-w",
-   "-std=gnu11",
-   "-ffunction-sections",
-   "-fdata-sections",
-   "-MMD",
-   "-mmcu=atmega328p",
-   "-DF_CPU=16000000L",
-   "-DARDUINO=10607",
-   "-DARDUINO_AVR_ATmega328",
-   "-DARDUINO_ARCH_AVR",
-   "-Wextra",
-   "-flto",
-   "-g",
-   "-Ifirmware/include",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
-   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
-   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_shift.c",
-   "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_shift.c.o"
-  ],
-  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_shift.c"
- },
- {
-  "directory": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao",
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
   "arguments": [
    "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-g++",
    "-c",
@@ -1633,8 +1553,88 @@
    "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
    "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_extras.cpp",
    "-o",
-   "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/core/wiring_extras.cpp.o"
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_extras.cpp.o"
   ],
   "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_extras.cpp"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
+   "-c",
+   "-g",
+   "-x",
+   "assembler-with-cpp",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.S",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_pulse.S.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.S"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu11",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.c",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_pulse.c.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_pulse.c"
+ },
+ {
+  "directory": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources",
+  "arguments": [
+   "/Users/guilhermemendina/Library/Arduino15/internal/arduino_avr-gcc_7.3.0-atmel3.6.1-arduino7_fc423089e09cfcab/bin/avr-gcc",
+   "-c",
+   "-g",
+   "-Os",
+   "-w",
+   "-std=gnu11",
+   "-ffunction-sections",
+   "-fdata-sections",
+   "-MMD",
+   "-mmcu=atmega328p",
+   "-DF_CPU=16000000L",
+   "-DARDUINO=10607",
+   "-DARDUINO_AVR_ATmega328",
+   "-DARDUINO_ARCH_AVR",
+   "-Wextra",
+   "-flto",
+   "-g",
+   "-Ifirmware/include",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles",
+   "-I/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/variants/standard",
+   "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_shift.c",
+   "-o",
+   "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/bin/core/wiring_shift.c.o"
+  ],
+  "file": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/wiring_shift.c"
  }
 ]

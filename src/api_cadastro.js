@@ -111,7 +111,6 @@ const ApiCadastroEquipamento = {
     }
 };
 
-// PERSISTÊNCIA DOS DADOS EM LOCALSTORAGE (Segurança contra reloads do App)
 function obterDadosLote() {
     const salvo = localStorage.getItem("dadosFixosLoteChavi");
     return salvo ? JSON.parse(salvo) : null;
@@ -125,7 +124,6 @@ function limparDadosLote() {
     localStorage.removeItem("dadosFixosLoteChavi");
 }
 
-// Função principal de cadastro corrigida contra concorrência e reinicializações de página
 async function executarCadastroManual(event) {
     if (event) {
         event.preventDefault();
@@ -225,14 +223,12 @@ async function executarCadastroManual(event) {
             ? `Acionador cadastrado duplo com sucesso no Painel Imóvel!\nGerados:\n- ${seriaisGeradosAlert[0]}\n- ${seriaisGeradosAlert[1]}`
             : `Fechadura cadastrada com sucesso no Painel Imóvel!\nGerado: ${seriaisGeradosAlert[0]}`;
 
-        // Força a paragem total aqui!
         const querContinuar = confirm(`${mensagemConfirmacao}\n\nDeseja cadastrar outro equipamento mantendo as informações deste lote?`);
         
         if (querContinuar) {
             document.getElementById('input-cad-canal').value = '';
             document.getElementById('input-cad-firmware').value = '';
             document.getElementById('input-cad-canal').focus();
-            logNoConsoleDoApp(`Memória mantida para [${loteAtivo.equipamento}]. Aguardando Canal e ID da próxima placa...`, "info");
         } else {
             limparDadosLote();
             document.getElementById('input-cad-canal').value = '';
@@ -240,8 +236,6 @@ async function executarCadastroManual(event) {
 
             const blocoFixos = document.getElementById('campos-fixos-cadastro');
             if (blocoFixos) blocoFixos.style.display = 'block';
-
-            logNoConsoleDoApp("Fluxo de lote finalizado pelo operador. Retornando.", "info");
             voltarPara('tela-produto');
         }
     } else {
@@ -249,61 +243,6 @@ async function executarCadastroManual(event) {
     }
 }
 
-function abrirTelaCadastroManual() {
-    ocultarTodasAsTelas();
-    limparDadosLote(); // Garante lote limpo ao entrar de forma fresca na tela
-    
-    const blocoFixos = document.getElementById('campos-fixos-cadastro');
-    if (blocoFixos) blocoFixos.style.display = 'block';
-    
-    const tela = document.getElementById('tela-cadastro-equipamento');
-    if (tela) tela.style.display = 'block';
-}
-
-function ocultarTodasAsTelas() {
-    const telas = document.querySelectorAll('.tela');
-    telas.forEach(tela => tela.style.display = 'none');
-}
-
-function voltarPara(idTela) {
-    if (idTela === 'tela-produto') {
-        limparDadosLote();
-    }
-    ocultarTodasAsTelas();
-    const alvo = document.getElementById(idTela);
-    if (alvo) alvo.style.display = 'block';
-}
-
-function logNoConsoleDoApp(mensagem, tipo = "info") {
-    const consoleLog = document.getElementById('terminal-log');
-    if (!consoleLog) return;
-
-    const dataAtual = new Date().toLocaleTimeString();
-    let prefixo = `[${dataAtual}] `;
-    
-    if (tipo === "sucesso") prefixo += "✅ ";
-    else if (tipo === "erro") prefixo += "❌ ";
-    else if (tipo === "envio") prefixo += "📤 [ENVIO]: ";
-    else if (tipo === "resposta") prefixo += "📥 [RESPOSTA]: ";
-    else prefixo += "ℹ️ ";
-
-    consoleLog.innerHTML += `<br>${prefixo}${mensagem}`;
-    consoleLog.scrollTop = consoleLog.scrollHeight;
-}
-
-// Executa na inicialização do script para checar o estado atual da UI caso tenha ocorrido soft reload
-(function conferirEstadoLoteAtual() {
-    setTimeout(() => {
-        const loteAtivo = obterDadosLote();
-        const blocoFixos = document.getElementById('campos-fixos-cadastro');
-        if (loteAtivo && blocoFixos) {
-            blocoFixos.style.display = 'none';
-        }
-    }, 200);
-})();
-
 window.ApiCadastroEquipamento = ApiCadastroEquipamento;
 window.executarCadastroManual = executarCadastroManual;
-window.abrirTelaCadastroManual = abrirTelaCadastroManual;
-window.voltarPara = voltarPara;
-window.logNoConsoleDoApp = logNoConsoleDoApp;
+window.limparDadosLote = limparDadosLote;

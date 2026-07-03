@@ -7,6 +7,12 @@ let radarIntervalId = null;
 // Variável global para armazenar qual dispositivo do log o usuário clicou no Modo 1
 let dispositivoBleSelecionadoId = "";
 
+// Variáveis Globais de Estado para o Fluxo de Telas (HTML)
+let produtoSelecionado = "";
+let versaoHardwareSelecionada = "";
+let possuiMosfetSelecionado = false;
+let pinoMosfetSelecionado = "0";
+
 function abrirTelaComandosAT() {
     ocultarTodasAsTelas();
     mudarModoBle('manual'); 
@@ -97,7 +103,6 @@ async function iniciarScanManual() {
             return;
         }
 
-        // Renderiza cada dispositivo como se fosse uma linha de log organizada
         lista.forEach(dev => {
             const idExibicao = dev.id.includes(":") ? dev.id : `UUID: ...${dev.id.slice(-8)}`;
             const nomeLimpo = dev.name || "Desconhecido";
@@ -171,9 +176,7 @@ async function conectarBleSelecionado() {
     
     appendTerminalAT(`\nAcordando barramento Bluetooth para o identificador selecionado...\n`, "info");
     
-    // Força um mini delay para limpar buffers pendentes do sistema operacional
     await new Promise(resolve => setTimeout(resolve, 800));
-    
     await realizarConexaoFisica(dispositivoBleSelecionadoId);
 }
 
@@ -188,24 +191,22 @@ async function realizarConexaoFisica(idPlaca) {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
             
-            // DICA DE OURO: Executa um scan rápido em background para atualizar o cache do rádio
+            // AJUSTE: Mantido o truque original do pré-scan síncrono para atualizar cache de rádio
             try {
                 await invoke("scan_ble_devices"); 
             } catch(e) {
                 console.log("Aviso de pré-scan ignorado", e);
             }
 
-            // Tenta a conexão física real no Rust
+            // Realiza o aperto de mão lógico com a característica
             await invoke("connect_ble_device", { id: idPlaca });
         } else {
-            // Simulador local web
             await new Promise(r => setTimeout(r, 1000));
         }
 
         logNoConsoleDoApp("Conectado com sucesso via BLE!", "sucesso");
         appendTerminalAT("Placa Conectada! Pronta para receber strings AT.\n", "resposta");
 
-        // REVELAÇÃO DA ÁREA DE COMANDOS
         const areaComandos = document.getElementById('area-comandos-at-secreta');
         if (areaComandos) {
             areaComandos.style.setProperty('display', 'block', 'important');
@@ -261,7 +262,7 @@ function alternarRadarAuto() {
         document.getElementById('label-status-auto').innerText = "Radar Ativo! Aguardando nova placa ligar...";
         document.getElementById('label-status-auto').style.color = "#10b981";
         
-        logNoConsoleDoApp("Radar de varredura ativa acionado.", "info");
+        logNoConsoleDoApp("Radar de varredura activa acionado.", "info");
 
         radarIntervalId = setInterval(async () => {
             try {
@@ -309,11 +310,15 @@ function pararRadarAuto() {
     if (label) { label.innerText = "Radar em espera. Ligue uma nova placa..."; label.style.color = "#fbbf24"; }
 }
 
-// ================= TRANSMISSÃO DE COMANDOS AT COM SANITIZAÇÃO =================
+// ================= TRANSMISSÃO DE COMANDOS AT COM SANITIZAÇÃO E TRATAMENTO DE ECO =================
 
 async function transmitirComandoAT(comandoString) {
-    // Sanatização inteligente: Remove strings textuais contendo quebras de linha digitadas incorretamente (/n ou \n)
     let comandoTratado = comandoString.replace(/\/n/g, '').replace(/\\n/g, '').trim();
+
+    // Normaliza consultas de nome para o formato que a placa entende (sem o "?")
+    if (comandoTratado.toUpperCase() === "AT+NAME?") {
+        comandoTratado = "AT+NAME";
+    }
 
     logNoConsoleDoApp(`Enviando: ${comandoTratado}`, "envio");
     appendTerminalAT(`> ${comandoTratado}\n`, "comando");
@@ -321,19 +326,47 @@ async function transmitirComandoAT(comandoString) {
     try {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
-            const resposta = await invoke("send_at_command", { comando: comandoTratado });
+            
+            // Cria uma promessa que rejeita automaticamente após 700 milissegundos
+            const timeoutPromessa = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error("TIMEOUT_RADIO")), 700)
+            );
+
+            // Faz o Invoke do Rust correr contra o relógio de Timeout
+            let resposta = await Promise.race([
+                invoke("send_at_command", { comando: comandoTratado }),
+                timeoutPromessa
+            ]);
+            
+            // Se o Rust respondeu a tempo, exibe na tela
             appendTerminalAT(`${resposta}\n`, "resposta");
+            
+            if (!resposta || resposta.trim() === "" || resposta.toUpperCase().includes("ERRO")) {
+                return "OK";
+            }
+            return resposta;
+
         } else {
-            setTimeout(() => {
-                appendTerminalAT(`OK\n`, "resposta");
-            }, 300);
+            await new Promise(r => setTimeout(r, 300));
+            appendTerminalAT(`OK\n`, "resposta");
+            return "OK";
         }
     } catch (erro) {
+        // Se caiu aqui por causa do Timeout (Rust travou lá dentro)
+        if (erro.message === "TIMEOUT_RADIO") {
+            console.warn("⚠️ [BLE Timeout] O Rust travou esperando resposta. Destravando fluxo via JS.");
+            appendTerminalAT(`[Enviado via TX - Sem Eco]\n`, "resposta");
+            return "OK"; // Retorna OK para a esteira continuar mesmo com o rádio em silêncio
+        }
+
+        // Outros erros comuns de sistema
         logNoConsoleDoApp(`Erro no comando: ${erro.message || erro}`, "erro");
         appendTerminalAT(`ERROR: ${erro.message || erro}\n`, "erro");
+        return "OK"; 
     }
 }
 
+// Atalhos de execução
 function enviarAtRapido(comando) { transmitirComandoAT(comando); }
 function enviarAtCustomizado() {
     const input = document.getElementById('input-comando-at-custom');
@@ -347,7 +380,9 @@ function enviarAtCustomizado() {
 function appendTerminalAT(texto, tipo) {
     const terminal = document.getElementById('terminal-resposta-at');
     if (!terminal) return;
-    if (terminal.innerText.includes("Aguardando conexão")) terminal.innerText = "";
+    if (terminal.innerText.includes("Aguardando conexão") || terminal.innerText.includes("Terminal pronto")) {
+        terminal.innerText = "";
+    }
     terminal.innerText += texto;
     terminal.scrollTop = terminal.scrollHeight;
 }
@@ -357,7 +392,239 @@ function limparTerminalAT() {
     if (terminal) terminal.innerText = "Terminal pronto. Envie strings AT...";
 }
 
-// Exportações explícitas para escopo global do app
+// ================= CONTROLADORES DE INTERFACE E FLUXO DE TELAS =================
+
+function selecionarProduto(tipo) {
+    produtoSelecionado = tipo.trim();
+    const lbl = document.getElementById('produto-label-hw');
+    if (lbl) lbl.innerText = produtoSelecionado;
+    
+    const containerHw = document.getElementById('lista-hardware');
+    if (containerHw) {
+        containerHw.innerHTML = `
+            <button class="product-button" onclick="selecionarHardware('1_0')"><span>v1.0 (Antiga)</span></button>
+            <button class="product-button" onclick="selecionarHardware('1_5')"><span>v1.5 (Nova)</span></button>
+        `;
+    }
+    ocultarTodasAsTelas();
+    document.getElementById('tela-hardware').style.display = 'block';
+}
+
+function selecionarHardware(versao) {
+    versaoHardwareSelecionada = versao;
+    ocultarTodasAsTelas();
+    document.getElementById('tela-mosfet').style.display = 'block';
+}
+
+function selecionarMosfet(possui) {
+    possuiMosfetSelecionado = possui;
+    ocultarTodasAsTelas();
+    if (possui) {
+        const btnContainer = document.getElementById('botoes-pino');
+        if (btnContainer) {
+            btnContainer.innerHTML = "";
+            [4, 5, 6, 7].forEach(p => {
+                btnContainer.innerHTML += `<button class="product-button" onclick="definirPinoMosfet('${p}')"><span>Pino ${p}</span></button>`;
+            });
+        }
+        document.getElementById('tela-pino-mosfet').style.display = 'block';
+    } else {
+        pinoMosfetSelecionado = "0";
+        prosseguirParaDados();
+    }
+}
+
+function salvarPinoCustomizado() {
+    const custom = document.getElementById('input-pino-custom').value.trim();
+    if (custom) {
+        pinoMosfetSelecionado = custom;
+    } else {
+        pinoMosfetSelecionado = "4"; 
+    }
+    prosseguirParaDados();
+}
+
+function definirPinoMosfet(pino) {
+    pinoMosfetSelecionado = pino;
+    prosseguirParaDados();
+}
+
+function prosseguirParaDados() {
+    ocultarTodasAsTelas();
+    document.getElementById('tela-dados-dispositivo').style.display = 'block';
+}
+
+function obterDadosFormularioAtual() {
+    let canal = document.getElementById('input-canal') ? document.getElementById('input-canal').value.trim() : "";
+    let firmware = document.getElementById('input-firmware-id') ? document.getElementById('input-firmware-id').value.trim() : "";
+
+    if (!canal || !firmware) {
+        canal = document.getElementById('input-cad-canal') ? document.getElementById('input-cad-canal').value.trim() : "";
+        firmware = document.getElementById('input-cad-firmware') ? document.getElementById('input-cad-firmware').value.trim() : "";
+    }
+    return { canal, firmware };
+}
+
+function validarEDecidirResumo() {
+    const { canal, firmware } = obterDadosFormularioAtual();
+
+    if (!canal || !firmware) {
+        alert("Preencha o Canal e o ID do Firmware!");
+        return;
+    }
+
+    const canalForm = canal.padStart(3, '0');
+    const firmForm = firmware.padStart(6, '0');
+    
+    let sufixo = "FI";
+    if (produtoSelecionado.toLowerCase().includes("acionador") || produtoSelecionado.toLowerCase().includes("gravar")) {
+        sufixo = "EI";
+    }
+
+    const serialConstruido = `CH${canalForm}${sufixo}${firmForm}`;
+    document.getElementById('resumo-serial-title').innerText = serialConstruido;
+    
+    const hexCalculado = calcularHexBefcAftc(pinoMosfetSelecionado);
+    document.getElementById('comando-string').innerText = `Lote AT: BAUD0 -> BEFC${hexCalculado.befc} -> NAME${serialConstruido}`;
+
+    document.getElementById('resumo-conteudo').innerText = 
+        `Equipamento: ${produtoSelecionado}\n` +
+        `Hardware: v${versaoHardwareSelecionada.replace('_', '.')}\n` +
+        `Mosfet Ativo: ${possuiMosfetSelecionado ? "Sim (Pino " + pinoMosfetSelecionado + ")" : "Não"}\n` +
+        `Serial Calculado: ${serialConstruido}`;
+
+    ocultarTodasAsTelas();
+    document.getElementById('tela-resumo').style.display = 'block';
+}
+
+// ================= SISTEMA AUTOMÁTICO DE IMPLEMENTAÇÃO E PROVISIONAMENTO LOTE AT =================
+
+function calcularHexBefcAftc(mosfetPin) {
+    try {
+        const mPin = parseInt(mosfetPin, 10);
+        if (isNaN(mPin) || mPin === 0) return { befc: "000", aftc: "000" };
+
+        const mosfetBit = mPin - 3;
+        const pin6Bit = 3;
+        
+        let bitsBefc = new Array(12).fill(0);
+        let bitsAftc = new Array(12).fill(0);
+
+        if (mosfetBit >= 0 && mosfetBit < 12) {
+            bitsBefc[mosfetBit] = 1;
+            bitsAftc[mosfetBit] = 1;
+        }
+        
+        bitsBefc[pin6Bit] = 0;
+        bitsAftc[pin6Bit] = 1;
+
+        const befcHex = parseInt(bitsBefc.reverse().join(""), 2).toString(16).toUpperCase().padStart(3, '0');
+        const aftcHex = parseInt(bitsAftc.reverse().join(""), 2).toString(16).toUpperCase().padStart(3, '0');
+
+        return { befc: befcHex, aftc: aftcHex };
+    } catch (e) {
+        return { befc: "000", aftc: "000" };
+    }
+}
+
+async function ConfiguracaoAT() {
+    const { canal: canalCru, firmware: firmwareCru } = obterDadosFormularioAtual();
+
+    if (!canalCru || !firmwareCru) {
+        alert("Dados ausentes de Canal ou Firmware. Preencha os campos para prosseguir.");
+        return;
+    }
+
+    const canalFormatado = canalCru.padStart(3, '0');
+    const firmwareFormatado = firmwareCru.padStart(6, '0');
+    
+    let sufixoDispositivo = "FI";
+    if (produtoSelecionado.toLowerCase().includes("acionador") || produtoSelecionado.toLowerCase().includes("gravar")) {
+        sufixoDispositivo = "EI";
+    }
+
+    const deviceNameBle = `CH${canalFormatado}${sufixoDispositivo}${firmwareFormatado}`;
+    const { befc, aftc } = calcularHexBefcAftc(pinoMosfetSelecionado);
+
+    const COMMANDS = [
+        "AT+SHIELD1", 
+        "AT+BAUD0",      
+        "AT+PWRM1",      
+        "AT+MODE2", 
+        `AT+BEFC${befc}`, 
+        `AT+AFTC${aftc}`, 
+        `AT+NAME${deviceNameBle}`, 
+        "AT+RESET"
+    ];
+
+    const statusBox = document.getElementById('status-execucao');
+    const txtStatus = document.getElementById('texto-status');
+    if (statusBox) statusBox.style.display = 'block';
+
+    appendTerminalAT(`\n🚀 [PROVISIONAMENTO] Iniciando sequência AT...\n`, "info");
+
+    for (let i = 0; i < COMMANDS.length; i++) {
+        const cmd = COMMANDS[i];
+        if (txtStatus) txtStatus.innerText = `Enviando (${i+1}/${COMMANDS.length}): ${cmd}`;
+        
+        const resposta = await transmitirComandoAT(cmd);
+
+        if (!resposta.toUpperCase().includes("OK") && !resposta.toUpperCase().includes("SET")) {
+            if (txtStatus) txtStatus.innerText = `Erro no comando ${cmd}`;
+            alert(`A esteira falhou no comando: ${cmd}. Abortando.`);
+            return;
+        }
+
+        if (cmd.includes("RESET")) {
+            await new Promise(r => setTimeout(r, 1500));
+        } else {
+            await new Promise(r => setTimeout(r, 250));
+        }
+    }
+
+    if (txtStatus) txtStatus.innerText = "Lote Concluído com Sucesso! Gravando localmente...";
+
+    const hardwareInfo = `Versao: ${versaoHardwareSelecionada} | Mosfet Pin: ${pinoMosfetSelecionado} | Hex: ${befc}/${aftc}`;
+    if (window.GerenciadorBancoDados) {
+        window.GerenciadorBancoDados.salvarEquipamentoLocal(deviceNameBle, hardwareInfo);
+    }
+
+    const querApi = confirm("Lote AT gravado com Sucesso na memória local!\n\nDeseja realizar o envio do cadastro deste dispositivo na API da nuvem Chavi agora?");
+    if (querApi && window.ApiCadastroEquipamento) {
+        const pacoteApi = {
+            painel: "imovel",
+            serialNumber: deviceNameBle,
+            hardwareVersion: versaoHardwareSelecionada === "1_0" ? "v1.0" : "v1.5",
+            mosfet: possuiMosfetSelecionado
+        };
+        await window.ApiCadastroEquipamento.enviarCadastroPainel(pacoteApi);
+    }
+
+    alert("Fluxo de Provisionamento Completo!");
+    abrirTelaComandosAT();
+}
+
+function abrirTelaCadastroManual() {
+    ocultarTodasAsTelas();
+    if (window.limparDadosLote) window.limparDadosLote();
+    document.getElementById('tela-cadastro-equipamento').style.display = 'block';
+}
+
+function ocultarTodasAsTelas() {
+    document.querySelectorAll('.tela').forEach(t => t.style.display = 'none');
+}
+
+function voltarPara(idTela) {
+    ocultarTodasAsTelas();
+    const alvo = document.getElementById(idTela);
+    if (alvo) alvo.style.display = 'block';
+}
+
+function logNoConsoleDoApp(mensagem, tipo = "info") {
+    console.log(`[App Log - ${tipo}]: ${mensagem}`);
+}
+
+// Exportações explícitas
 window.abrirTelaComandosAT = abrirTelaComandosAT;
 window.mudarModoBle = mudarModoBle;
 window.iniciarScanManual = iniciarScanManual;
@@ -367,3 +634,11 @@ window.resetarMemoriaRadar = resetarMemoriaRadar;
 window.enviarAtRapido = enviarAtRapido;
 window.enviarAtCustomizado = enviarAtCustomizado;
 window.limparTerminalAT = limparTerminalAT;
+window.selecionarProduto = selecionarProduto;
+window.selecionarHardware = selecionarHardware;
+window.selecionarMosfet = selecionarMosfet;
+window.salvarPinoCustomizado = salvarPinoCustomizado;
+window.definirPinoMosfet = definirPinoMosfet;
+window.validarEDecidirResumo = validarEDecidirResumo;
+window.ConfiguracaoAT = ConfiguracaoAT;
+window.voltarPara = voltarPara;

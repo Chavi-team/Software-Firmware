@@ -15,9 +15,8 @@
         <div class="header-container">
             <h2>Chavi</h2>
             <div class="header-actions">
-                <button class="icon-btn btn-home" onclick="voltarParaInicio()" title="Voltar ao início">🏠</button>
-                <button id="btn-atualizar-software" class="icon-btn btn-refresh"
-                    title="Verificar Atualizações">🔄</button>
+                <button class="icon-btn btn-home" onclick="voltarPara('tela-produto')" title="Voltar ao início">🏠</button>
+                <button id="btn-atualizar-software" class="icon-btn btn-refresh" title="Verificar Atualizações">🔄</button>
                 <button id="btn-sair-app" class="icon-btn btn-exit" title="Sair do App">❌</button>
             </div>
         </div>
@@ -26,7 +25,7 @@
             <h1>Firmware Chavi</h1>
             <p>Selecione o produto que deseja configurar:</p>
             <div class="product-grid">
-                <button class="product-button" onclick="selecionarProduto('Gravar Firmware  ')">
+                <button class="product-button" onclick="selecionarProduto('Gravar Firmware')">
                     <span>Gravar Firmware</span>
                     <span class="icon">➔</span>
                 </button>
@@ -36,12 +35,7 @@
                     <span class="icon">➔</span>
                 </button>
 
-                <button class="product-button" onclick="selecionarProduto('Gravar + AT  ')">
-                    <span>Gravar + AT</span>
-                    <span class="icon">➔</span>
-                </button>
-
-                <button class="product-button" onclick="selecionarProduto('Test de Hardware  ')">
+                <button class="product-button" onclick="selecionarProduto('Test de Hardware')">
                     <span>Test de Hardware</span>
                     <span class="icon">➔</span>
                 </button>
@@ -91,19 +85,21 @@
             <p>Insira os parâmetros iniciais:</p>
 
             <div class="input-form">
-                <div class="input-group">
-                    <label>Canal (-ch):</label>
-                    <input type="number" id="input-canal" placeholder="Ex: 3" min="1">
-                </div>
-                <div class="input-group">
-                    <label>ID do Firmware (-fi):</label>
-                    <input type="number" id="input-firmware-id" placeholder="Ex: 2406">
+                <div class="input-form-row" style="display: flex; gap: 10px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-canal">Canal / Lote (Ex: 3):</label>
+                        <input type="number" id="input-canal" placeholder="Ex: 3" min="1">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-firmware-id">ID do Firmware:</label>
+                        <input type="number" id="input-firmware-id" placeholder="Ex: 2406" min="0">
+                    </div>
                 </div>
             </div>
 
             <button class="product-button" onclick="validarEDecidirResumo()"
-                style="text-align: center; justify-content: center;">Avançar para o Resumo ➔</button>
-            <button class="voltar" id="voltar-de-dados">← Voltar</button>
+                style="text-align: center; justify-content: center; margin-top: 15px;">Avançar para o Resumo ➔</button>
+            <button class="voltar" id="voltar-de-dados" onclick="voltarPara('tela-pino-mosfet')">← Voltar</button>
         </div>
 
         <div id="tela-resumo" class="tela" style="display:none">
@@ -126,23 +122,20 @@
                 <button class="product-button" onclick="processarAcao('apenas_firmware')" style="background: #f59e0b;">
                     <span>📦 Apenas Firmware</span>
                 </button>
-                <button class="product-button" onclick="processarAcao('completo_com_cadastro')"
-                    style="background: #10b981;">
+                <button class="product-button" onclick="processarAcao('completo_com_cadastro')" style="background: #10b981;">
                     <span>⚡ Completo com Cadastro</span>
                 </button>
-                <button class="product-button" onclick="processarAcao('completo_sem_cadastro')"
-                    style="background: #059669;">
+                <button class="product-button" onclick="processarAcao('completo_sem_cadastro')" style="background: #059669;">
                     <span>⚙️ Completo sem Cadastro</span>
                 </button>
-                <button class="product-button" onclick="processarAcao('apenas_at')" style="background: #3b82f6;">
+                <button class="product-button" onclick="ConfiguracaoAT()" style="background: #3b82f6;">
                     <span>📟 Apenas Comandos AT</span>
                 </button>
                 <button class="product-button" onclick="processarAcao('apenas_teste')" style="background: #475569;">
                     <span>🧪 Rodar Teste de Hardware</span>
                 </button>
             </div>
-            <button class="voltar" id="btn-voltar-resumo" onclick="voltarPara('tela-dados-dispositivo')">←
-                Voltar</button>
+            <button class="voltar" id="btn-voltar-resumo" onclick="voltarPara('tela-dados-dispositivo')">← Voltar</button>
         </div>
 
         <div id="tela-cadastro-equipamento" class="tela" style="display:none">
@@ -211,8 +204,7 @@
             <h1>Console de Comandos AT</h1>
             <p>Selecione um comando rápido ou envie uma string customizada para a placa:</p>
 
-            <div
-                style="display: flex; gap: 10px; margin-bottom: 1.5rem; background: #1e293b; padding: 10px; border-radius: 8px;">
+            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; background: #1e293b; padding: 10px; border-radius: 8px;">
                 <button id="btn-modo-manual" class="product-button" onclick="mudarModoBle('manual')"
                     style="background: #3b82f6; margin: 0; padding: 8px 12px; font-size: 0.85rem; width: auto;">
                     🔍 Modo 1: Scan & Escolha
@@ -247,34 +239,27 @@
                 <button id="btn-conectar-ble" class="product-button" onclick="conectarBleSelecionado()" style="background: #3b82f6; text-align: center; justify-content: center; margin: 0; width: 100%;">⚡ Conectar ao Selecionado</button>
             </div>
 
-            <div id="container-ble-auto"
-                style="background: #0f172a; border: 1px solid #1e293b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: none;">
+            <div id="container-ble-auto" style="background: #0f172a; border: 1px solid #1e293b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: none;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem;">
-                    <div class="spinner" id="status-radar-ble"
-                        style="width: 12px; height: 12px; border: 2px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; display: none;">
-                    </div>
+                    <div class="spinner" id="status-radar-ble" style="width: 12px; height: 12px; border: 2px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; display: none;"></div>
                     <strong id="label-status-auto" style="color: #fbbf24;">Radar parado. Ligue para mapear o ambiente...</strong>
                 </div>
                 <p style="font-size: 0.8rem; color: #94a3b8; margin: 0 0 10px 0;">O radar salva os dispositivos já ligados. Quando você plugar uma nova placa, ela será detectada na hora.</p>
                 <div style="display: flex; gap: 10px;">
-                    <button class="product-button" id="btn-radar-toggle" onclick="alternarRadarAuto()"
-                        style="background: #eab308; margin:0; width: auto; font-size: 0.85rem;">📡 Ligar Radar</button>
-                    <button class="product-button" onclick="resetarMemoriaRadar()"
-                        style="background: #475569; margin:0; width: auto; font-size: 0.85rem;">🧹 Resetar Ambiente</button>
+                    <button class="product-button" id="btn-radar-toggle" onclick="alternarRadarAuto()" style="background: #eab308; margin:0; width: auto; font-size: 0.85rem;">📡 Ligar Radar</button>
+                    <button class="product-button" onclick="resetarMemoriaRadar()" style="background: #475569; margin:0; width: auto; font-size: 0.85rem;">🧹 Resetar Ambiente</button>
                 </div>
             </div>
 
             <div id="area-comandos-at-secreta" style="display: none !important; border-top: 2px dashed #334155; padding-top: 1.5rem; margin-top: 1.5rem;">
-                
                 <div style="background: #064e3b; color: #34d399; padding: 8px 12px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin-bottom: 1.5rem; font-weight: bold;">
                     ✅ Link BLE Estabelecido! Comandos Liberados.
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.5rem;">
-                    <button class="product-button" onclick="enviarAtRapido('AT')" style="background: #3b82f6; font-size: 0.9rem; padding: 10px; margin: 0;">🧪 Testar (AT)</button>
-                    <button class="product-button" onclick="enviarAtRapido('AT+RST')" style="background: #ef4444; font-size: 0.9rem; padding: 10px; margin: 0;">🔄 Reiniciar</button>
-                    <button class="product-button" onclick="enviarAtRapido('AT+GMR')" style="background: #10b981; font-size: 0.9rem; padding: 10px; margin: 0;">ℹ️ Versão FW</button>
-                    <button class="product-button" onclick="enviarAtRapido('AT+CWMODE?')" style="background: #f59e0b; font-size: 0.9rem; padding: 10px; margin: 0;">🌐 Modo Wi-Fi</button>
+                    <button class="product-button" onclick="ConfiguracaoAT()" style="background: #3b82f6; font-size: 0.9rem; padding: 10px; margin: 0;">🧪 CONFIGURAR FI</button>
+                    <button class="product-button" onclick="enviarAtRapido('AT+RESET')" style="background: #ef4444; font-size: 0.9rem; padding: 10px; margin: 0;">🔄 Reiniciar</button>
+                    <button class="product-button" onclick="enviarAtRapido('AT+VERS?')" style="background: #10b981; font-size: 0.9rem; padding: 10px; margin: 0;">ℹ️ Versão FW</button>
                 </div>
 
                 <div class="input-form">

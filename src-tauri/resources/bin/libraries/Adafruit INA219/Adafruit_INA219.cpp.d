@@ -1,4 +1,4 @@
-/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit\ INA219/Adafruit_INA219.cpp.o: \
+/Users/guilhermemendina/firmware/Software\ Firmware/Firmware\ Chavi/src-tauri/resources/bin/libraries/Adafruit\ INA219/Adafruit_INA219.cpp.o: \
  /Users/guilhermemendina/Library/Arduino15/internal/Adafruit_INA219_1.2.3_5965e4492d5eccee/Adafruit\ INA219/Adafruit_INA219.cpp \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Arduino.h \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/binary.h \

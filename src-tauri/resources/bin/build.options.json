@@ -5,5 +5,5 @@
   "fqbn": "MiniCore:avr:328",
   "hardwareFolders": "/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb,/Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb",
   "otherLibrariesFolders": "/Users/guilhermemendina/Documents/Arduino/libraries",
-  "sketchLocation": "/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/firmware/FI_1_5_400"
+  "sketchLocation": "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400"
 }

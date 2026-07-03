@@ -1,4 +1,4 @@
-/Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/libraries/Adafruit\ BusIO/Adafruit_BusIO_Register.cpp.o: \
+/Users/guilhermemendina/firmware/Software\ Firmware/Firmware\ Chavi/src-tauri/resources/bin/libraries/Adafruit\ BusIO/Adafruit_BusIO_Register.cpp.o: \
  /Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit\ BusIO/Adafruit_BusIO_Register.cpp \
  /Users/guilhermemendina/Library/Arduino15/internal/Adafruit_BusIO_1.15.0_3cd3effed338f3f0/Adafruit\ BusIO/Adafruit_BusIO_Register.h \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Arduino.h \

@@ -1,5 +1,5 @@
 FI_1_5_400.ino.cpp.o: \
- /Users/guilhermemendina/Downloads/chavi-FI-teste_nova_comunicacao/bin/sketch/FI_1_5_400.ino.cpp.merged \
+ /Users/guilhermemendina/firmware/Software\ Firmware/Firmware\ Chavi/src-tauri/resources/bin/sketch/FI_1_5_400.ino.cpp.merged \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/Arduino.h \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/binary.h \
  /Users/guilhermemendina/Library/Arduino15/internal/MiniCore_avr_3.0.1_53bb0f0ad9bf08fb/cores/MCUdude_corefiles/WCharacter.h \

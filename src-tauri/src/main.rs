@@ -1,3 +1,5 @@
+// test de AT
+
 // Previne a abertura de uma janela de terminal extra no Windows em modo release
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 

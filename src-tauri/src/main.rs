@@ -309,9 +309,10 @@ fn main() {
         
         .setup(|_app| {
             #[cfg(target_os = "windows")]
-            {
-                if let Ok(resource_path) = _app.path().resolve_directory("resources/driver-usbasp", BaseDirectory::Resource) {
-                    let installer_path = resource_path.join("installer_x64.exe");
+{
+                // NO TAURI V2: Usamos resource_dir() para pegar a pasta de recursos
+                if let Ok(Some(resource_path)) = _app.path().resource_dir() {
+                    let installer_path = resource_path.join("resources/driver-usbasp/installer_x64.exe");
                     if installer_path.exists() {
                         executar_instalador_windows(installer_path);
                     }

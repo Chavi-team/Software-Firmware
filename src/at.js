@@ -634,7 +634,28 @@ function voltarPara(idTela) {
 }
 
 function logNoConsoleDoApp(mensagem, tipo = "info") {
-    console.log(`[App Log - ${tipo}]: ${mensagem}`);
+    const textoFormatado = `[App Log - ${tipo}]: ${mensagem}`;
+
+    // 1. Envia para o elemento HTML se ele existir na tela (Evita loops de console)
+    const terminalEl = document.getElementById("terminal-log");
+    if (terminalEl) {
+        const linha = document.createElement("div");
+        linha.innerText = textoFormatado;
+        terminalEl.appendChild(linha);
+        terminalEl.scrollTop = terminalEl.scrollHeight;
+    }
+
+    // 2. Chama o console original limpando referências circulares
+    // Usamos um truque de agendamento (setTimeout) para tirá-lo da pilha de execução principal
+    setTimeout(() => {
+        // Se houver risco do console.log estar interceptado, usamos o debug do Tauri ou apenas o log padrão fora do fluxo síncrono
+        if (window.__TAURI__ && window.__TAURI__.core) {
+            window.__TAURI__.core.invoke("plugin:log|log", { level: tipo === "erro" ? 1 : 3, message: textoFormatado }).catch(() => {});
+        } else {
+            // Fallback seguro usando uma referência limpa
+            (console._log || console.log)(textoFormatado);
+        }
+    }, 0);
 }
 
 // Exportações explíticas para escopo global do app (Sem marcas de conflito)

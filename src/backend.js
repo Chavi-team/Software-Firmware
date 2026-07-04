@@ -35,7 +35,10 @@ function selecionarHardware(versao) {
 function selecionarMosfet(possuiMosfet) {
     window.estado.mosfet = possuiMosfet;
     
-    if (possuiMosfet) {
+    // REGRAS DE NEGÓCIO COM UPLOAD.SH INTACTO:
+    // Só mostramos a tela de seleção de pinos se for estritamente o Hardware 1.0 com MOSFET.
+    // Para o Hardware 1.5, o pino 8 já é o padrão direto no arquivo .ino (o upload.sh não aceita 3º parâmetro para 1.5).
+    if (possuiMosfet && window.estado.hardwareBase === "1_0") {
         montarOpcoesPino();
         window.mostrarTela('tela-pino-mosfet');
     } else {
@@ -116,6 +119,11 @@ function validarEDecidirResumo() {
         window.estado.hardwareVersionStr = `FI_${window.estado.hardwareBase}`;
     }
 
+    // Se for qualquer versão diferente de 1.0_400, força a string do pino a ficar vazia
+    if (window.estado.hardwareVersionStr !== "FI_1_0_400") {
+        window.estado.pinoMosfet = "";
+    }
+
     document.getElementById('resumo-serial-title').textContent = window.estado.serialNumber;
     mostrarResumo();
 }
@@ -127,7 +135,8 @@ function mostrarResumo() {
     document.getElementById('resumo-conteudo').textContent = JSON.stringify(estadoExibicao, null, 2);
     
     let comandoPreview = `./upload ${window.estado.serialNumber} ${window.estado.hardwareVersionStr}`;
-    if (window.estado.pinoMosfet) {
+    
+    if (window.estado.pinoMosfet && window.estado.hardwareVersionStr === "FI_1_0_400") {
         comandoPreview += ` ${window.estado.pinoMosfet}`;
     }
 
@@ -148,7 +157,8 @@ function processarAcao(tipoAcao) {
 
     const invokeTauri = window.__TAURI__?.core?.invoke;
 
-    if (tipoAcao === 'apenas_firmware' || tipoAcao === 'completo_com_cadastro' || tipoAcao === 'completo_sem_cadastro') {
+    // Ajustado para remover a verificação de cadastro que já não é necessária
+    if (tipoAcao === 'apenas_firmware' || tipoAcao === 'completo_sem_cadastro') {
         textoStatus.style.color = "#fbbf24";
         painelStatus.style.borderLeftColor = "#fbbf24";
         textoStatus.innerText = `📦 [GRAVAÇÃO FÍSICA] Executando ./upload para hardware ${window.estado.hardwareVersionStr}...`;
@@ -218,26 +228,9 @@ function processarAcao(tipoAcao) {
     }, 2000);
 }
 
-function fluxoPersistenciaCadastro() {
-    const serial = document.getElementById('input-serial').value.trim();
-    const hardware = document.getElementById('input-hardware-version').value.trim();
-
-    if (!serial || !hardware) {
-        alert("Por favor, preencha o Serial Number e a Versão de Hardware.");
-        return;
-    }
-
-    window.GerenciadorBancoDados.salvarEquipamentoLocal(serial, hardware);
-    window.ApiCadastroEquipamento.enviarCadastroPainel(serial, hardware);
-
-    alert(`Equipamento ${serial} cadastrado!`);
-    window.voltarParaInicio();
-}
-
 // Mapeamento Global para Cliques no HTML
 window.selecionarProduto = selecionarProduto;
 window.selecionarMosfet = selecionarMosfet;
 window.salvarPinoCustomizado = salvarPinoCustomizado;
 window.validarEDecidirResumo = validarEDecidirResumo;
 window.processarAcao = processarAcao;
-window.fluxoPersistenciaCadastro = fluxoPersistenciaCadastro;

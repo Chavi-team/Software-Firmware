@@ -1,26 +1,32 @@
 // ===== SERVIÇOS DO ECOSSISTEMA TAURI V2 =====
 
-async function verificarAtualizacaoAutomatica(manual = false) {
+// Alterado o nome para "Manual" e o padrão de "manual" para true, já que agora ela só roda por clique
+async function verificarAtualizacaoManual() {
   try {
     if (!window.__TAURI__?.updater) return;
     
     const { check } = window.__TAURI__.updater;
-    console.log("Checando se existem novas atualizações...");
+    console.log("Checando se existem novas atualizações (Solicitação Manual)...");
+    
+    // Feedback visual simples ou log antes de começar
     const update = await check();
 
-    if (update) {
-      alert(`Uma nova versão (${update.version}) está disponível! Atualizando agora...`);
-      await update.downloadAndInstall();
-      if (window.__TAURI__?.process?.relaunch) {
-          await window.__TAURI__.process.relaunch();
+    if (update && update.available) { // No Tauri V2, checa-se update.available
+      const confirmar = confirm(`Uma nova versão (${update.version}) está disponível! Deseja atualizar agora?`);
+      if (confirmar) {
+        alert("Baixando e instalando atualização... O aplicativo será reiniciado.");
+        await update.downloadAndInstall();
+        if (window.__TAURI__?.process?.relaunch) {
+            await window.__TAURI__.process.relaunch();
+        }
       }
     } else {
       console.log("O software já está na versão mais recente.");
-      if (manual) alert("O software já está na versão mais recente!");
+      alert("O software já está na versão mais recente!");
     }
   } catch (error) {
     console.error("Erro ao carregar o updater:", error);
-    if (manual) alert("Falha na checagem de atualizações.");
+    alert("Falha na checagem de atualizações. Verifique sua conexão.");
   }
 }
 
@@ -39,11 +45,14 @@ function fecharAplicativo() {
 
 // Inicializador de escutas nativas
 window.addEventListener('DOMContentLoaded', () => {
-    verificarAtualizacaoAutomatica();
-    setInterval(() => verificarAtualizacaoAutomatica(), 3600000); 
+    // ❌ REMOVIDO: verificarAtualizacaoAutomatica();
+    // ❌ REMOVIDO: setInterval(() => verificarAtualizacaoAutomatica(), 3600000); 
 
+    // Mapeia o botão para disparar a função apenas quando clicado
     const btnManual = document.getElementById('btn-atualizar-software');
-    if (btnManual) btnManual.onclick = () => verificarAtualizacaoAutomatica(true);
+    if (btnManual) {
+        btnManual.onclick = () => verificarAtualizacaoManual();
+    }
 
     const botaoSair = document.getElementById('btn-sair-app');
     if (botaoSair) {

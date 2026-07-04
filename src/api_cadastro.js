@@ -44,7 +44,7 @@ const ApiCadastroEquipamento = {
                 if (deviceId) {
                     await this.vincularOrganizacao(deviceId, headers);
                 }
-                return { success: true, message: "Cadastrado com sucesso!" };
+                return { success: true, message: "Cadastrado com sucesso!", statusOrigem: "novo" };
             }
             
             else if (response.status === 409 || response.status === 422) {
@@ -67,7 +67,7 @@ const ApiCadastroEquipamento = {
                     if (deviceId) {
                         logNoConsoleDoApp(`[API Imóvel] ID localizado: ${deviceId}. Refazendo vínculo...`, "info");
                         await this.vincularOrganizacao(deviceId, headers);
-                        return { success: true, message: "Vínculo atualizado." };
+                        return { success: true, message: "Vínculo atualizado.", statusOrigem: "existente" };
                     } else {
                         logNoConsoleDoApp("Não foi possível extrair o ID numérico do dispositivo existente.", "erro");
                         return { success: false, message: "Falha ao capturar ID antigo." };
@@ -142,7 +142,7 @@ async function executarCadastroManual(event) {
     if (btnCadastrar) {
         btnCadastrar.style.pointerEvents = "none";
         btnCadastrar.style.opacity = "0.6";
-        btnCadastrar.innerText = "⏳ Cadastrando, aguarde...";
+        btnCadastrar.innerText = "⏳ Processando, aguarde...";
     }
 
     let loteAtivo = obterDadosLote();
@@ -184,6 +184,7 @@ async function executarCadastroManual(event) {
 
     let todosSucesso = true;
     let seriaisGeradosAlert = [];
+    let contemEquipamentoExistente = false;
 
     for (const sufixoAtual of sufixosParaCadastrar) {
         const serialGerado = `CH${canalFormatado}${sufixoAtual}${firmwareFormatado}`;
@@ -203,6 +204,9 @@ async function executarCadastroManual(event) {
         const respostaApi = await ApiCadastroEquipamento.enviarCadastroPainel(dadosCadastro);
 
         if (respostaApi.success) {
+            if (respostaApi.statusOrigem === "existente") {
+                contemEquipamentoExistente = true;
+            }
             if (window.bancoEquipamentos && typeof window.bancoEquipamentos.push === "function") {
                 window.bancoEquipamentos.push(dadosCadastro);
             }
@@ -219,29 +223,99 @@ async function executarCadastroManual(event) {
     }
 
     if (todosSucesso) {
-        const mensagemConfirmacao = sufixosParaCadastrar.length > 1
-            ? `Acionador cadastrado duplo com sucesso no Painel Imóvel!\nGerados:\n- ${seriaisGeradosAlert[0]}\n- ${seriaisGeradosAlert[1]}`
-            : `Fechadura cadastrada com sucesso no Painel Imóvel!\nGerado: ${seriaisGeradosAlert[0]}`;
+        let tituloMensagem = contemEquipamentoExistente 
+            ? "Equipamento sincronizado/localizado com sucesso!"
+            : "Equipamento cadastrado com sucesso no Painel Imóvel!";
 
-        const querContinuar = confirm(`${mensagemConfirmacao}\n\nDeseja cadastrar outro equipamento mantendo as informações deste lote?`);
-        
-        if (querContinuar) {
-            document.getElementById('input-cad-canal').value = '';
-            document.getElementById('input-cad-firmware').value = '';
-            document.getElementById('input-cad-canal').focus();
-        } else {
-            limparDadosLote();
-            document.getElementById('input-cad-canal').value = '';
-            document.getElementById('input-cad-firmware').value = '';
+        const detalheSeriais = sufixosParaCadastrar.length > 1
+            ? `Seriais operados:<br>• ${seriaisGeradosAlert[0]}<br>• ${seriaisGeradosAlert[1]}`
+            : `Serial operado: ${seriaisGeradosAlert[0]}`;
 
-            const blocoFixos = document.getElementById('campos-fixos-cadastro');
-            if (blocoFixos) blocoFixos.style.display = 'block';
-            voltarPara('tela-produto');
-        }
+        if (document.activeElement) document.activeElement.blur();
+
+        // Criando uma Janela Customizada para evitar o bug do Enter fantasma do Tauri
+        abrirModalConfirmacaoChavi(tituloMensagem, detalheSeriais);
+
     } else {
-        alert("Houve uma falha no envio para o Painel Imóvel. Verifique o terminal de logs.");
+        alert("Houve uma falha crítica no envio ou consulta para o Painel Imóvel. Verifique os logs.");
     }
 }
+
+// ===== DIÁLOGO INTERNO SEGURO (NÃO CONGELA COM TECLADO) =====
+function abrirModalConfirmacaoChavi(titulo, detalhes) {
+    // Remove modal antiga se houver
+    const antiga = document.getElementById("chavi-modal-lote");
+    if (antiga) antiga.remove();
+
+    const modal = document.createElement("div");
+    modal.id = "chavi-modal-lote";
+    modal.style = "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2, 6, 23, 0.85); display: flex; align-items: center; justify-content: center; z-index: 99999; font-family: sans-serif;";
+
+    modal.innerHTML = `
+        <div style="background: #1e293b; border: 1px solid #334155; padding: 2rem; border-radius: 12px; max-width: 450px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); color: #f8fafc; text-align: center;">
+            <h3 style="margin-top: 0; color: #10b981; font-size: 1.25rem;">${titulo}</h3>
+            <p style="background: #0f172a; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; border: 1px solid #1e293b; color: #38bdf8; margin: 1.5rem 0; line-height: 1.4; text-align: left;">
+                ${detalhes}
+            </p>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color: #94a3b8;">Deseja realizar um novo cadastro de equipamento?</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button id="btn-modal-sim" style="background: #10b981; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">Sim</button>
+                <button id="btn-modal-nao" style="background: #64748b; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">Não, Voltar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Evento de sim: limpa as caixas variantes e foca no Canal
+    document.getElementById("btn-modal-sim").addEventListener("click", () => {
+        modal.remove();
+        document.getElementById('input-cad-canal').value = '';
+        document.getElementById('input-cad-firmware').value = '';
+        document.getElementById('input-cad-canal').focus();
+        logNoConsoleDoApp("Mantendo lote ativo. Pronto para a próxima placa.", "info");
+    });
+
+    // Evento de não: limpa o lote e volta pra home
+    document.getElementById("btn-modal-nao").addEventListener("click", () => {
+        modal.remove();
+        limparDadosLote();
+        document.getElementById('input-cad-canal').value = '';
+        document.getElementById('input-cad-firmware').value = '';
+
+        const blocoFixos = document.getElementById('campos-fixos-cadastro');
+        if (blocoFixos) blocoFixos.style.display = 'block';
+        
+        voltarPara('tela-produto');
+        logNoConsoleDoApp("Lote encerrado por escolha do usuário. Retornando à tela inicial.", "info");
+    });
+}
+
+// ===== SISTEMA DE NAVEGAÇÃO POR ENTER (EVITA ENVIO DE FORMULÁRIO PADRÃO) =====
+document.addEventListener("DOMContentLoaded", () => {
+    const campoCanal = document.getElementById('input-cad-canal');
+    const campoFirmware = document.getElementById('input-cad-firmware');
+
+    if (campoCanal) {
+        campoCanal.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                e.stopPropagation();
+                if (campoFirmware) campoFirmware.focus();
+            }
+        });
+    }
+
+    if (campoFirmware) {
+        campoFirmware.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                e.stopPropagation();
+                executarCadastroManual();
+            }
+        });
+    }
+});
 
 window.ApiCadastroEquipamento = ApiCadastroEquipamento;
 window.executarCadastroManual = executarCadastroManual;

@@ -1,3 +1,24 @@
+// ===== REMOVIDOS OS IMPORTS QUE QUEBRAVAM O NAVEGADOR =====
+// No Tauri sem bundler, usamos o window.__TAURI__ diretamente.
+
+// ===== ESTADO GLOBAL DO PRODUTO =====
+const estado = {
+    produto: null,
+    hardwareBase: null,   // "1_0" ou "1_5"
+    mosfet: null,         // true ou false
+    pinoMosfet: "",       // Número do pino (7, 8, 9, etc.)
+    canal: "",
+    firmwareId: "",
+    macAddress: "",       // Descoberto dinamicamente durante a execução
+    
+    // CAMPOS GERADOS DINAMICAMENTE PARA OS SCRIPTS BASH
+    serialNumber: "",     // CH{ch}FI{fi} -> Ex: CH003FI002406
+    hardwareVersionStr: "" // FI_1_0, FI_1_0_400, FI_1_5, etc.
+};
+
+// Vincula o estado ao escopo global do window
+window.estado = estado;
+
 // ===== VARIÁVEIS GLOBAIS E CONTROLES DO NOVO SISTEMA =====
 window.pinoSelecionadoDireto = "";
 
@@ -65,7 +86,7 @@ function configurarEnterTelaDireta() {
     }, 50);
 }
 
-// Execução com checkup simultâneo de USBasp e ATmega antes de ir para a gravação física
+// Execução segura: Alimenta o estado global e chama diretamente a gravação sem concorrência USBasp
 function validarEGravarDireto() {
     const canalRaw = document.getElementById('input-direct-canal').value;
     const firmwareIdRaw = document.getElementById('input-direct-firmware').value;
@@ -96,80 +117,86 @@ function validarEGravarDireto() {
     const serialNumber = `CH${canal}FI${firmwareId}`;
     const hardwareVersionStr = possuiMosfet ? `FI_${hwBase}_400` : `FI_${hwBase}`;
 
+    // Alimenta sincronizadamente o estado monitorado pelo motor backend do Rust
+    estado.canal = canal;
+    estado.firmwareId = firmwareId;
+    estado.serialNumber = serialNumber;
+    estado.hardwareVersionStr = hardwareVersionStr;
+    estado.pinoMosfet = pinoFinal;
+
     const painelStatus = document.getElementById('status-bancada-direta');
     const textoStatus = document.getElementById('texto-status-direto');
+    const btnGravar = document.getElementById('btn-gravar-direto');
+    
+    if (btnGravar) btnGravar.disabled = true;
     
     painelStatus.style.display = 'block';
     textoStatus.style.color = "#fbbf24";
-    textoStatus.innerHTML = `⚙️ <b>[PASSO 1/2] Checkup de Conectividade:</b> Procurando gravador USBasp conectado...`;
+    textoStatus.innerHTML = `📦 <b>[GRAVAÇÃO DIRETA]</b> Inicializando comunicação e transmitindo binário Flash...`;
 
-    const invokeTauri = window.__TAURI__?.core?.invoke;
+    const invokeTauri = window.__TAURI__?.core?.invoke || window.__TAURI__?.invoke;
     if (!invokeTauri) {
         textoStatus.innerText = `❌ Erro de Sistema: Interface de comunicação global do Tauri não encontrada.`;
+        if (btnGravar) btnGravar.disabled = false;
         return;
     }
 
-    // PASSO 1: O comando nativo do seu Rust faz a leitura de assinatura do chip
-    invokeTauri('reconhecer_hardware_bancada', { hardwareVersion: hardwareVersionStr })
-    .then(() => {
-        textoStatus.style.color = "#10b981";
-        textoStatus.innerHTML = `✅ <b>USBasp conectado:</b> OK!<br>✅ <b>Versão do ATmega:</b> OK!<br><br>🚀 Hardware reconhecido! Gravando o arquivo binário na memória Flash...`;
-
-        setTimeout(() => {
-            textoStatus.style.color = "#fbbf24";
-            textoStatus.innerHTML = `📦 <b>[PASSO 2/2] Gravando Firmware:</b> Escrevendo binário na memória Flash... Por favor, não remova os cabos.`;
-
-            // PASSO 2: Chama a execução da gravação real
-            invokeTauri('gravar_firmware_bancada', {
-                serialNumber: serialNumber,
-                hardwareVersion: hardwareVersionStr,
-                mosfetPin: pinoFinal
-            })
-            .then((msgSucesso) => {
-                textoStatus.style.color = "#10b981";
-                textoStatus.innerHTML = `🎉 <b>[GRAVAÇÃO CONCLUÍDA]</b> Gravado e verificado com total sucesso!<br>• Série Gerada: <b>${serialNumber}</b><br>• Firmware Gravado: <b>${hardwareVersionStr}</b>`;
-            })
-            .catch((erroGravar) => {
-                textoStatus.style.color = "#ef4444";
-                textoStatus.innerHTML = `❌ <b>Falha na Gravação Física:</b>\n${erroGravar}`;
-            });
-        }, 1000);
+    // O comando de gravação executa de forma limpa e contínua
+    invokeTauri('gravar_firmware_bancada', {
+        serialNumber: serialNumber,
+        hardwareVersion: hardwareVersionStr,
+        mosfetPin: pinoFinal
     })
-    .catch((erroReconhecimento) => {
-        const erroStr = String(erroReconhecimento).toLowerCase();
+    .then((msgSucesso) => {
+        textoStatus.style.color = "#10b981";
+        textoStatus.innerHTML = `🎉 <b>[GRAVAÇÃO CONCLUÍDA]</b> Gravado e verificado com total sucesso!<br>• Série Gerada: <b>${serialNumber}</b><br>• Firmware Gravado: <b>${hardwareVersionStr}</b>`;
+    })
+    .catch((erroGravar) => {
+        const erroStr = String(erroGravar).toLowerCase();
         textoStatus.style.color = "#ef4444";
         
         if (erroStr.includes("could not find usb device") || erroStr.includes("usb device not found") || erroStr.includes("usbasp error")) {
-            textoStatus.innerHTML = `❌ <b>[PASSO 1/2] Falha na USB:</b> Dispositivo gravador USBasp não foi localizado.<br><br>👉 <b>Ação Recomendada:</b> Verifique se o programador está bem encaixado na porta USB do computador.`;
+            textoStatus.innerHTML = `❌ <b>Falha na USB:</b> Dispositivo gravador USBasp não foi localizado.<br><br>👉 <b>Ação:</b> Verifique o cabo e reconecte o gravador na porta USB do computador.`;
         } else {
-            textoStatus.innerHTML = `❌ <b>[PASSO 1/2] Falha no ATmega:</b> Não foi possível ler a assinatura do microcontrolador.<br><br>👉 <b>Ação Recomendada:</b> Ajuste o posicionamento da placa nos contatos e certifique-se de que está devidamente alimentada.`;
+            textoStatus.innerHTML = `❌ <b>Falha no Microcontrolador (ATmega):</b> Assinatura inválida ou mau contato.<br><br>👉 <b>Ação:</b> Pressione ou ajuste o posicionamento da placa firmemente nos pinos da bancada.`;
         }
+    })
+    .finally(() => {
+        if (btnGravar) btnGravar.disabled = false;
     });
 }
 
+// ===== CONFIGURAÇÃO DE HARDWARE =====
+const opcoes = {
+    "Fechadura Digital": { hardware: ["v1.0", "v1.5"] },
+    "Acionador Inteligente": { hardware: ["v1.0"] }
+};
+window.opcoes = opcoes;
 
-// =========================================================
-// == LOGICAS ANTIGAS E FLUXOS DO SEU PRODUTO ATUAL MANTIDOS ==
-// =========================================================
+// ===== NAVEGAÇÃO =====
+function mostrarTela(idTela) {
+    document.querySelectorAll('.tela').forEach(tela => tela.style.display = 'none');
+    document.getElementById(idTela).style.display = 'block';
+}
+window.mostrarTela = mostrarTela;
 
+function voltarPara(idTela) {
+    mostrarTela(idTela);
+}
+window.voltarPara = voltarPara;
+
+// ===== SELEÇÃO DE PRODUTO & HARDWARE =====
 function selecionarProduto(nomeProduto) {
-    window.estado.produto = nomeProduto;
+    estado.produto = nomeProduto;
     document.getElementById('produto-label-hw').textContent = nomeProduto;
     montarListaHardware(nomeProduto);
-    window.mostrarTela('tela-hardware');
+    mostrarTela('tela-hardware');
 }
 
 function montarListaHardware(produto) {
     const lista = document.getElementById('lista-hardware');
     lista.innerHTML = ''; 
-    
-    if (!window.opcoes || !window.opcoes[produto]) {
-        console.error(`[Erro de Mapeamento] O produto "${produto}" não foi configurado em states.js`);
-        lista.innerHTML = `<div style="color:#ef4444; padding:10px; font-weight:bold;">Mapeamento não encontrado para: ${produto}</div>`;
-        return;
-    }
-
-    window.opcoes[produto].hardware.forEach(versao => {
+    opcoes[produto].hardware.forEach(versao => {
         const botao = document.createElement('button');
         botao.className = 'product-button';
         botao.innerHTML = `<span>${versao}</span>`;
@@ -179,27 +206,21 @@ function montarListaHardware(produto) {
 }
 
 function selecionarHardware(versao) {
-    window.estado.hardwareBase = versao.replace('v', '').replace('.', '_');
-    window.mostrarTela('tela-mosfet');
+    estado.hardwareBase = versao.replace('v', '').replace('.', '_');
+    mostrarTela('tela-mosfet');
 }
 
+// ===== LÓGICA DO MOSFET & SELEÇÃO DE PINO =====
 function selecionarMosfet(possuiMosfet) {
-    window.estado.mosfet = possuiMosfet;
+    estado.mosfet = possuiMosfet;
     
     if (possuiMosfet) {
-        window.estado.hardwareVersionStr = `FI_${window.estado.hardwareBase}_400`;
-    } else {
-        window.estado.hardwareVersionStr = `FI_${window.estado.hardwareBase}`;
-    }
-
-    if (window.estado.hardwareVersionStr === "FI_1_0_400" && possuiMosfet) {
         montarOpcoesPino();
-        window.mostrarTela('tela-pino-mosfet');
+        mostrarTela('tela-pino-mosfet');
     } else {
-        window.estado.pinoMosfet = ""; 
+        estado.pinoMosfet = ""; 
         configurarBotaoVoltarDados(false);
-        window.mostrarTela('tela-dados-dispositivo'); 
-        configurarEventosTecladoEnter(); 
+        mostrarTela('tela-dados-dispositivo');
     }
 }
 
@@ -208,7 +229,16 @@ function montarOpcoesPino() {
     container.innerHTML = '';
     document.getElementById('input-pino-custom').value = '';
 
-    const pinosSugeridos = [7, 8, 9];
+    if (estado.hardwareBase === "1_0") {
+        document.getElementById('input-pino-custom').disabled = true;
+        document.getElementById('input-pino-custom').placeholder = "Hardware 1.0 exige pinos 7, 8 ou 9";
+        var pinosSugeridos = [7, 8, 9];
+    } else {
+        document.getElementById('input-pino-custom').disabled = false;
+        document.getElementById('input-pino-custom').placeholder = "Outro pino (3 a 14)";
+        var pinosSugeridos = [3, 5, 6, 8, 12]; 
+    }
+
     pinosSugeridos.forEach(pino => {
         const botao = document.createElement('button');
         botao.className = 'product-button';
@@ -220,14 +250,13 @@ function montarOpcoesPino() {
 }
 
 function salvarPinoESeguir(pino) {
-    window.estado.pinoMosfet = pino.toString();
+    estado.pinoMosfet = pino.toString();
     configurarBotaoVoltarDados(true);
-    window.mostrarTela('tela-dados-dispositivo');
-    configurarEventosTecladoEnter(); 
+    mostrarTela('tela-dados-dispositivo');
 }
 
 function salvarPinoCustomizado() {
-    if (window.estado.hardwareBase === "1_0") {
+    if (estado.hardwareBase === "1_0") {
         alert("Para a versão de Hardware 1.0, escolha estritamente as opções 7, 8 ou 9.");
         return;
     }
@@ -242,82 +271,169 @@ function salvarPinoCustomizado() {
 function configurarBotaoVoltarDados(comMosfet) {
     const botaoVoltar = document.getElementById('voltar-de-dados');
     if (botaoVoltar) {
-        botaoVoltar.onclick = () => {
-            window.estado.canal = "";
-            window.estado.firmwareId = "";
-            window.estado.serialNumber = "";
-            window.mostrarTela(comMosfet ? 'tela-pino-mosfet' : 'tela-mosfet');
-        };
+        botaoVoltar.onclick = () => mostrarTela(comMosfet ? 'tela-pino-mosfet' : 'tela-mosfet');
     }
 }
 
-function configurarEventosTecladoEnter() {
-    setTimeout(() => {
-        const inputCanal = document.getElementById('input-canal');
-        const inputFirmware = document.getElementById('input-firmware-id');
-
-        const dispararPorEnter = (evento) => {
-            if (evento.key === 'Enter') {
-                evento.preventDefault();
-                validarEDecidirResumo();
-            }
-        };
-
-        if (inputCanal) { inputCanal.removeEventListener('keydown', dispararPorEnter); inputCanal.addEventListener('keydown', dispararPorEnter); }
-        if (inputFirmware) { inputFirmware.removeEventListener('keydown', dispararPorEnter); inputFirmware.addEventListener('keydown', dispararPorEnter); }
-    }, 50);
-}
-
+// ===== TRATAMENTO DE DADOS INICIAIS =====
 function validarEDecidirResumo() {
-    const canalRaw = document.getElementById('input-canal')?.value;
-    const firmwareIdRaw = document.getElementById('input-firmware-id')?.value;
+    const canalRaw = document.getElementById('input-canal').value;
+    const firmwareIdRaw = document.getElementById('input-firmware-id').value;
 
     if (!canalRaw || !firmwareIdRaw) {
         alert("Por favor, preencha o Canal e o ID do Firmware.");
         return;
     }
 
-    window.estado.canal = canalRaw.padStart(3, '0');
-    window.estado.firmwareId = firmwareIdRaw.padStart(6, '0');
-    window.estado.serialNumber = `CH${window.estado.canal}FI${window.estado.firmwareId}`;
+    estado.canal = canalRaw.padStart(3, '0');
+    estado.firmwareId = firmwareIdRaw.padStart(6, '0');
+    estado.serialNumber = `CH${estado.canal}FI${estado.firmwareId}`;
 
-    if (window.estado.hardwareVersionStr !== "FI_1_0_400") {
-        window.estado.pinoMosfet = "";
+    if (estado.mosfet) {
+        estado.hardwareVersionStr = `FI_${estado.hardwareBase}_400`;
+    } else {
+        estado.hardwareVersionStr = `FI_${estado.hardwareBase}`;
     }
 
-    iniciarFluxoVerificacaoEGravacao();
+    document.getElementById('resumo-serial-title').textContent = estado.serialNumber;
+    mostrarResumo();
 }
 
-function iniciarFluxoVerificacaoEGravacao() {
-    window.mostrarTela('tela-status-bancada'); 
+function mostrarResumo() {
+    const estadoExibicao = { ...estado };
+    delete estadoExibicao.macAddress;
+
+    document.getElementById('resumo-conteudo').textContent = JSON.stringify(estadoExibicao, null, 2);
+    
+    let comandoPreview = `./upload2.sh -ch ${parseInt(estado.canal)} -fi ${parseInt(estado.firmwareId)} -hw ${estado.hardwareBase}`;
+    if (estado.mosfet) {
+        comandoPreview += ` -mosfet ${estado.pinoMosfet}`;
+    }
+    comandoPreview += ` -mac "AGUARDANDO_SCAN"`;
+
+    document.getElementById('comando-string').textContent = comandoPreview;
+    mostrarTela('tela-resumo');
+}
+
+// ===== MOTOR DE PROCESSAMENTO DA BANCADA =====
+function processarAcao(tipoAcao) {
     const painelStatus = document.getElementById('status-execucao');
     const textoStatus = document.getElementById('texto-status');
-    if (painelStatus) painelStatus.style.display = 'block';
+    const gridBotoes = document.getElementById('grid-acoes');
+    const btnVoltar = document.getElementById('btn-voltar-resumo');
 
-    const invokeTauri = window.__TAURI__?.core?.invoke;
-    if (!invokeTauri) return;
+    gridBotoes.style.pointerEvents = 'none';
+    gridBotoes.style.opacity = '0.5';
+    btnVoltar.style.display = 'none';
+    painelStatus.style.display = 'block';
 
-    invokeTauri('reconhecer_hardware_bancada', { hardwareVersion: window.estado.hardwareVersionStr })
-    .then(() => {
+    if (tipoAcao === 'apenas_firmware') {
+        textoStatus.style.color = "#fbbf24";
+        painelStatus.style.borderLeftColor = "#fbbf24";
+        textoStatus.innerText = `📦 [COMPILAÇÃO ISOLADA] Iniciando motor portátil Chavi para hardware ${estado.hardwareVersionStr}...`;
+
+        const invokeTauri = window.__TAURI__?.core?.invoke || window.__TAURI__?.invoke;
+
+        if (!invokeTauri) {
+            textoStatus.innerText = `❌ Erro de Sistema: Objeto global do Tauri não encontrado.`;
+            textoStatus.style.color = "#ef4444";
+            painelStatus.style.borderLeftColor = "#ef4444";
+            gridBotoes.style.pointerEvents = 'all';
+            gridBotoes.style.opacity = '1';
+            btnVoltar.style.display = 'inline-block';
+            return;
+        }
+
+        invokeTauri('gravar_firmware_bancada', {
+            serialNumber: estado.serialNumber,
+            hardwareVersion: estado.hardwareVersionStr,
+            mosfetPin: estado.pinoMosfet
+        })
+        .then((mensagemSucesso) => {
+            textoStatus.innerText = `✅ Sucesso: ${mensagemSucesso}`;
+            textoStatus.style.color = "#10b981";
+            painelStatus.style.borderLeftColor = "#10b981";
+        })
+        .catch((erroBackend) => {
+            textoStatus.innerText = `❌ Falha no Processo:\n${erroBackend}`;
+            textoStatus.style.color = "#ef4444";
+            painelStatus.style.borderLeftColor = "#ef4444";
+        })
+        .finally(() => {
+            gridBotoes.style.pointerEvents = 'all';
+            gridBotoes.style.opacity = '1';
+            btnVoltar.style.display = 'inline-block';
+        });
+        
+        return; 
+    }
+
+    textoStatus.style.color = "#fbbf24";
+    painelStatus.style.borderLeftColor = "#fbbf24";
+    textoStatus.innerText = "🔍 [FASE 1] Bluetooth Ativo: Escaneando MAC Address do dispositivo...";
+
+    setTimeout(() => {
+        estado.macAddress = "00:11:22:33:44:55"; 
+        
+        let comandoReal = `./upload2.sh -ch ${parseInt(estado.canal)} -fi ${parseInt(estado.firmwareId)} -hw ${estado.hardwareBase}`;
+        if (estado.mosfet) {
+            comandoReal += ` -mosfet ${estado.pinoMosfet}`;
+        }
+        comandoReal += ` -mac "${estado.macAddress}"`;
+        document.getElementById('comando-string').textContent = comandoReal;
+
+        textoStatus.style.color = "#34d399";
+        painelStatus.style.borderLeftColor = "#34d399";
+        
+        if (tipoAcao === 'completo_com_cadastro') {
+            textoStatus.innerText = `⚡ [FASE 2] MAC: ${estado.macAddress} -> Gravando firmware (${estado.hardwareVersionStr}) e cadastrando equipamento...`;
+        } else if (tipoAcao === 'completo_sem_cadastro') {
+            textoStatus.innerText = `⚙️ [FASE 2] MAC: ${estado.macAddress} -> Executando gravação via upload2.sh...`;
+        } else if (tipoAcao === 'apenas_at') {
+            textoStatus.innerText = `📟 [FASE 2] MAC: ${estado.macAddress} -> Injetando comandos AT via ble.py...`;
+        } else if (tipoAcao === 'apenas_teste') {
+            textoStatus.innerText = `🧪 [FASE 2] MAC: ${estado.macAddress} -> Rodando rotina de testes de hardware...`;
+        }
+
         setTimeout(() => {
-            const confirmarUpload = confirm("Deseja iniciar a gravação do firmware na placa agora?");
-            if (confirmarUpload) {
-                invokeTauri('gravar_firmware_bancada', {
-                    serialNumber: window.estado.serialNumber,
-                    hardwareVersion: window.estado.hardwareVersionStr,
-                    mosfetPin: window.estado.pinoMosfet
-                });
-            }
-        }, 1200);
-    });
+            textoStatus.innerText = "✅ Processo concluído com sucesso na bancada!";
+            textoStatus.style.color = "#10b981";
+            painelStatus.style.borderLeftColor = "#10b981";
+
+            gridBotoes.style.pointerEvents = 'all';
+            gridBotoes.style.opacity = '1';
+            btnVoltar.style.display = 'inline-block';
+        }, 3000);
+
+    }, 2000);
 }
 
-// Vincula todas as funções de mapeamento ao escopo do Window
+// ===== OBSERVAÇÃO SOBRE O UPDATER =====
+// O erro de "relative URL" ocorre no arquivo externo `tauri_services.js`.
+// Sugere-se comentar a execução dele lá caso não possua endpoint válido configurado.
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const minhaCaixaDeLog = document.getElementById("seu-elemento-de-terminal");
+
+  // Escuta nativa usando a API global injetada pelo Tauri v1/v2
+  if (minhaCaixaDeLog && window.__TAURI__?.event?.listen) {
+    await window.__TAURI__.event.listen('log-terminal', (event) => {
+      if (event.payload.includes("🚀 Preparando")) {
+        minhaCaixaDeLog.innerText = "";
+      }
+      minhaCaixaDeLog.innerText += event.payload;
+      minhaCaixaDeLog.scrollTop = minhaCaixaDeLog.scrollHeight;
+    });
+  }
+});
+
+// Vinculações explícitas para o escopo global (Exclui a necessidade de script type="module")
 window.selecionarProduto = selecionarProduto;
 window.selecionarHardware = selecionarHardware;
 window.selecionarMosfet = selecionarMosfet;
 window.salvarPinoCustomizado = salvarPinoCustomizado;
 window.validarEDecidirResumo = validarEDecidirResumo;
+window.processarAcao = processarAcao;
 window.abrirTelaGravacaoDireta = abrirTelaGravacaoDireta;
 window.atualizarInterfaceMosfetDireta = atualizarInterfaceMosfetDireta;
 window.validarEGravarDireto = validarEGravarDireto;

@@ -14,7 +14,10 @@ window.estado = {
 };
 
 // ===== CONFIGURAÇÃO DE HARDWARE =====
+// Corrigido para bater exatamente com as strings disparadas pelo backend.html
 window.opcoes = {
+    "Gravar Firmware": { hardware: ["v1.0", "v1.5"] },
+    "Test de Hardware": { hardware: ["v1.0", "v1.5"] },
     "Fechadura Digital": { hardware: ["v1.0", "v1.5"] },
     "Acionador Inteligente": { hardware: ["v1.0"] }
 };

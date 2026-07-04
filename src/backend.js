@@ -10,6 +10,14 @@ function selecionarProduto(nomeProduto) {
 function montarListaHardware(produto) {
     const lista = document.getElementById('lista-hardware');
     lista.innerHTML = ''; 
+    
+    // Verificação de segurança (Evita que o app quebre se a chave não existir)
+    if (!window.opcoes || !window.opcoes[produto]) {
+        console.error(`[Erro de Mapeamento] O produto "${produto}" não foi configurado em states.js`);
+        lista.innerHTML = `<div style="color:#ef4444; padding:10px; font-weight:bold;">Mapeamento não encontrado para: ${produto}</div>`;
+        return;
+    }
+
     window.opcoes[produto].hardware.forEach(versao => {
         const botao = document.createElement('button');
         botao.className = 'product-button';

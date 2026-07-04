@@ -316,106 +316,49 @@ function pararRadarAuto() {
 // ================= TRANSMISSÃO DE COMANDOS AT COM SANITIZAÇÃO E TRATAMENTO DE ECO =================
 
 async function transmitirComandoAT(comandoString) {
-<<<<<<< HEAD
+    // 1. Limpa quebras de texto digitadas incorretamente no input
     let comandoTratado = comandoString.replace(/\/n/g, '').replace(/\\n/g, '').trim();
 
-    // Normaliza consultas de nome para o formato que a placa entende (sem o "?")
+    // Normaliza consultas de nome para o formato que a placa entende
     if (comandoTratado.toUpperCase() === "AT+NAME?") {
         comandoTratado = "AT+NAME";
     }
 
-    logNoConsoleDoApp(`Enviando: ${comandoTratado}`, "envio");
-=======
-    // Mantém o comando bruto digitado pelo usuário, limpando apenas espaços nas pontas
-    let comandoTratado = comandoString.trim();
-
     logNoConsoleDoApp(`Enviando para o Chip: ${comandoTratado}`, "envio");
->>>>>>> e070f27 (localizando os AT)
     appendTerminalAT(`> ${comandoTratado}\n`, "comando");
 
     try {
         if (window.__TAURI__) {
             const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
             
-<<<<<<< HEAD
-            // Cria uma promessa que rejeita automaticamente após 700 milissegundos
+            // Força a terminação física que o chip espera (\r\n)
+            const payloadFinal = comandoTratado + "\r\n";
+
+            // Cria uma promessa que rejeita automaticamente após 700 milissegundos para evitar travamento de rádio
             const timeoutPromessa = new Promise((_, reject) => 
                 setTimeout(() => reject(new Error("TIMEOUT_RADIO")), 700)
             );
 
             // Faz o Invoke do Rust correr contra o relógio de Timeout
             let resposta = await Promise.race([
-                invoke("send_at_command", { comando: comandoTratado }),
+                invoke("send_at_command", { comando: payloadFinal }),
                 timeoutPromessa
             ]);
             
-            // Se o Rust respondeu a tempo, exibe na tela
-            appendTerminalAT(`${resposta}\n`, "resposta");
-            
-            if (!resposta || resposta.trim() === "" || resposta.toUpperCase().includes("ERRO")) {
-                return "OK";
-            }
-            return resposta;
-
-=======
-            // O firmware da Chavi exige terminador '\n' puro para processar o buffer de texto!
-            const payloadFinal = comandoTratado + "\n";
-
-            const resposta = await invoke("send_at_command", { comando: payloadFinal });
-            
             console.log("📥 Resposta Bruta do Rust:", JSON.stringify(resposta));
 
-            if (resposta) {
-                appendTerminalAT(`${resposta}`, "resposta");
-            } else {
-                appendTerminalAT("⚠️ [Sem resposta do barramento]\n", "erro");
-            }
-        } else {
-            setTimeout(() => {
-                appendTerminalAT(`OK\n`, "resposta");
-            }, 300);
-        }
-    } catch (erro) {
-        logNoConsoleDoApp(`Erro no comando: ${erro.message || erro}`, "erro");
-        appendTerminalAT(`ERROR: ${erro.message || erro}\n`, "erro");
-    }
-}
-async function transmitirComandoAT(comandoString) {
-    // 1. Limpa quebras de texto digitadas incorretamente no input
-    let comandoTratado = comandoString.replace(/\/n/g, '').replace(/\\n/g, '').trim();
-
-    // REGRA DE OURO: Remove o prefixo AT/AT+ se o usuário digitar por costume
-    if (comandoTratado.toUpperCase().startsWith("AT+")) {
-        comandoTratado = comandoTratado.substring(3);
-    } else if (comandoTratado.toUpperCase().startsWith("AT")) {
-        if (comandoTratado.toUpperCase() !== "AT") {
-            comandoTratado = comandoTratado.substring(2);
-        }
-    }
-
-    logNoConsoleDoApp(`Enviando para o Chip: ${comandoTratado}`, "envio");
-    appendTerminalAT(`> ${comandoTratado}\n`, "comando");
-
-    try {
-        if (window.__TAURI__) {
-            const invoke = window.__TAURI__.core ? window.__TAURI__.core.invoke : window.__TAURI__.invoke;
-            
-            // Força a terminação física que o chip espera
-            const payloadFinal = comandoTratado + "\r\n";
-
-            // Envia para o Rust
-            const resposta = await invoke("send_at_command", { comando: payloadFinal });
-            
-            // MONITORAMENTO: Mostra no console de desenvolvedor exatamente o que o Rust devolveu (com quebras de linha)
-            console.log("📥 Resposta Bruta do Rust:", JSON.stringify(resposta));
-
-            // CRUCIAL: Removemos o .trim() global para não engolir múltiplas linhas separadas por \r\n
             if (resposta) {
                 appendTerminalAT(`${resposta}\n`, "resposta");
             } else {
                 appendTerminalAT("⚠️ [Sem resposta do barramento]\n", "erro");
+                return "OK";
             }
->>>>>>> e070f27 (localizando os AT)
+            
+            if (resposta.trim() === "" || resposta.toUpperCase().includes("ERRO")) {
+                return "OK";
+            }
+            return resposta;
+
         } else {
             await new Promise(r => setTimeout(r, 300));
             appendTerminalAT(`OK\n`, "resposta");
@@ -462,7 +405,6 @@ function limparTerminalAT() {
     if (terminal) terminal.innerText = "Terminal pronto. Envie strings AT...";
 }
 
-<<<<<<< HEAD
 // ================= CONTROLADORES DE INTERFACE E FLUXO DE TELAS =================
 
 function selecionarProduto(tipo) {
@@ -525,7 +467,7 @@ function prosseguirParaDados() {
     document.getElementById('tela-dados-dispositivo').style.display = 'block';
 }
 
-function obterDadosFormularioAtual() {
+function obtenerDadosFormularioAtual() {
     let canal = document.getElementById('input-canal') ? document.getElementById('input-canal').value.trim() : "";
     let firmware = document.getElementById('input-firmware-id') ? document.getElementById('input-firmware-id').value.trim() : "";
 
@@ -695,10 +637,7 @@ function logNoConsoleDoApp(mensagem, tipo = "info") {
     console.log(`[App Log - ${tipo}]: ${mensagem}`);
 }
 
-// Exportações explícitas
-=======
-// Exportações explíticas para escopo global do app
->>>>>>> e070f27 (localizando os AT)
+// Exportações explíticas para escopo global do app (Sem marcas de conflito)
 window.abrirTelaComandosAT = abrirTelaComandosAT;
 window.mudarModoBle = mudarModoBle;
 window.iniciarScanManual = iniciarScanManual;
@@ -716,3 +655,4 @@ window.definirPinoMosfet = definirPinoMosfet;
 window.validarEDecidirResumo = validarEDecidirResumo;
 window.ConfiguracaoAT = ConfiguracaoAT;
 window.voltarPara = voltarPara;
+window.transmitirComandoAT = transmitirComandoAT;

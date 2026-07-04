@@ -15,7 +15,7 @@ use btleplug::platform::{Manager as BleManager, Peripheral as BlePeripheral};
 use std::sync::Mutex;
 use uuid::Uuid;
 
-// CORREÇÃO: Usando a trait de stream que o btleplug/futures-util traz nativamente para o escopo
+// Trait de stream que o btleplug/futures-util traz nativamente para o escopo
 use futures_util::stream::StreamExt;
 
 // Importa o PathResolver apenas no Windows para evitar warnings no macOS/Linux
@@ -29,11 +29,60 @@ pub struct BleDevice {
     pub name: String, // Nome de identificação da placa Chavi
 }
 
-// Estado global mutável seguro para reter a instância da placa ativa conectada
+// Estado global mutável seguro para reter a instância da placa activa conectada
 pub struct AppBleState {
     pub dispositivo_conectado: Mutex<Option<BlePeripheral>>,
 }
 
+// ================= NOVO COMANDO: RECONHECER PLACA ANTES DE TUDO =================
+#[tauri::command]
+fn reconhecer_hardware_bancada(
+    app_handle: tauri::AppHandle, 
+    hardware_version: String
+) -> Result<String, String> {
+    let target_os = std::env::consts::OS;
+
+    // CORREÇÃO DOS CAMINHOS DO TAURI V2: Removido o prefixo "resources/"
+    let avrdude_relative_path = if target_os == "windows" {
+        "arduino_data/tools/avr-win/bin/avrdude.exe"
+    } else if target_os == "linux" {
+        "arduino_data/tools/avr-linux/bin/avrdude"
+    } else {
+        "arduino_data/tools/avr-mac/bin/avrdude" 
+    };
+
+    let avrdude_path = app_handle
+        .path()
+        .resolve(avrdude_relative_path, BaseDirectory::Resource)
+        .map_err(|e| format!("Não foi possível encontrar o avrdude em resources: {}", e))?;
+
+    let conf_path = app_handle
+        .path()
+        .resolve("arduino_data/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf", BaseDirectory::Resource)
+        .map_err(|e| format!("Não foi possível encontrar o avrdude.conf: {}", e))?;
+
+    let mcu = if hardware_version.contains("pb") || hardware_version.contains("PB") { "m328pb" } else { "m328p" };
+
+    // Executa uma verificação neutra (sem gravar ou apagar). Apenas lê a assinatura do chip
+    let mut comando = Command::new(avrdude_path);
+    comando.arg("-C").arg(conf_path)
+           .arg("-p").arg(mcu)
+           .arg("-c").arg("usbasp")
+           .arg("-P").arg("usb")
+           .stdout(std::process::Stdio::piped())
+           .stderr(std::process::Stdio::piped());
+
+    let mut child = comando.spawn().map_err(|e| format!("Falha ao inicializar avrdude para teste: {}", e))?;
+    let status = child.wait().map_err(|e| format!("Falha ao obter resposta do hardware: {}", e))?;
+
+    if status.success() {
+        Ok(format!("Placa ({}) detectada com sucesso via USBasp!", mcu))
+    } else {
+        Err(format!("A placa ({}) não respondeu. Verifique as conexões físicas na bancada.", mcu))
+    }
+}
+
+// ================= COMANDO PRINCIPAL AJUSTADO E CORRIGIDO =================
 #[tauri::command]
 fn gravar_firmware_bancada(
     app_handle: tauri::AppHandle, 
@@ -42,16 +91,15 @@ fn gravar_firmware_bancada(
     mosfet_pin: String
 ) -> Result<String, String> {
 
-    // Identifica o Sistema Operacional Atual
     let target_os = std::env::consts::OS;
 
-    // 1. Descobre onde está o avrdude de acordo com o OS do cliente dentro de resources
+    // CORREÇÃO DOS CAMINHOS DO TAURI V2: Removido o prefixo "resources/"
     let avrdude_relative_path = if target_os == "windows" {
-        "resources/arduino_data/tools/avr-win/bin/avrdude.exe"
+        "arduino_data/tools/avr-win/bin/avrdude.exe"
     } else if target_os == "linux" {
-        "resources/arduino_data/tools/avr-linux/bin/avrdude"
+        "arduino_data/tools/avr-linux/bin/avrdude"
     } else {
-        "resources/arduino_data/tools/avr-mac/bin/avrdude" 
+        "arduino_data/tools/avr-mac/bin/avrdude" 
     };
 
     let avrdude_path = app_handle
@@ -59,13 +107,11 @@ fn gravar_firmware_bancada(
         .resolve(avrdude_relative_path, BaseDirectory::Resource)
         .map_err(|e| format!("Não foi possível encontrar o avrdude em resources: {}", e))?;
 
-    // 2. Localiza o avrdude.conf essencial
     let conf_path = app_handle
         .path()
-        .resolve("resources/arduino_data/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf", BaseDirectory::Resource)
+        .resolve("arduino_data/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf", BaseDirectory::Resource)
         .map_err(|e| format!("Não foi possível encontrar o avrdude.conf: {}", e))?;
 
-    // --- Lógica de Parsing de Hardware ---
     let canal = serial_number.chars().skip(2).take(3).collect::<String>();
     let firmware_id = serial_number.chars().skip(7).collect::<String>();
 
@@ -85,20 +131,17 @@ fn gravar_firmware_bancada(
         format!("FI_{}", hw_base)
     };
 
-    // Alvo final do arquivo .hex dentro do pacote de firmwares
-    let hex_file_relative = format!("resources/bin/{}.ino.hex", firmware_name);
+    // CORREÇÃO DOS CAMINHOS DO TAURI V2: Removido o prefixo "resources/"
+    let hex_file_relative = format!("bin/{}.ino.hex", firmware_name);
     let hex_path = app_handle
         .path()
         .resolve(&hex_file_relative, BaseDirectory::Resource)
         .map_err(|e| format!("Arquivo .hex não encontrado: {}", e))?;
 
-    // Identifica se a placa da vez é o 328P ou o 328PB
     let mcu = if hardware_version.contains("pb") || hardware_version.contains("PB") { "m328pb" } else { "m328p" };
 
-    // Dispara um log inicial direto no painel da tela avisando que o motor ligou
     let _ = app_handle.emit("log-terminal", format!("🚀 Preparando gravação do chip {} via USBasp...\n", mcu));
 
-    // 3. CONFIGURA O COMANDO REDIRECIONANDO A SAÍDA
     let mut comando = Command::new(avrdude_path);
     comando.arg("-C").arg(conf_path)
            .arg("-v")
@@ -116,17 +159,13 @@ fn gravar_firmware_bancada(
         comando.current_dir(pasta_resources);
     }
 
-    // Dá o Start no processo em background sem travar a thread principal do Rust
     let mut child = comando.spawn().map_err(|e| format!("Falha crítica ao disparar o avrdude: {}", e))?;
 
-    // Captura o fluxo gerado no pipe do Stderr
     let stderr = child.stderr.take().ok_or("Falha ao abrir canal de captura (stderr)")?;
     let reader = BufReader::new(stderr);
     
-    // Clonamos o app_handle para conseguir usar os eventos dentro da thread paralela
     let handle_clone = app_handle.clone();
 
-    // 4. THREAD PARALELA: Escuta o buffer linha por linha e joga instantaneamente para a tela
     std::thread::spawn(move || {
         for line in reader.lines() {
             if let Ok(log_line) = line {
@@ -135,7 +174,6 @@ fn gravar_firmware_bancada(
         }
     });
 
-    // Espera o avrdude de fato terminar o ciclo dele para dar o veredito
     let status = child.wait().map_err(|e| format!("Falha ao aguardar a conclusão do processo: {}", e))?;
 
     if status.success() {
@@ -194,7 +232,6 @@ async fn connect_ble_device(
     let mut tentativas = 0;
     let max_tentativas = 3;
 
-    // CORREÇÃO: Variável ajustada de 'tentatives' para 'tentativas' para coincidir com a definição acima
     while tentativas < max_tentativas {
         println!("🔄 [CONEXÃO] Tentativa {} de obter a placa no cache...", tentativas + 1);
         
@@ -255,32 +292,26 @@ async fn send_at_command(state: tauri::State<'_, AppBleState>, comando: String) 
             .find(|c| c.uuid == target_characteristic_uuid)
             .ok_or("Característica serial (FFE1) não encontrada nesta placa.")?;
 
-        // 1. Assina as notificações (sub) do canal BLE
         peripheral.subscribe(characteristic_alvo).await
             .map_err(|e| format!("Falha ao assinar notificações: {}", e))?;
 
-        // 2. Abre o fluxo de buffer
         let mut notification_stream = peripheral.notifications().await
             .map_err(|e| format!("Falha ao abrir stream de dados: {}", e))?;
 
         println!("📤 Transmitindo para placa via BLE: {}", comando_formatado.trim());
 
-        // 3. Escreve o comando AT no barramento
         peripheral
             .write(characteristic_alvo, comando_formatado.as_bytes(), WriteType::WithoutResponse)
             .await
             .map_err(|e| format!("Falha ao escrever no barramento: {}", e))?;
 
-        // 4. Aguarda e extrai a notificação com limite máximo de 800ms
         let resultado_resposta = tokio::time::timeout(
             std::time::Duration::from_millis(800),
             notification_stream.next()
         ).await;
 
-        // 5. Limpa a assinatura para deixar o canal pronto para o próximo comando
         let _ = peripheral.unsubscribe(characteristic_alvo).await;
 
-        // 6. Decodifica o retorno real obtido no ar
         match resultado_resposta {
             Ok(Some(notification)) => {
                 let resposta_texto = String::from_utf8_lossy(&notification.value).trim().to_string();
@@ -309,12 +340,11 @@ fn main() {
         
         .setup(|_app| {
             #[cfg(target_os = "windows")]
-{
-                // NO TAURI V2: Usamos resource_dir() para pegar a pasta de recursos
+            {
                 if let Ok(Some(resource_path)) = _app.path().resource_dir() {
                     let installer_path = resource_path.join("resources/driver-usbasp/installer_x64.exe");
                     if installer_path.exists() {
-                        executar_instalador_windows(installer_path);
+                        let _ = Command::new(installer_path).spawn();
                     }
                 }
             }
@@ -322,6 +352,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             gravar_firmware_bancada,
+            reconhecer_hardware_bancada, // Adicionado ao Handler do Tauri
             scan_ble_devices,
             connect_ble_device,
             send_at_command
@@ -329,8 +360,3 @@ fn main() {
         .run(tauri::generate_context!())
         .expect("erro ao rodar a aplicação Tauri");
 }
-
-#[cfg(target_os = "windows")]
-fn executar_instalador_windows(path: std::path::PathBuf) {
-    let _ = Command::new(path).spawn();
-}// Forçando trigger da esteira

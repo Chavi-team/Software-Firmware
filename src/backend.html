@@ -25,7 +25,7 @@
             <h1>Firmware Chavi</h1>
             <p>Selecione o produto que deseja configurar:</p>
             <div class="product-grid">
-                <button class="product-button" onclick="selecionarProduto('Gravar Firmware')">
+                <button class="product-button" onclick="abrirTelaGravacaoDireta()">
                     <span>Gravar Firmware</span>
                     <span class="icon">➔</span>
                 </button>
@@ -45,6 +45,70 @@
                     <span class="icon">➔</span>
                 </button>
             </div>
+        </div>
+
+        <div id="tela-gravacao-direta" class="tela" style="display:none">
+            <h1>Gravação de Firmware (Bancada)</h1>
+            <p>Insira os parâmetros para validação e gravação da placa:</p>
+
+            <div class="input-form">
+                <div id="campos-fixos-gravacao">
+                    <div class="input-group">
+                        <label for="select-direct-equipamento">Equipamento:</label>
+                        <select id="select-direct-equipamento">
+                            <option value="FI">Fechadura Inteligente (FI)</option>
+                            <option value="EI">Acionador Inteligente (EI + CI)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="select-direct-hardware">Versão do Hardware:</label>
+                        <select id="select-direct-hardware" onchange="atualizarInterfaceMosfetDireta()">
+                            <option value="1_0">v1.0</option>
+                            <option value="1_5">v1.5</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="select-direct-mosfet">Possui Mosfet?</label>
+                        <select id="select-direct-mosfet" onchange="atualizarInterfaceMosfetDireta()">
+                            <option value="nao">Não possui</option>
+                            <option value="sim">Sim, possui mosfet</option>
+                        </select>
+                    </div>
+
+                    <div id="box-pino-direct" style="display: none; background: #1e293b; padding: 12px; border-radius: 6px; margin-top: 10px; border-left: 4px solid #3b82f6;">
+                        <label style="font-weight: bold; margin-bottom: 8px; display: block; color: #cbd5e1;">Selecione o Pino do Mosfet:</label>
+                        <div style="display: flex; gap: 8px; margin-bottom: 10px;" id="botoes-pino-direct">
+                            </div>
+                        <input type="number" id="input-pino-direct-custom" placeholder="Outro pino customizado" min="3" max="14" style="width: 100%; margin-top: 5px;">
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #334155; margin: 1.5rem 0;">
+                </div>
+
+                <div class="input-form-row" style="display: flex; gap: 10px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-direct-canal">Canal / Lote (Ex: 3):</label>
+                        <input type="number" id="input-direct-canal" placeholder="Ex: 3" min="1">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="input-direct-firmware">ID do Firmware:</label>
+                        <input type="number" id="input-direct-firmware" placeholder="Ex: 2406" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div id="status-bancada-direta" style="display: none; background: #020617; padding: 1rem; border-radius: 8px; margin-top: 15px; border-left: 4px solid #fbbf24; text-align: left; font-size: 0.9rem;">
+                <span id="texto-status-direto" style="color: #fbbf24; font-weight: 500;"></span>
+            </div>
+
+            <button class="product-button" id="btn-gravar-direto" onclick="validarEGravarDireto()"
+                style="background: #10b981; text-align: center; justify-content: center; margin-top: 15px;">
+                <span>⚡ Gravar Firmware ➔</span>
+            </button>
+
+            <button class="voltar" onclick="voltarPara('tela-produto')">← Voltar</button>
         </div>
 
         <div id="tela-hardware" class="tela" style="display:none">

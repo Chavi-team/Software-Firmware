@@ -383,6 +383,30 @@ void (*funcReset)() = 0;
 
 #line 390 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
 void resetDance();
+#line 462 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void setup();
+#line 545 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void funcCounterMotorProduction();
+#line 747 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void setupBLE01(bool prodOK);
+#line 1014 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void changeName(bool lenta);
+#line 1043 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void loop();
+#line 2008 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void turnOnLEDsDelay(CRGB crgb, int atraso);
+#line 2014 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void turnOnLEDs(CRGB crgb);
+#line 2043 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void toneDefaultByTime(unsigned int duration, unsigned int frequency);
+#line 2049 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+String RespostaBLE(bool lenta);
+#line 2067 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+String rotinaWriteBluetooth(const char *str, bool lenta);
+#line 2084 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void SendDataBLE(const char *TxData, char AddData);
+#line 2118 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
+void nonBlockingDelay(unsigned long duration);
 #line 382 "/Users/guilhermemendina/firmware/Software Firmware/Firmware Chavi/src-tauri/resources/firmware/FI_1_5_400/FI_1_5_400.ino"
 void interruptSetup() {
     flagPressButton = 0x01;
@@ -460,21 +484,18 @@ char CheckVersBLE(void) {
     return Aux;  // SOFT - FI = 360 - Retorna Aux
 }
 
-/*****************************************************************************************************************
-// Initial settings - VERSÃO ULTRA OTIMIZADA E ACELERADA (SEM TRAVAR O APP)
+//*****************************************************************************************************************
+// Initial settings
 //*****************************************************************************************************************
 long startTime;
 void setup() {
     startTime = millis();
     // Inicializações necessárias
     Serial.begin(9600);
+    // Outras inicializações, se houver
+    Serial.println("Iniciando...");
     setupSerials();
     setupPins();
-
-    // 💡 PASSO 1: Pequena folga física de 300ms para estabilizar as portas seriais e a energia
-    // do rádio antes de qualquer comando. Evita o travamento do buffer no app Tauri/Rust.
-    delay(300); 
-    Serial.println("Iniciando...");
 
     if (EEPROM.read(setupSeedOk) != 0x01) {  // entra aqui se não está configurado
         setupEEPROM();
@@ -508,12 +529,7 @@ void setup() {
         setupEEPROM();
 
         CheckVersBLE();                     // SOFT - FI = 360 - Confere a versao do BLE antes de executar comandos e enviar dados
-        interfaceFI(ON_SOUND_TONEDEFAULT);  // 0x03
-
-        // 💡 PASSO 2: Chamada limpa do Setup BLE. 
-        // Passamos 'false' para NÃO cortar a energia do rádio via MOSFET de forma bruta, 
-        // mantendo a conexão estável com o aplicativo de automação enquanto as configurações rodam.
-        setupBLE01(false); 
+            interfaceFI(ON_SOUND_TONEDEFAULT);  // 0x03
 
         flagSelectInterrupt = 0x01;  // Habilita função de reset do botão
         setupInterrupts();

@@ -1,4 +1,4 @@
 #ifndef SERIAL_NUMBER_H
 #define SERIAL_NUMBER_H
-#define nameBLE1010 "AT+NAME002FI001814\r"
+#define nameBLE1010 "AT+NAME003FI002528\r"
 #endif

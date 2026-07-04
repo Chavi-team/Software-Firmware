@@ -241,7 +241,7 @@ async function executarCadastroManual(event) {
     }
 }
 
-// ===== DIÁLOGO INTERNO SEGURO (NÃO CONGELA COM TECLADO) =====
+// ===== DIÁLOGO INTERNO SEGURO COM FOCO NO ENTER =====
 function abrirModalConfirmacaoChavi(titulo, detalhes) {
     // Remove modal antiga se houver
     const antiga = document.getElementById("chavi-modal-lote");
@@ -259,7 +259,7 @@ function abrirModalConfirmacaoChavi(titulo, detalhes) {
             </p>
             <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color: #94a3b8;">Deseja realizar um novo cadastro de equipamento?</p>
             <div style="display: flex; gap: 12px; justify-content: center;">
-                <button id="btn-modal-sim" style="background: #10b981; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">Sim</button>
+                <button id="btn-modal-sim" style="background: #10b981; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem; outline: 2px solid #38bdf8;">Sim (Enter)</button>
                 <button id="btn-modal-nao" style="background: #64748b; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem;">Não, Voltar</button>
             </div>
         </div>
@@ -267,7 +267,9 @@ function abrirModalConfirmacaoChavi(titulo, detalhes) {
 
     document.body.appendChild(modal);
 
-    // Evento de sim: limpa as caixas variantes e foca no Canal
+    // CRUCIAL: Captura o botão "Sim" e força o foco nele logo após renderizar
+
+
     document.getElementById("btn-modal-sim").addEventListener("click", () => {
         modal.remove();
         document.getElementById('input-cad-canal').value = '';

@@ -332,4 +332,4 @@ fn main() {
 #[cfg(target_os = "windows")]
 fn executar_instalador_windows(path: std::path::PathBuf) {
     let _ = Command::new(path).spawn();
-}
+}// Forçando trigger da esteira
